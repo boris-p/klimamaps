@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
 router.get('/userlist', function(req, res) {
     //var db = req.db;
     //var collection = db.get('customers');
-    var age = parseInt(req.param('age',0));
+    var age = parseInt(req.query['age'] || 0);
     console.log(age);
     myMongo.retrieveCustomersNew(age,function(users){
         res.render('userlist', {
