@@ -1,0 +1,258 @@
+{
+  "size": 20,
+  "color": "gray",
+  "points": [
+    {
+      "_id": "0",
+      "x_cord": "0",
+      "y_cord": "0",
+      "element_type": "0"
+    },
+    {
+      "_id": "1",
+      "x_cord": "1",
+      "y_cord": "0",
+      "element_type": "1"
+    },
+    {
+      "_id": "2",
+      "x_cord": "2",
+      "y_cord": "0",
+      "element_type": "2"
+    },
+    {
+      "_id": "3",
+      "x_cord": "3",
+      "y_cord": "0",
+      "element_type": "2"
+    },
+    {
+      "_id": "4",
+      "x_cord": "4",
+      "y_cord": "0",
+      "element_type": "2"
+    },
+    {
+      "_id": "5",
+      "x_cord": "5",
+      "y_cord": "0",
+      "element_type": "2"
+    },
+    {
+      "_id": "6",
+      "x_cord": "6",
+      "y_cord": "0",
+      "element_type": "2"
+    },
+    {
+      "_id": "7",
+      "x_cord": "0",
+      "y_cord": "1",
+      "element_type": "1"
+    },
+    {
+      "_id": "8",
+      "x_cord": "1",
+      "y_cord": "1",
+      "element_type": "1"
+    },
+    {
+      "_id": "9",
+      "x_cord": "2",
+      "y_cord": "1",
+      "element_type": "1"
+    },
+    {
+      "_id": "10",
+      "x_cord": "3",
+      "y_cord": "1",
+      "element_type": "1"
+    },
+    {
+      "_id": "11",
+      "x_cord": "4",
+      "y_cord": "1",
+      "element_type": "1"
+    },
+    {
+      "_id": "12",
+      "x_cord": "5",
+      "y_cord": "1",
+      "element_type": "1"
+    },
+    {
+      "_id": "13",
+      "x_cord": "1",
+      "y_cord": "2",
+      "element_type": "1"
+    },
+    {
+      "_id": "14",
+      "x_cord": "2",
+      "y_cord": "2",
+      "element_type": "1"
+    },
+    {
+      "_id": "15",
+      "x_cord": "3",
+      "y_cord": "2",
+      "element_type": "1"
+    },
+    {
+      "_id": "16",
+      "x_cord": "4",
+      "y_cord": "2",
+      "element_type": "1"
+    },
+    {
+      "_id": "17",
+      "x_cord": "5",
+      "y_cord": "2",
+      "element_type": "1"
+    },
+    {
+      "_id": "18",
+      "x_cord": "6",
+      "y_cord": "2",
+      "element_type": "1"
+    }
+  ,
+    {
+      "_id": "19",
+      "x_cord": "4",
+      "y_cord": "3",
+      "element_type": "1"
+    },
+    {
+      "_id": "20",
+      "x_cord": "5",
+      "y_cord": "3",
+      "element_type": "1"
+    },
+    {
+      "_id": "21",
+      "x_cord": "6",
+      "y_cord": "3",
+      "element_type": "1"
+    }
+  ,
+    {
+      "_id": "22",
+      "x_cord": "5",
+      "y_cord": "4",
+      "element_type": "1"
+    },
+    {
+      "_id": "23",
+      "x_cord": "6",
+      "y_cord": "4",
+      "element_type": "1"
+    },
+    {
+      "_id": "24",
+      "x_cord": "7",
+      "y_cord": "4",
+      "element_type": "1"
+    },
+    {
+      "_id": "25",
+      "x_cord": "8",
+      "y_cord": "4",
+      "element_type": "1"
+    }
+  ,
+    {
+      "_id": "26",
+      "x_cord": "5",
+      "y_cord": "5",
+      "element_type": "1"
+    },
+    {
+      "_id": "27",
+      "x_cord": "6",
+      "y_cord": "5",
+      "element_type": "1"
+    },
+    {
+      "_id": "28",
+      "x_cord": "7",
+      "y_cord": "5",
+      "element_type": "1"
+    },
+    {
+      "_id": "29",
+      "x_cord": "8",
+      "y_cord": "5",
+      "element_type": "1"
+    }
+  ,
+    {
+      "_id": "30",
+      "x_cord": "6",
+      "y_cord": "6",
+      "element_type": "1"
+    },
+    {
+      "_id": "31",
+      "x_cord": "7",
+      "y_cord": "6",
+      "element_type": "1"
+    },
+    {
+      "_id": "32",
+      "x_cord": "8",
+      "y_cord": "6",
+      "element_type": "1"
+    }
+  ,
+    {
+      "_id": "33",
+      "x_cord": "6",
+      "y_cord": "7",
+      "element_type": "1"
+    },
+    {
+      "_id": "34",
+      "x_cord": "7",
+      "y_cord": "7",
+      "element_type": "1"
+    },
+    {
+      "_id": "35",
+      "x_cord": "6",
+      "y_cord": "8",
+      "element_type": "1"
+    },
+    {
+      "_id": "36",
+      "x_cord": "7",
+      "y_cord": "8",
+      "element_type": "1"
+    },
+    {
+      "_id": "37",
+      "x_cord": "8",
+      "y_cord": "8",
+      "element_type": "1"
+    }
+  ,
+    {
+      "_id": "38",
+      "x_cord": "5",
+      "y_cord": "9",
+      "element_type": "1"
+    },
+    {
+      "_id": "39",
+      "x_cord": "6",
+      "y_cord": "9",
+      "element_type": "1"
+    },
+    {
+      "_id": "40",
+      "x_cord": "7",
+      "y_cord": "9",
+      "element_type": "1"
+    }
+  ]
+}

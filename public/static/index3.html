@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Interactive Climate Maps v.0.123</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="libraries/jquery.datetimepicker.css" />
+<link rel="stylesheet" type="text/css" href="libraries/d3.parcoords.css" />
+<script src="libraries\d3.js" charset="utf-8"></script>
+<script src="libraries\d3tip.js" charset="utf-8"></script>
+<script src="libraries\slider.js" charset="utf-8"></script>
+<script src="libraries\d3-ease.js" charset="utf-8"></script>
+<script src="libraries\Underscore.js" charset="utf-8"></script>
+<script src="libraries\Underscore.math.js" charset="utf-8"></script>
+<script src="libraries\d3.parcoords.js" charset="utf-8"></script>
+</head>
+
+
+<body>
+	<h1 class="title">Interactive Climate Maps v.0.123</h1>
+	<p class="top-description">
+	Visualize interactive climate data overlaid with people's movement in the space to see the correlation between outdoor
+	comfort and people's location and movement over time   
+	</p>
+	<div class="page-content">
+		<div class="wrap">
+			<div class="topUIS mainContainers">
+				<div class="mainContainerMenu-reg">
+					<span class="bigLetter">A</span>Configure & Customize
+				</div>
+				<div class="mainContainerContent first">
+					<div class="topUI topUILeft ">
+						<div class="controlSimulation topUIText">
+							<span class="bigNum">1</span> <span class="firstMenuText">Run
+								simulation</span>
+						</div>
+						<div class="buttons clear">
+							<button class="btn btn-mini" id="button"
+								onclick="beginAnimation()">Visualize</button>
+							<button class="btn btn-mini" id="button1" onclick="Pause()">Pause</button>
+							<button class="btn btn-mini" id="button2"
+								onclick="stopAnimation()">Reset</button>
+							<button class="btn btn-image" id="button_back"
+								onclick="oneStep(-1)">&nbsp</button>
+							<button class="btn btn-image" id="button_forward"
+								onclick="oneStep(1)">&nbsp</button>
+						</div>
+						<div class="currentHour">Current simulation day and Hour</div>
+						<div id="slider1"></div>
+						<div id="sliderInfo">
+							<span class="slow">Slow</span> <span class="fast">Fast</span>
+						</div>
+						<span>Speed (0-100) - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span
+							id="slidertext">25</span>
+					</div>
+					<div class="topUI topUImiddle">
+						<div class="datePickerText topUIText">
+							<span class="bigNum">2</span> <span class="firstMenuText">Set
+								date and time</span>
+						</div>
+						<input id="datetimepicker" type="text">
+					</div>
+					<div class="topUI topUIRight">
+						<div class="visChangeOptionsText topUIText">
+							<span class="bigNum">3</span> <span class="firstMenuText">Customize
+								visualization</span>
+						</div>
+						<span class="visChangeOptionsInText">Change color scheme</span> <select
+							id="colorSchemeSelect" onchange="changeColorScheme(this)">
+							<option value="0">black-whites</option>
+							<option value="1">blue-yellow-reds</option>
+							<option value="2">reds</option>
+						</select> <span class="visChangeOptionsInText top_10">Change grid
+							color</span> <select class="top_m_10" id="gridColorSelect"
+							onchange="changeGridColor(this)">
+							<option value="black">black</option>
+							<option value="white">white</option>
+							<option value="gray">gray</option>
+							<option value="red">red</option>
+							<option value="yellow">yellow</option>
+						</select>
+						<div class="top_10">
+							<input id="showPeopleCB" type="checkbox" name="showPeople"
+								value="1" checked="true" onclick="showPeopleMain(this)"">
+							Show people's movement
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div id="mapContainer" class="mainContainers">
+				<div class="mainContainerMenu-reg">
+					<span class="bigLetter">B</span>visualize map
+				</div>
+				<div class="mainContainerContent" id="mapContainerInner">
+				</div>
+			</div>
+			<div id="Statistics" class="mainContainers">
+				<div class="mainContainerMenu-spe" id="statsMenu">
+					<span class="bigLetter">C</span>Show me some numbers
+				</div>
+				<div class="mainContainerContent">
+					<div id="example-zscore" class="parcoords"></div>
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div class="clear"></div>
+			<div class="footer top_10">&copy; 2016 Transsolar
+				Energietechnik GmbH</div>
+		</div>
+	</div>
+	<div class="hiddenElements">
+		<div id="utciSuper">
+			<div class="utci temp">
+				<span class="utciTxt">Temperature&deg;</span> <span class="utciVal">26</span>
+			</div>
+			<div class="utci rad">
+				<span class="utciTxt">Radiation&deg;</span> <span class="utciVal">32</span>
+			</div>
+			<div class="utci hum">
+				<span class="utciTxt">humidity % </span> <span class="utciVal">40</span>
+			</div>
+			<div class="utci wind">
+				<span class="utciTxt">wind m/s </span> <span class="utciVal">0.4</span>
+			</div>
+			<div class="utci activity">
+				<span class="utciTxt">activity </span> <span class="utciVal">1.2</span>
+			</div>
+			<div class="utci cloth">
+				<span class="utciTxt">clothing </span> <span class="utciVal">0.5</span>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="data2.js" charset="utf-8"></script>
+<script src="parcoords_b_data.js" charset="utf-8"></script>
+<script src="parcoords_b.js" charset="utf-8"></script>
+<script src="libraries/jquery.js" charset="utf-8"></script>
+<script src="libraries/jquery.datetimepicker.full.js" charset="utf-8"></script>
+<script src="b_source.js" charset="utf-8"></script>
+<script src="movingPeople.js" charset="utf-8"></script>
+</html>
