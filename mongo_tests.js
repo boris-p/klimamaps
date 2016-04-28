@@ -2,6 +2,7 @@
  * Created by boris on 4/9/2016.
  */
 var MongoClient = require('mongodb').MongoClient;
+var dbConfig = require('./config/db');
 var assert = require('assert');
 
 var insertDocument  = function(db,callback){
@@ -33,10 +34,10 @@ var findCustomers = function(db, callback) {
 };
 
 exports.retrieveCustomersNew = function(age,callback){
-    var url = "mongodb://localhost:27017/test";
+    //var url = "mongodb://username:password@localhost:27017/exampledatabase",
     //console.log(age);
     //console.log(typeof age);
-    MongoClient.connect(url, function(err, db) {
+    MongoClient.connect(dbConfig.url, function(err, db) {
         db.collection('customers', function(err, collection) {
             collection.find({"age":{$gt:age }}).toArray(function(err, users) {
                 // console.log(users);
@@ -48,8 +49,7 @@ exports.retrieveCustomersNew = function(age,callback){
 };
 
 exports.retrieveCustomers = function(){
-    var url = "mongodb://localhost:27017/test";
-    MongoClient.connect(url, function(err, db) {
+    MongoClient.connect(dbConfig.url, function(err, db) {
     assert.equal(null, err);
     findCustomers(db, function() {
         db.close();
@@ -58,8 +58,7 @@ exports.retrieveCustomers = function(){
 };
 
 function connectToMongo(){
-    var url = "mongodb://localhost:27017/test";
-    MongoClient.connect(url,function(err,db){
+    MongoClient.connect(dbConfig.url,function(err,db){
         assert.equal(null,err);
         insertDocument(db,function(){
             db.close();
