@@ -35,8 +35,9 @@ var findCustomers = function(db, callback) {
 
 exports.retrieveCustomersNew = function(age,callback){
     //var url = "mongodb://username:password@localhost:27017/exampledatabase",
-    //console.log(age);
-    //console.log(typeof age);
+    console.log("test");
+    console.log(age);
+    console.log(dbConfig.url);
     MongoClient.connect(dbConfig.url, function(err, db) {
         db.collection('customers', function(err, collection) {
             collection.find({"age":{$gt:age }}).toArray(function(err, users) {
