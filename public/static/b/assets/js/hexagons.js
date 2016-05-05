@@ -1,9 +1,10 @@
 var points;
 var dt;
-function buildGridData(gridData) {
+var mapItemSize = 24;
+function buildGridData2(gridData) {
     var radius = gridData.size;
-    xp = 50;
-    yp = 50;
+    xp = 100;
+    yp = 200;
     var hexes = [];
     var xCells = 5,
     yCells = 5;
@@ -37,8 +38,55 @@ function buildGridData(gridData) {
         };
         hexes.push(hex);
     });
+
     return hexes;
 }
+
+function buildGridData(gridData) {
+    var radius = mapItemSize;
+    //a manual fix to get the initial  placement where we want it
+    xp = 120;
+    yp = -20;
+    var hexes = [];
+    var h = (radius * Math.sqrt(3) / 2);
+    gridData.forEach(function(element,row){
+        //console.log(element.start);
+
+        var yAddition = yp + ((h*2)*row);
+
+        var numOfHexes = element.items.length;
+        var startItem = parseInt(element.start);
+        for (var column = 0; column < numOfHexes; column++) {
+
+            if (element.items[column] == 2){
+                var xAddition = xp + (radius*2*(column + startItem));
+                if (row % 2 == 1) xAddition += radius;
+
+                var hex = {
+                    "x_axis": row,
+                    "y_axis": column,
+                    "fill": "white",
+                    "stroke": "gray",
+                    "stroke_width": 1,
+                    "luxValue": "0",
+                    "class":"hex",
+                    "hexagonData" :[
+                        {"x": radius + xAddition, "y": yAddition},
+                        {"x": radius / 2 + xAddition, "y": h + yAddition},
+                        {"x": -radius / 2 + xAddition, "y": h + yAddition},
+                        {"x": -radius + xAddition, "y": yAddition},
+                        {"x": -radius / 2 + xAddition, "y": -h + yAddition},
+                        {"x": radius / 2 + xAddition, "y": -h + yAddition}
+                    ]
+                };
+                hexes.push(hex);
+            }
+        }
+    });
+
+    return hexes;
+}
+
 drawHexagon =  d3.svg.line()
                 .x(function (d) {
                     //console.log(d);
@@ -50,16 +98,21 @@ drawHexagon =  d3.svg.line()
 
 
 //Make an SVG Container
-var mapBase = d3.select("body").append("svg").attr("width", 1000)
-    .attr("height", 500);
+var mapBase = d3.select(".main-map").append("svg").attr("width", 800)
+    .attr("height", 600);
 var gridLayer = mapBase.append('g');
+
+//load points file
+d3.csv("assets/js/points.pt", function(data) {
+    dt = buildGridData(data);
+});
 
 
 //load points file
-d3.json("griddata.json", function(json) {
+d3.json("assets/js/griddata.json", function(json) {
     points = json;
     // initiate and draw map grid
-    dt = buildGridData(points);
+    //dt = buildGridData(points);
 
 var hexagons = gridLayer.selectAll("path").data(dt).enter().append("path");
 
@@ -114,8 +167,3 @@ function out(d, i) {
     //gridLayer.select("path:nth-child(" + ind + ")").transition().style(
         //"fill", "white").duration(300);
 }
-
-//stuff for later
-
-//transition the map group -
-//gridLayer.transition().attr('transform','scale(.5)').duration(500);
