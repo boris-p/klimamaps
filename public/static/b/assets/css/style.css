@@ -91,8 +91,6 @@ body > .container {
   padding :30px 0 0 10px;
   color:#666666;
 }
-/* Custom page CSS
--------------------------------------------------- */
 
 .footer > .container {
   padding-right: 15px;
@@ -101,7 +99,140 @@ body > .container {
 .footer .company-logos{
 	
 }
-
+/*------------------general rules---------------------*/
 code {
   font-size: 80%;
+}
+.squiggle-container{
+    display: none;
+}
+.clear{
+    clear:both;
+}
+.left{
+    float:left;
+}
+.right{
+    float:right;
+}
+
+/*--------------------------maps logic-----------------------------*/
+
+.main-map-container .ui-buttons .buttons-inner .fa{
+    padding:0 6px;
+    font-size: 2.5em;
+    color: #333;
+    -webkit-transition: background-color .2s,color .2s;
+    transition: background-color .2s, color .2s;
+}
+.main-map-container .ui-buttons .buttons-inner .fa:hover{
+    cursor: pointer;
+}
+.main-map-container .ui-buttons .buttons-inner .fa:active{
+    font-size: 2.7em;
+}
+/*not using for now*/
+.main-map-container .ui-buttons .buttons-inner .fa11:hover{
+    cursor: pointer;
+    background-color: #333;
+    color:#f9f9f9;
+    border-radius: 4px;
+}
+.main-map-container .ui-buttons{
+    height: 18px;
+}
+.main-map-container .ui-buttons .buttons-inner {
+    width:180px;
+}
+.main-map-container .ui-buttons .ui{
+    float:left;
+}
+.main-map-container .ui-buttons .ui.map-slider{
+    margin-left: 20px;
+    margin-top: 5px;
+}
+.main-map-container .ui-buttons .ui.map-slider span {
+    font-family: MuseoSlab-500;
+    font-size: 1em;
+}
+
+.main-map-container .ui-buttons .ui.map-slider .fa {
+    font-size: 1.5em;
+}
+/*--------------------------d3 slider-----------------------------*/
+#slider1 {
+    width: 160px;
+    margin: 6px 7px;
+}
+
+.d3-slider {
+    position: relative;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 1.1em;
+    border: 1px solid #aaaaaa;
+    z-index: 2;
+    margin: 12px 0 4px 0;
+}
+
+.d3-slider-horizontal {
+    height: .2em;
+}
+
+.d3-slider-vertical {
+    width: 1em;
+    height: 100px;
+}
+
+.d3-slider-handle {
+    position: absolute;
+    width: 1.7em;
+    height: 1.7em;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background: #eee;
+    background: linear-gradient(to bottom, #333 80%, #ddd 100%);
+    z-index: 3;
+}
+
+.d3-slider-handle:hover {
+    border: 1px solid #333;
+}
+
+.d3-slider-horizontal .d3-slider-handle {
+    top: -.5em;
+    margin-left: -.6em;
+}
+
+.d3-slider-axis {
+    position: relative;
+    z-index: 1;
+}
+
+.d3-slider-axis-bottom {
+    top: .8em;
+}
+
+.d3-slider-axis-right {
+    left: .8em;
+}
+
+.d3-slider-axis path {
+    stroke-width: 0;
+    fill: none;
+}
+
+.d3-slider-axis line {
+    fill: none;
+    stroke: #aaa;
+    shape-rendering: crispEdges;
+}
+
+.d3-slider-axis text {
+    font-size: 11px;
+}
+
+.d3-slider-vertical .d3-slider-handle {
+    left: -.25em;
+    margin-left: 0;
+    margin-bottom: -.6em;
 }

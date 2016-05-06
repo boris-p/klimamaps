@@ -1,34 +1,30 @@
 var express = require('express');
 var router = express.Router();
-
-
 var myMongo= require('../mongo_tests');
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
 
 /* GET Hello World page. */
-  router.get('/helloworld', function(req, res) {
-  //res.json({ a: 1 }); if one wanted to send json
-  res.render('helloworld', { title: 'Hello, World!' });
+router.get('/helloworld1', function(req, res) {
+    //res.json({ a: 1 }); if one wanted to send json
+    res.render('helloworld', { title: 'Hello, hexagon World!' });
 });
 
 /* GET Userlist page. */
-router.get('/userlist', function(req, res) {
-    //var db = req.db;
-    //var collection = db.get('customers');
-    var age = parseInt(req.query['age'] || 0);
-    console.log(age);
-    myMongo.retrieveCustomersNew(age,function(users){
-        res.render('userlist', {
-            "userlist" : users
-        });
+router.get('/weatherdata', function(req, res) {
+    var startTime = parseInt(req.query['start'] || 0);
+    console.log(startTime);
+        myMongo.retrievewUnderground(startTime,function(weatherData){
+        res.json(weatherData);
+    });
+})
+/* GET rhino data - later this will be radiation only (probably). */
+router.get('/rhinodata', function(req, res) {
+    var startTime = parseInt(req.query['start'] || 0);
+    console.log(startTime);
+    myMongo.retrieveRhinoData(startTime,function(rhinoData){
+        res.json(rhinoData);
     });
 })
 
-
-/* GET Userlist page. */
 router.get('/weather', function(req, res) {
     var wUnderground= require('../wunderground');
     //var url ="http://api.wunderground.com/api/ec8d43ee5e79c981/conditions/q/pws:ILONDON297.json"; // closest but no solar radiation

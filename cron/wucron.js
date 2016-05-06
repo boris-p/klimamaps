@@ -39,7 +39,7 @@ var wuUrl = require('../config/db').wundergroundUrl;
 var timeZoneAddition = require('../config/db').londongTimeZoneAddition;
 
 var CronJob = require('cron').CronJob;
-new CronJob('10,30,50 * * * * *', function() {
+new CronJob('30 * * * * *', function() {
     getWUnderground(wuUrl,function(wData){
         var weatherObj = {};
         //console.log(wData);

@@ -49,6 +49,35 @@ exports.retrieveCustomersNew = function(age,callback){
     });
 };
 
+exports.retrievewUnderground = function(timeStamp,callback){
+    //var url = "mongodb://username:password@localhost:27017/exampledatabase",
+    //db.wunderground.find({time_stamp:{$gt:1462035013}})
+    console.log("test");
+    console.log(timeStamp);
+    console.log(dbConfig.url);
+    MongoClient.connect(dbConfig.url, function(err, db) {
+        db.collection('wunderground', function(err, collection) {
+            collection.findOne({"time_stamp":{$gt:timeStamp }},function(err, document) {
+                //console.log(document.name);
+                 console.log(document);
+                callback(document);
+                db.close();
+            });
+        });
+    });
+};
+exports.retrieveRhinoData = function(timeStamp,callback){
+    //FYI - Paging can be achieved with option parameters limit and skip
+    MongoClient.connect(dbConfig.url, function(err, db) {
+        db.collection('test2', function(err, collection) {
+            collection.find({"time_stamp":{$gt:timeStamp }},{"limit":200}).toArray(function(err, results) {
+                // console.log(users);
+                callback(results);
+                db.close();
+            });
+        });
+    });
+};
 exports.retrieveCustomers = function(){
     MongoClient.connect(dbConfig.url, function(err, db) {
     assert.equal(null, err);

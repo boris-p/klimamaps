@@ -114,8 +114,3 @@ function out(d, i) {
     //gridLayer.select("path:nth-child(" + ind + ")").transition().style(
         //"fill", "white").duration(300);
 }
-
-//stuff for later
-
-//transition the map group -
-//gridLayer.transition().attr('transform','scale(.5)').duration(500);

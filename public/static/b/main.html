@@ -76,7 +76,32 @@
 				<p class="short-desc">"With Elytra: Filament Pavilion, we aim to offer a glimpse of the transformative power of the fourth industrial revolution currently underway, and the way it again challenges established modes of design, engineering and making"</p>
 			</div>
 			<div class="col-md-8">
-			  <div class="main-map"></div>
+                <div class="main-map-container">
+                    <div class="ui-buttons">
+                        <div class="ui buttons-inner">
+                            <i class="fa fa-undo fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="start again"></i>
+                            <i class="fa fa-arrow-circle-left fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="back up"></i>
+                            <i class="fa fa-pause fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="hold on"></i>
+                            <i class="fa fa-arrow-circle-right fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="one forward"></i>
+                        </div>
+                        <div class="ui map-slider">
+                            <div class="left">
+                                <i class="fa fa-times" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="slower">
+                                    <span>1</span>
+                                </i>
+                            </div>
+                            <div id="slider1" class="left" data-toggle="tooltip" data-placement="top" title="simulation speed"></div>
+                            <div class="left">
+                                <i class="fa fa-times" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="faster">
+                                    <span>5</span>
+                                </i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main-map">
+                          <div class="currentHour"></div>
+                    </div>
+                </div>
 			</div>
 		</div>
 	</div>
@@ -96,7 +121,10 @@
     <script src="./assets/bootstrap.min.js"></script>
 
     <script src="./assets/js/d3.js" charset="utf-8"></script>
+    <script src="./assets/js/d3-ease.js" charset="utf-8"></script>
     <script src="./assets/js/d3tip.js" charset="utf-8"></script>
+    <script src="./assets/js/slider.js" charset="utf-8"></script>
+    <script src="./assets/js/main.js" charset="utf-8"></script>
     <script src="./assets/js/hexagons.js" charset="utf-8"></script>
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -104,5 +132,13 @@
   
 
 <div id="feedly-mini" title="feedly Mini tookit"></div>
+
+    <div class="squiggle-container squiggle-animated">
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="841.89px" height="595.28px" viewBox="0 0 841.89 595.28" enable-background="new 0 0 841.89 595.28" xml:space="preserve">
+<path fill="none" stroke="#231F20" stroke-miterlimit="10" d="M83.852,193.481c0,0,17.037-162.963,150.37-102.963
+	s83.704,111.853,140,172.593s81.482,144.443,196.296,103.703s166.667-105.926,126.667-153.333s-53.334-114.074-110.371-45.926"/>
+</svg>
+    </div>
 </body>
 </html>	
