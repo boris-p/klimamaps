@@ -387,6 +387,7 @@
       <workItem from="1462099596553" duration="1894000" />
       <workItem from="1462206800018" duration="1537000" />
       <workItem from="1462287848338" duration="23138000" />
+      <workItem from="1462554787297" duration="12379000" />
     </task>
     <task id="LOCAL-00001" summary="small fixes with new version of express">
       <created>1461762164005</created>
@@ -399,6 +400,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="127091000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
