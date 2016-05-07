@@ -12,6 +12,7 @@ var h = (radius * Math.sqrt(3)/2),
     ];
 
 
+
 drawHexagon =
     d3.svg.line()
         .x(function(d) { return d.x; })
