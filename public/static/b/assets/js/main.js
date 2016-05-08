@@ -54,9 +54,9 @@ function pause() {
     animate = false;
 }
 
-//a = parseInt(Date.now()/1000)
-
 //stuff for later
+
+//a = parseInt(Date.now()/1000)
 
 //transition the map group -
 //gridLayer.transition().attr('transform','scale(.5)').duration(500);
