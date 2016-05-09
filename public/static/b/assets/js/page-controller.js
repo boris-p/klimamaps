@@ -1,4 +1,4 @@
-//TODO - utilityfunctions, move them to another class
+//TODO - utility functions, move them to another class
 l = function(obj){
     console.log(obj);
 }
