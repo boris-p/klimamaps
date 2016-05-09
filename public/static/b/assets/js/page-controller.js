@@ -12,6 +12,7 @@ var pController = pController || function (pages,menuItems,contentDest) {
         this.pagesContent = [];
         this.menuItems= menuItems;
         this.contentDest = contentDest;
+        this.pageScript = false;
         this.menuItems.click(function(){
             //get the index of the menu item clicked - must be a less ugly way to do that
             var indexClicked = $(this).parents('ul').find('li').index($(this).parent())/2;
@@ -20,8 +21,23 @@ var pController = pController || function (pages,menuItems,contentDest) {
             $(self.menuItems).parent().removeClass("current");
             $(this).parent().addClass("current");
             self.currentPage = indexClicked;
-            l($(self.contentDest));
             $(self.contentDest).html(self.pagesContent[self.currentPage]);
+            l(self.pages[self.currentPage]);
+            var scriptName = self.pages[self.currentPage];
+
+            //if there's an available script associated to the html run its init function
+            //if not don't do anything for now
+            if (self.pageScript != false){
+                l("calling custom page script destruct function");
+                self.pageScript.destruct();
+            }
+            if(window.hasOwnProperty(scriptName)) {
+                self.pageScript = new window[self.pages[self.currentPage]](scriptName);
+                self.pageScript.init();
+            } else{
+                self.pageScript = false;
+                l("page has no logic");
+            }
         });
         this.loadPages();
 };
@@ -48,7 +64,7 @@ pController.prototype.loadPages = function(){
 
 var pc;
 $(function () {
-    var pages = ["home","climate-and-moving","structure","about"];
+    var pages = ["home","climate","structure","about"];
     var menuItems = $('.main-menu a');
     pc = new pController(pages,menuItems,'.main-content-row');
 })
