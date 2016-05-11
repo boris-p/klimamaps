@@ -25,6 +25,16 @@ router.get('/rhinodata', function(req, res) {
     });
 })
 
+/* GET modcam data */
+router.get('/modcamdata', function(req, res) {
+    var startTime = parseInt(req.query['start'] || 0);
+    console.log(startTime);
+    console.log("sfsfsfsfs");
+    myMongo.retrieveModcamData(startTime,function(data){
+        res.json(data);
+    });
+})
+
 router.get('/weather', function(req, res) {
     var wUnderground= require('../wunderground');
     //var url ="http://api.wunderground.com/api/ec8d43ee5e79c981/conditions/q/pws:ILONDON297.json"; // closest but no solar radiation

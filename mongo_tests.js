@@ -78,6 +78,21 @@ exports.retrieveRhinoData = function(timeStamp,callback){
         });
     });
 };
+exports.retrieveModcamData = function(timeStamp,callback){
+    console.log("retrieving modcam data");
+    //FYI - Paging can be achieved with option parameters limit and skip
+    MongoClient.connect(dbConfig.url, function(err, db) {
+        db.collection('modcam', function(err, collection) {
+            collection.findOne({"time_stamp":{$gt:timeStamp }},function(err, document) {
+                console.log(err);
+                console.log(document);
+                callback(document);
+                db.close();
+            });
+        });
+    });
+};
+
 exports.retrieveCustomers = function(){
     MongoClient.connect(dbConfig.url, function(err, db) {
     assert.equal(null, err);
