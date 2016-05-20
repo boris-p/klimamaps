@@ -249,8 +249,8 @@ code {
 }
 
 /*---------movement visualizations ----------*/
-.movement-img-container{
-    height:740px;
+.movement-img-container, .main-map{
+    height:820px;
     padding-left:15px;
     padding-top:18px;
 }

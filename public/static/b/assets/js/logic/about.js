@@ -52,7 +52,7 @@ about.prototype.animateLoop = function () {
     // so for now just calling the current script from the page controller (maybe this isn't the best option,
     // or if it is should be more consistent
     l("animating map");
-    var path = pc.pageScript.basePath + pc.pageScript.setDateTime(pc.pageScript.currentDate) + "/" + pc.pageScript.setDateTime(pc.pageScript.currentDate,15) + "?wp=2000";
+    var path = pc.pageScript.basePath + pc.pageScript.setDateTime(pc.pageScript.currentDate) + "/" + pc.pageScript.setDateTime(pc.pageScript.currentDate,15) + "?wp=4000";
     console.log(path);
     pc.pageScript.loadImage(path,710,628,pc.pageScript.container);
     $('.current-hour').html(pc.pageScript.currentDate.toUTCString());

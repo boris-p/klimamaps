@@ -11,16 +11,16 @@ climate.prototype.constructor = climate;
 climate.prototype.init = function() {
     l("in climate init function");
     l(this.pageName);
-    this.mapItemSize = 24;
+    this.mapItemSize = 28;
     this.animationSpeed = 500;
     this.animate = false;
     this.currentHour = 0;
-    this.activeColorScheme = 2;
+    this.activeColorScheme = 1;
 
     this.dt = "";
 
     //change the domain to something meaningful - not necessarily 100
-    var colorRange = d3.scale.linear().clamp(true).domain([ 0, 100 ]).rangeRound(
+    var colorRange = d3.scale.linear().clamp(true).domain([ 0, 1000 ]).rangeRound(
         [ 0, 19 ]);
     d3.select('#slider1').call(
         d3.slider().step(1).value(speed).on("slide", function(evt, value) {
@@ -43,7 +43,7 @@ climate.prototype.destruct = function() {
 climate.prototype.buildGridData = function(gridData) {
     var radius = this.mapItemSize;
     //a manual fix to get the initial  placement where we want it
-    xp = 120;
+    xp = 20;
     yp = -20;
     var hexes = [];
     var h = (radius * Math.sqrt(3) / 2);
@@ -52,6 +52,7 @@ climate.prototype.buildGridData = function(gridData) {
 
         var yAddition = yp + ((h*2)*row);
 
+        console.log(element);
         var numOfHexes = element.items.length;
         var startItem = parseInt(element.start);
         for (var column = 0; column < numOfHexes; column++) {
@@ -96,7 +97,7 @@ climate.prototype.buildMap = function(){
     var self = this;
     //Make an SVG Container
     var mapBase = d3.select(".main-map").append("svg").attr("width", 800)
-        .attr("height", 500);
+        .attr("height", 700);
     self.gridLayer = mapBase.append('g');
 
     //load points file
@@ -128,7 +129,7 @@ climate.prototype.buildMap = function(){
 };
 climate.prototype.getRhinoData =  function (startTime){
     var self = this;
-    d3.json("/rhinodata?start=" + startTime , function(json) {
+    d3.json("/raddata", function(json) {
         l(json);
         self.rhinoData = json;
         self.beginAnimation();
@@ -143,7 +144,7 @@ climate.prototype.beginAnimation = function () {
 
 //do your magic
 climate.prototype.animateLoop = function (animateAnyway) {
-    //setTimeout chages the scope so this is the window in the second run
+    //setTimeout changes the scope so this is the window in the second run
     // so for now just calling the current script from the page controller (maybe this isn't the best option,
     // or if it is should be more consistent
     l("animating map");
@@ -161,14 +162,15 @@ climate.prototype.animateLoop = function (animateAnyway) {
 
 climate.prototype.colorMap = function (time) {
     var self = this;
-    d3.select('.currentHour').text(
+    d3.select('.current-hour').text(
         "Current simulation day - " + Math.floor(self.currentHour / 24)
         + " and hour - " + self.currentHour % 24);
     self.hexagons.transition()
         .ease(d3_ease.easeLinear)
         .style("fill", function(d, i) {
             //d.utciValue = allHourVals[self.currentHour][i];
-            return colorColors[self.activeColorScheme][colorRange(self.rhinoData[self.currentHour]['points_rad'][i])];
+            //return colorColors[self.activeColorScheme][colorRange(self.rhinoData[self.currentHour]['points_rad'][i])];
+            return colorColors[self.activeColorScheme][colorRange(self.rhinoData[self.currentHour][i])];
         }).duration(time);
 };
 /*----------------------------------map interaction functions--------------------------*/

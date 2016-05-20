@@ -39,7 +39,8 @@ var wuUrl = require('../config/db').wundergroundUrl;
 var timeZoneAddition = require('../config/db').londongTimeZoneAddition;
 
 var CronJob = require('cron').CronJob;
-new CronJob('30 * * * * *', function() {
+//new CronJob('30 * * * * *', function() {  //every 30 seconds
+new CronJob('*/5 * * * *', function() {  //every 5 monutes
     getWUnderground(wuUrl,function(wData){
         var weatherObj = {};
         //console.log(wData);
@@ -55,5 +56,8 @@ new CronJob('30 * * * * *', function() {
         myMongo.saveWeatherData(weatherObj);
         //res.json(weatherObj);
     });
-    console.log('You will see this message every 5,10,15,20 seconds of every minute');
+    console.log('You will see this message every cron run');
 }, null, true, 'Asia/Jerusalem');
+
+//running this with forever -
+//forever -a -o out.log -e err.log cron/wucron.js

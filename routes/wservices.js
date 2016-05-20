@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var myMongo= require('../mongo_tests');
+var getRad= require('../quick_calc_utci');
 
 /* GET Hello World page. */
 router.get('/helloworld1', function(req, res) {
@@ -25,11 +26,17 @@ router.get('/rhinodata', function(req, res) {
     });
 })
 
+/* GET radiation data - (temp) */
+router.get('/raddata', function(req, res) {
+    getRad.getData(function(rhinoData){
+        res.json(rhinoData);
+    });
+})
+
 /* GET modcam data */
 router.get('/modcamdata', function(req, res) {
     var startTime = parseInt(req.query['start'] || 0);
     console.log(startTime);
-    console.log("sfsfsfsfs");
     myMongo.retrieveModcamData(startTime,function(data){
         res.json(data);
     });
@@ -38,7 +45,7 @@ router.get('/modcamdata', function(req, res) {
 router.get('/weather', function(req, res) {
     var wUnderground= require('../wunderground');
     //var url ="http://api.wunderground.com/api/ec8d43ee5e79c981/conditions/q/pws:ILONDON297.json"; // closest but no solar radiation
-    var url = "http://api.wunderground.com/api/ec8d43ee5e79c981/conditions/q/pws:IENGLAND1059.json";
+    var url = "http://api.wunderground.com/api/ec8d43ee5e79c981/conditions/q/pws:ILONDON1364.json";
 
     wUnderground.getWUnderground(url,function(wData){
         //console.log(body);

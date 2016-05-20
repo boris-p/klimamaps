@@ -16,7 +16,9 @@ var colors2 = ["rgb(255,130,160)","rgb(255,130,160)","rgb(255,130,160)",
     "rgb(234,106,135)","rgb(224,93,122)","rgb(212,79,108)","rgb(200,65,94)","rgb(188,51,79)",
     "rgb(176,37,65)","rgb(166,24,52)","rgb(157,14,42)","rgb(150,6,34)","rgb(146,2,29)","rgb(145,0,27)",
     "rgb(145,0,27)","rgb(145,0,27)","rgb(145,0,27)"];
-var colorColors = [colors,colors1,colors2];
+var colors3 = ["rgb(75,107,169)","rgb(115,147,202)","rgb(170,200,247)","rgb(193,213,208)","rgb(245,239,103)",
+                "rgb(252,230,74)","rgb(239,156,21)","rgb(234,123,0)","rgb(234,74,0)","rgb(234,38,0)"];
+var colorColors = [colors,colors1,colors2,colors3];
 
 //TODO - not really working for now - do I want to use this or bootstrap or both... ..
 function createTipHtml(val, id) {
