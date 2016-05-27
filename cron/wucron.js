@@ -20,7 +20,10 @@ var getWUnderground = function(url, done) {
     console.log(url);
     request(url, function(err, res, body) {
         //console.log(body);
-        if (err) return done(-1);
+        if (err) {
+            console.log(err);
+            return done(-1);
+        }
         //if (res.statusCode !== 200) return done(new Error('Returned: ' + res.statusCode));
         if (res.statusCode !== 200) return done(res.statusCode);
         if (body) {
@@ -29,6 +32,7 @@ var getWUnderground = function(url, done) {
                 if (body.response.error) return done(body.response.error.description);
                 else return done(body);
             } catch (e) {
+                console.log(e);
                 return done(-1);
             }
         }
@@ -40,12 +44,12 @@ var timeZoneAddition = require('../config/db').londongTimeZoneAddition;
 
 var CronJob = require('cron').CronJob;
 //new CronJob('30 * * * * *', function() {  //every 30 seconds
-new CronJob('*/5 * * * *', function() {  //every 5 monutes
+new CronJob('*/5 * * * *', function() {  //every 5 minutes
     getWUnderground(wuUrl,function(wData){
         var weatherObj = {};
         //console.log(wData);
         //weatherObj.location = wData['current_observation']['display_location']['city'];
-        weatherObj.dew_pt = parseInt(wData['current_observation']['dewpoint_c']);
+        weatherObj.dew_pt = parseFloat(wData['current_observation']['dewpoint_c']);
         weatherObj.solarRadiation = parseInt(wData['current_observation']['solarradiation']);
         weatherObj.temp = parseFloat(wData['current_observation']['temp_c']);
         weatherObj.relativeHumidity = parseInt(wData['current_observation']['relative_humidity']);

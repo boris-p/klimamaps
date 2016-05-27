@@ -5,7 +5,8 @@
 var myMongo= require('./../cron/wudb');
 
 var lineReader = require('readline').createInterface({
-    input: require('fs').createReadStream('data/17.5.2016_ilondon1364_weather.dt')
+    //input: require('fs').createReadStream('data/17.5.2016_ilondon1364_weather.dt')
+    input: require('fs').createReadStream('data/wu_may_data.dt')
 });
 
 lineReader.on('line', function (line) {
@@ -14,14 +15,14 @@ lineReader.on('line', function (line) {
 
     var weatherData = {};
     
-    weatherData.dew_pt = splitted[2];
-    weatherData.relativeHumidity = splitted[8];
-    weatherData.solarRadiation = splitted[13];
-    weatherData.temp = splitted[1];
+    weatherData.dew_pt =  parseFloat(splitted[2]);
+    weatherData.relativeHumidity = parseInt(splitted[8]);
+    weatherData.solarRadiation = parseInt(splitted[13]);
+    weatherData.temp = parseFloat(splitted[1]);
     var d = new Date(splitted[0]).getTime();
     weatherData.time_stamp = d/1000;
     //console.log(weatherData.time_stamp);
-    weatherData.wind_kph = splitted[6];
+    weatherData.wind_kph = parseFloat(splitted[6]);
 
     myMongo.saveWeatherData(weatherData);
     //console.log(weatherData.temp);

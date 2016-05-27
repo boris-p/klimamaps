@@ -6,7 +6,7 @@ var dbUrl = require('../config/db').url;
 var assert = require('assert');
 
 var insertwData  = function(db,data,callback){
-    db.collection('wunderground1').insertOne(data,function(err,result){
+    db.collection('wunderground3').insertOne(data,function(err,result){
         assert.equal(err,null);
         console.log("inserted weather data from weather underground");
         callback();
