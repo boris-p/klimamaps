@@ -1,7 +1,10 @@
-@font-face {font-family: 'MuseoSlab-500';src: url('../webfonts/3108DF_0_0.eot');src: url('../webfonts/3108DF_0_0.eot?#iefix') format('embedded-opentype'),url('../webfonts/3108DF_0_0.woff2') format('woff2'),url('../webfonts/3108DF_0_0.woff') format('woff'),url('../webfonts/3108DF_0_0.ttf') format('truetype');}
+@font-face {font-family: "Museo-500";
+    src:url("../fonts/MuseoSlab-500/312252_0_0.eot");
+    src: url("../fonts/MuseoSlab-500/312252_0_0.eot?#iefix") format("embedded-opentype"),url("../fonts/MuseoSlab-500/312252_0_0.woff2") format("woff2"),url("../fonts/MuseoSlab-500/312252_0_0.woff") format("woff"),url("webfonts/312252_0_0.ttf") format("truetype");
+    }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family: MuseoSlab-500;
+    font-family: "Museo-500";
     font-weight: 500;
     line-height: 1.1;
     color: inherit;
@@ -13,7 +16,8 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
-  background-color: #f9f9f9;
+  /*background-color: #f9f9f9; for now while using modcams images with a white background keep everything white*/
+    background-color:white;
 }
 body > .container {
   padding: 60px 15px 0;
@@ -22,7 +26,7 @@ body > .container {
 	font-size:30px
 }
 .clima-maps {
-	font-size: 74px;
+	font-size: 67px;
     line-height: 67px;
 	padding-bottom: 26px;
 }	
@@ -56,8 +60,6 @@ body > .container {
 }
 .main-menu  .menu-ul li{
     float: left;
-    padding-right: 26px;
-	padding-left: 26px;
 	display: list-item;
     text-align: -webkit-match-parent;
 }
@@ -66,12 +68,18 @@ body > .container {
 }
 .main-menu  .menu-ul li a{
     text-decoration: none;
-	font-family: MuseoSlab-500;
+	font-family: Museo-500;
 	font-size:18px;
 	color: #42413C;
+    padding-left: 25px;
+    padding-right: 25px;
 }
 .main-menu  .menu-ul li.current a{
     color:white;
+}
+/*-----------------main content--------------------*/
+.main-content-row{
+    min-height: 650px;
 }
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -117,7 +125,9 @@ code {
 }
 
 /*--------------------------maps logic-----------------------------*/
-
+.clima-maps{
+    margin-top:0;
+}
 .main-map-container .ui-buttons .buttons-inner .fa{
     padding:0 6px;
     font-size: 2.5em;
@@ -140,6 +150,7 @@ code {
 }
 .main-map-container .ui-buttons{
     height: 18px;
+    margin-top: 23px;
 }
 .main-map-container .ui-buttons .buttons-inner {
     width:180px;
@@ -152,7 +163,7 @@ code {
     margin-top: 5px;
 }
 .main-map-container .ui-buttons .ui.map-slider span {
-    font-family: MuseoSlab-500;
+    font-family: Museo-500;
     font-size: 1em;
 }
 
@@ -235,4 +246,17 @@ code {
     left: -.25em;
     margin-left: 0;
     margin-bottom: -.6em;
+}
+
+/*---------movement visualizations ----------*/
+.movement-img-container, .main-map{
+    height:820px;
+    padding-left:15px;
+    padding-top:18px;
+}
+.current-hour{
+    font-family: Museo-500;
+    clear:both;
+    font-size: 20px;
+    padding-top: 15px;
 }

@@ -12,14 +12,15 @@
 
     <!-- Bootstrap core CSS -->
     <link href="./assets/bootstrap.min.css" rel="stylesheet">
+
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="./assets/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/ie10-viewport-bug-workaround.css">
 	<link rel="stylesheet" href="./assets/css/style.css">
 	<link rel="stylesheet" href="font-awesome/css/font-awesome.css" type="text/css">
 	
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="./assets/ie-emulation-modes-warning.js"></script><style type="text/css"></style>
+    <!--[if lt IE 9]><script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="assets/js/libraries/ie-emulation-modes-warning.js"></script><style type="text/css"></style>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -59,18 +60,18 @@
 			<div class="col-md-8">
 				<div class="main-menu">
 					<ul class="menu-ul">
-						<li class="current"><a href="index.html">Home</a></li>
+						<li class="current"><a href="#home">Home</a></li>
 						<li class="divline"></li>
-						<li><a href="work.html">Climate & movement</a></li>
+						<li><a href="#climate-and-movement">Outdoor comfort</a></li>
 						<li class="divline"></li>
-						<li><a href="work.html">Structural data</a></li>
+						<li><a href="#structure">Structural data</a></li>
 						<li class="divline"></li>
-						<li><a href="blog">Who we are</a></li>
+						<li><a href="#about">movement</a></li>
 					</ul>
 				</div>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row main-content-row">
 			<div class="col-md-4">
 				<h1 class="clima-maps">Climate Maps</h1>
 				<p class="short-desc">"With Elytra: Filament Pavilion, we aim to offer a glimpse of the transformative power of the fourth industrial revolution currently underway, and the way it again challenges established modes of design, engineering and making"</p>
@@ -116,20 +117,29 @@
       </div>
     </footer>
 
-    <script src="./assets/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="./assets/bootstrap.min.js"></script>
+    <script src="assets/js/libraries/jquery.min.js"></script>
+    <script src="assets/js/libraries/bootstrap.min.js"></script>
 
-    <script src="./assets/js/d3.js" charset="utf-8"></script>
-    <script src="./assets/js/d3-ease.js" charset="utf-8"></script>
-    <script src="./assets/js/d3tip.js" charset="utf-8"></script>
-    <script src="./assets/js/slider.js" charset="utf-8"></script>
-    <script src="./assets/js/main.js" charset="utf-8"></script>
-    <script src="./assets/js/hexagons.js" charset="utf-8"></script>
-
+    <script src="assets/js/libraries/d3.js" charset="utf-8"></script>
+    <script src="assets/js/libraries/d3-ease.js" charset="utf-8"></script>
+    <script src="assets/js/libraries/d3tip.js" charset="utf-8"></script>
+    <script src="assets/js/libraries/slider.js" charset="utf-8"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="./assets/ie10-viewport-bug-workaround.js"></script>
-  
+    <script src="assets/js/libraries/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- custom js -->
+    <script src="assets/js/page-controller.js" charset="utf-8"></script>
+    <script src="assets/js/main.js" charset="utf-8"></script>
+    <script src="assets/js/hexagons.js" charset="utf-8"></script>
+
+    <script src="assets/js/svt.js" charset="utf-8"></script>
+
+    <!-- pages js  -TODO - probably should combine all or atleast some of the js files before going live, we'll see -->
+    <script src="assets/js/logic/gPage.js" charset="utf-8"></script>
+    <script src="assets/js/logic/home.js" charset="utf-8"></script>
+    <script src="assets/js/logic/climate.js" charset="utf-8"></script>
+    <script src="assets/js/logic/structure.js" charset="utf-8"></script>
+    <script src="assets/js/logic/about.js" charset="utf-8"></script>
 
 <div id="feedly-mini" title="feedly Mini tookit"></div>
 
