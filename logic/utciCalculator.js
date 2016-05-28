@@ -1,21 +1,3 @@
-/*
-f = urllib2.urlopen('http://api.wunderground.com/api/2ad0de4c4afc203d/conditions/q/pws:ILOMBARD268.json')
-j_str = f.read()
-ws_data = json.loads(j_str)
-*/
-
-var Tamb = 13.4;//ws_data['current_observation']['temp_c']
-var dew_pt =7.6;  //ws_data['current_observation']['dewpoint_c']
-var relhum =68; //ws_data['current_observation']['relative_humidity']
-var sol_rad =0; //ws_data['current_observation']['solarradiation']
-var wind =0.6; //ws_data['current_observation']['wind_kph']
-//wind_str = ws_data['current_observation']['wind_kph']
-
-//RH = parseInt(relhum [:2])// [:2] was written before, why do we need this?
-var RH = relhum;
-GRad = sol_rad;
-va = Math.min(wind/3.6,3);
-
 function UTCI_approx(Ta,ehPa,Tmrt,va) {
 
     /*
@@ -257,37 +239,56 @@ function es(ta) {
     return es;
 }
 
-var T_J = Tamb;
-var DMRT_LW_J = -11.369 + 0.259 * dew_pt + 0.00196 * Math.pow(dew_pt, 2) + 2;
-var DMRT_SW_J = 0.0464 / 2 * GRad * 1.6;
-var MRT_J = T_J + DMRT_LW_J + DMRT_SW_J;
+//exports.calculateUtci = function(Tamb,dew_pt,RH,GRad,wind) {
+exports.calculateUtci = function(Tamb,dew_pt,RH,GRad,wind) {
 
-var T_S = Tamb;
-var DMRT_LW_S = -11.369 + 0.259 * dew_pt + 0.00196 * Math.pow(dew_pt, 2) + 3;
-var DMRT_SW_S = 0.0464 / 2 * GRad * 0.5;
-var MRT_S = T_S + DMRT_LW_S + DMRT_SW_S;
+//wObject.temp,wObject.dew_pt,wObject.relativeHumidity,wObject.solarRadiation,wObject.wind_kph
+    //var Tamb =  wObj.temp;  //ws_data['current_observation']['temp_c']
+    //var dew_pt =7.6;  //ws_data['current_observation']['dewpoint_c']
+    //var relhum =68; //ws_data['current_observation']['relative_humidity']
+    //v/ar sol_rad =0; //ws_data['current_observation']['solarradiation']
+    //var wind =0.6; //ws_data['current_observation']['wind_kph']
+    //wind_str = ws_data['current_observation']['wind_kph']
 
-var T_V = Tamb - Math.max((Tamb - 20) * 0.15, 0);
-var DMRT_LW_V = -11.369 + 0.259 * dew_pt + 0.00196 * Math.pow(dew_pt, 2) + 2;
-var DMRT_SW_V = 0.0464 / 2 * GRad * 0.2;
-var MRT_V = T_V + DMRT_LW_V + DMRT_SW_V;
+    //RH = parseInt(relhum [:2])// [:2] was written before, why do we need this?
 
-console.log(Tamb);
-console.log(RH);
+    var va = Math.min(wind/3.6,3);
 
-var ehPa = es(Tamb) * RH / 100;
-console.log(ehPa);
+    var T_J = Tamb;
+    var DMRT_LW_J = -11.369 + 0.259 * dew_pt + 0.00196 * Math.pow(dew_pt, 2) + 2;
+    var DMRT_SW_J = 0.0464 / 2 * GRad * 1.6;
+    var MRT_J = T_J + DMRT_LW_J + DMRT_SW_J;
 
-var ET_J = UTCI_approx(T_J, ehPa, MRT_J, va);
-var ET_S = UTCI_approx(T_S, ehPa, MRT_S, va);
-var ET_V = UTCI_approx(T_V, ehPa, MRT_V, va);
+    var T_S = Tamb;
+    var DMRT_LW_S = -11.369 + 0.259 * dew_pt + 0.00196 * Math.pow(dew_pt, 2) + 3;
+    var DMRT_SW_S = 0.0464 / 2 * GRad * 0.5;
+    var MRT_S = T_S + DMRT_LW_S + DMRT_SW_S;
 
-var val = String(parseInt(Math.round(ET_J))) + ";" + String(parseInt(Math.round(ET_S))) + ";" + String(parseInt(Math.round(ET_V)));
-console.log("output is " + val);
-console.log("ambient temperature: " + Tamb);
-console.log("dew point temperature: " + dew_pt);
-console.log("Relative humidity: " + relhum);
-console.log("solar radiation: " + GRad);
-console.log("wind: " + wind);
-console.log("va: " + va);
+    var T_V = Tamb - Math.max((Tamb - 20) * 0.15, 0);
+    var DMRT_LW_V = -11.369 + 0.259 * dew_pt + 0.00196 * Math.pow(dew_pt, 2) + 2;
+    var DMRT_SW_V = 0.0464 / 2 * GRad * 0.2;
+    var MRT_V = T_V + DMRT_LW_V + DMRT_SW_V;
 
+    console.log("Tamb" + Tamb);
+    console.log("RH" + RH);
+
+    var ehPa = es(Tamb) * RH / 100;
+    //console.log(ehPa);
+
+    var ET_J = UTCI_approx(T_J, ehPa, MRT_J, va);
+    //var ET_S = UTCI_approx(T_S, ehPa, MRT_S, va);
+    //var ET_V = UTCI_approx(T_V, ehPa, MRT_V, va);
+
+    //var val = String(parseInt(Math.round(ET_J))) + ";" + String(parseInt(Math.round(ET_S))) + ";" + String(parseInt(Math.round(ET_V)));
+    //console.log("output is " + val);
+    /*
+    console.log("ambient temperature: " + Tamb);
+    console.log("dew point temperature: " + dew_pt);
+    console.log("Relative humidity: " + RH);
+    console.log("solar radiation: " + GRad);
+    console.log("wind: " + wind);
+    console.log("va: " + va);
+    */
+    //accurate enough
+    return parseInt(ET_J * 10) / 10;
+}
