@@ -128,18 +128,16 @@ code {
 .clima-maps{
     margin-top:0;
 }
-.main-map-container .ui-buttons .buttons-inner .fa{
+.main-map-container .fa{
     padding:0 6px;
     font-size: 2.5em;
     color: #333;
-    -webkit-transition: background-color .2s,color .2s;
-    transition: background-color .2s, color .2s;
+    -webkit-transition: background-color .4s,color .4s;
+    transition: background-color .4s, color .4s;
 }
-.main-map-container .ui-buttons .buttons-inner .fa:hover{
+.main-map-container .ui-buttons .buttons-inner .fa:hover,
+.main-map-container #runSimulation:hover{
     cursor: pointer;
-}
-.main-map-container .ui-buttons .buttons-inner .fa:active{
-    font-size: 2.7em;
 }
 /*not using for now*/
 .main-map-container .ui-buttons .buttons-inner .fa11:hover{
@@ -170,9 +168,23 @@ code {
 .main-map-container .ui-buttons .ui.map-slider .fa {
     font-size: 1.5em;
 }
+.main-map-container .ui-buttons #datetimepicker {
+    border: none;
+    font-size: 19px;
+    font-family: Museo-500;
+    vertical-align: top;
+    margin-top: 6px;
+    margin-left: 8px;
+    outline: 0;
+    width: 172px;
+}
+.main-map-container .ui-buttons  #dateTimeClick{
+    margin-left: 25px;
+    margin-top:2px;
+}
 /*--------------------------d3 slider-----------------------------*/
 #slider1 {
-    width: 160px;
+    width: 120px;
     margin: 6px 7px;
 }
 
