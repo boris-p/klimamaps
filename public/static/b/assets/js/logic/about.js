@@ -12,6 +12,7 @@ about.prototype.init = function() {
     self = this;
     l("in about init function");
     this.firstRun = true;
+    this.pauseAnimation = false;
     this.animationSpeed = 1000;
     this.basePath = "http://percolator.modcam.io/stitch/vamuseum/";
 
@@ -29,8 +30,25 @@ about.prototype.init = function() {
     this.container = $('.movement-img-container');
     //pc.pageScript.timeOut = setTimeout(pc.pageScript.animateLoop, this.animationSpeed);
 
+    //event handles for buttons
     //this.animateLoop();
     $('#runSimulation').click(self.runSimulation);
+
+    $('.main-map-container #oneBackwards').click(function(){
+        console.log("one backwards");
+        pc.pageScript.setDateTime(pc.pageScript.currentDate,-30);
+        pc.pageScript.animateLoop(true);
+    });
+    $('.main-map-container #oneForward').click(function(){
+        console.log("one forward");
+        pc.pageScript.setDateTime(pc.pageScript.currentDate,0);
+        pc.pageScript.animateLoop(true);
+    });
+    $('.main-map-container #pauseAnimation').click(function(){
+        console.log("pausing");
+        self.pauseAnimation = !self.pauseAnimation;
+    });
+    //$('#datetimepicker').hide();
 };
 //overriding page destruct
 about.prototype.destruct = function() {
@@ -57,7 +75,7 @@ about.prototype.initDateTimePicker = function(){
     self.dtPick = $('#datetimepicker');
     self.dtPick.datetimepicker({
         onChangeDateTime:self.dateTimeAction,
-        onShow:self.dateTimeAction,
+        /*onShow:self.dateTimeAction,*/
         minDate:'2016/05/17',
         maxDate:'2016/12/31',
         yearStart:'2016',
@@ -68,13 +86,15 @@ about.prototype.initDateTimePicker = function(){
         //  alert($input.val());}
     });
     $('#dateTimeClick').click(function(){
+        $('#datetimepicker').show();
         self.dtPick.datetimepicker('show');
+
     })
     self.currentDate = self.dtPick.datetimepicker('getValue');
 };
 //init the date picker
 about.prototype.dateTimeAction = function( currentDateTime,$input ) {
-    console.log("sdf");
+
     console.log(currentDateTime);
     //var d = $('#input').datetimepicker('getValue');
     var d = $input.datetimepicker('getValue');
@@ -89,20 +109,30 @@ about.prototype.dateTimeAction = function( currentDateTime,$input ) {
     //  });
 };
 about.prototype.runSimulation = function () {
+    pc.pageScript.pauseAnimation = false;
     console.log("running simulation");
+    //$('#datetimepicker').hide();
     pc.pageScript.animateLoop();
 }
-about.prototype.animateLoop = function () {
-    //setTimeout changes the scope so this is the window in the second run
-    // so for now just calling the current script from the page controller (maybe this isn't the best option,
-    // or if it is should be more consistent
-    l("animating map");
-    var path = pc.pageScript.basePath + pc.pageScript.setDateTime(pc.pageScript.currentDate) + "/" + pc.pageScript.setDateTime(pc.pageScript.currentDate,15) + "?wp=4000";
-    console.log(path);
-    pc.pageScript.loadImage(path,710,628,pc.pageScript.container);
-    $('.current-hour').html(pc.pageScript.currentDate.toUTCString());
+about.prototype.animateLoop = function (runAnyway) {
+    runAnyway = typeof runAnyway !== 'undefined' ? runAnyway : false;
 
-
+    console.log("now" + Date.now());
+    console.log("selected date" + pc.pageScript.currentDate.getTime());
+    if ( Date.now() < pc.pageScript.currentDate.getTime()){
+        console.log("can't read into the future");
+        $('.current-hour').append("<br /> can't see the future...Please try an earlier date");
+        pc.pageScript.pauseAnimation = true;
+    }
+    else if (!pc.pageScript.pauseAnimation || runAnyway){
+        //setTimeout changes the scope so this is the window in the second run
+        // so for now just calling the current script from the page controller (maybe this isn't the best option,
+        // or if it is should be more consistent
+        l("animating map");
+        var path = pc.pageScript.basePath + pc.pageScript.setDateTime(pc.pageScript.currentDate) + "/" + pc.pageScript.setDateTime(pc.pageScript.currentDate,15) + "?wp=4000";
+        console.log(path);
+        pc.pageScript.loadImage(path,710,628,pc.pageScript.container);
+    }
 }
 
 about.prototype.loadImage = function (path, width, height, target) {
@@ -111,16 +141,15 @@ about.prototype.loadImage = function (path, width, height, target) {
         pc.pageScript.firstRun = false;
         $('<img id="modcam-img" src="'+ path +'">').off().load(function() {
             $(this).width(width).height(height).appendTo(target);
-            console.log("animating 2");
             pc.pageScript.timeOut = setTimeout(self.animateLoop, pc.pageScript.animationSpeed);
-            //self.animateLoop();
+            $('.current-hour').html(pc.pageScript.currentDate.toString());
+            //self.dtPick.val("sdf")
         });
     } else{
         //$("#modcam-img").removeAttr("src").attr("src", path).load(function(){
         $("#modcam-img").attr("src", path).off().load(function(){
-            console.log("animating 3");
             pc.pageScript.timeOut = setTimeout(self.animateLoop, pc.pageScript.animationSpeed);
-            //self.animateLoop();
+            $('.current-hour').html(pc.pageScript.currentDate.toString());
         });
     }
 }
