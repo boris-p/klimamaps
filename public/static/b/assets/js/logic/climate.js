@@ -9,25 +9,70 @@ climate.prototype.constructor = climate;
 
 //overriding page init
 climate.prototype.init = function() {
+    self = this;
     l("in climate init function");
     l(this.pageName);
-    this.mapItemSize = 28;
-    this.animationSpeed = 500;
-    this.animate = false;
-    this.currentHour = 0;
-    this.activeColorScheme = 1;
 
+    //TODO - move these setting elsewhere to some config
+    //instead of loading just one result at a time we're getting a chunk from time X to time X + timeChunkToLoad (in minutes)
+    //now it's 240 so we're loading 4 hour time chunks, might need to adjust something so that the request doesn't take long
+    this.timeChunkToLoad = 240;
+    this.mapItemSize = 28;
+    this.animationBaseSpeed = 1500;
+    this.animationSpeed = this.animationBaseSpeed;  //this is the base value. so when the speed set by the user is in the middle this will be the speed
+    //we have three types of hexagons - 0, 1 and 2. this is defined in the points file and can be changed to visualize more or less
+    //without changing any f the underlying logic
+    //if we set -1 we wil ldraw all of them, if we will set 1 we will draw only the 2's ...
+    this.drawHexagonsFrom = 1;
+    this.animate = false;
+    this.currentAnimationStep = 0;
+    this.activeColorScheme = 1;
+    this.totalItems = [];
+    this.utciData = [];
     this.dt = "";
 
     //change the domain to something meaningful - not necessarily 100
-    var colorRange = d3.scale.linear().clamp(true).domain([ 0, 1000 ]).rangeRound(
+    this.colorRange = d3.scale.linear().clamp(true).domain([ 10,20]).rangeRound(
         [ 0, 19 ]);
     d3.select('#slider1').call(
         d3.slider().step(1).value(speed).on("slide", function(evt, value) {
-            speed = value;
+            l(value);
+            pc.pageScript.animationSpeed = pc.pageScript.animationBaseSpeed  - (value *12 );
+            console.log(pc.pageScript.animationSpeed);
         }));
+
+    this.initDateTimePicker();
+
     this.buildMap();
-    this.getRhinoData(5);
+    //this.getRhinoData(5);
+
+    //event handlers
+    $('#runSimulation').click(self.runSimulation);
+
+    $('.main-map-container #oneBackwards').click(function(){
+        if (!self.animate) {
+            console.log("one backwards");
+            pc.pageScript.currentAnimationStep--;
+            pc.pageScript.animateLoop(true);
+        }
+    });
+    $('.main-map-container #oneForward').click(function(){
+        console.log("one forward");
+        if (!self.animate) {
+            pc.pageScript.currentAnimationStep++;
+            pc.pageScript.animateLoop(true);
+        }
+    });
+    $('.main-map-container #pauseAnimation').click(function(){
+        console.log("toggling pause");
+        if (pc.pageScript.animate){
+            pc.pageScript.animate = false;
+        } else{
+            pc.pageScript.animate = true;
+            pc.pageScript.animateLoop();
+        }
+    });
+
 };
 //overriding page destruct
 climate.prototype.destruct = function() {
@@ -40,11 +85,47 @@ climate.prototype.destruct = function() {
 //TODO not working yet - add the slider class or do something else to make it functional
 //var speed = d3.select("#slidertext").html();
 
+
+climate.prototype.initDateTimePicker = function(){
+    var self = this;
+    self.dtPick = $('#datetimepicker');
+    self.dtPick.datetimepicker({
+        onChangeDateTime:self.dateTimeAction,
+        /*onShow:self.dateTimeAction,*/
+        minDate:'2016/06/03',
+        maxDate:'2016/12/31',
+        yearStart:'2016',
+        yearEnd:'2017',
+        step:15,
+        value:'2016/06/03 12:00',
+        //onChangeDateTime:function(dp,$input){
+        //  alert($input.val());}
+    });
+    $('#dateTimeClick').click(function(){
+        $('#datetimepicker').show();
+        self.dtPick.datetimepicker('show');
+
+    })
+    self.currentDate = self.dtPick.datetimepicker('getValue');
+};
+
+//init the date picker
+climate.prototype.dateTimeAction = function( currentDateTime,$input ) {
+
+    console.log(currentDateTime);
+    //var d = $('#input').datetimepicker('getValue');
+    var d = $input.datetimepicker('getValue');
+    if (d != null) {
+        console.log(d.getTime() / 1000);
+        pc.pageScript.currentDate = pc.pageScript.dtPick.datetimepicker('getValue');
+    }
+};
+
 climate.prototype.buildGridData = function(gridData) {
     var radius = this.mapItemSize;
     //a manual fix to get the initial  placement where we want it
     xp = 20;
-    yp = -20;
+    yp = 35;
     var hexes = [];
     var h = (radius * Math.sqrt(3) / 2);
     gridData.forEach(function(element,row){
@@ -57,7 +138,11 @@ climate.prototype.buildGridData = function(gridData) {
         var startItem = parseInt(element.start);
         for (var column = 0; column < numOfHexes; column++) {
 
-            if (element.items[column] == 2){
+
+            pc.pageScript.totalItems.push(parseInt(element.items[column]));
+            //only if the element is 2 we want to draw it . so we actually simulated more than we're showing
+            //and later on perhaps have some levels of what we're showing - canopy and not canopy
+            if (element.items[column]   > pc.pageScript.drawHexagonsFrom){
                 var xAddition = xp + (radius*2*(column + startItem));
                 if (row % 2 == 1) xAddition += radius;
 
@@ -65,7 +150,7 @@ climate.prototype.buildGridData = function(gridData) {
                     "x_axis": row,
                     "y_axis": column,
                     "fill": "white",
-                    "stroke": "gray",
+                    "stroke": "black",
                     "stroke_width": 1,
                     "luxValue": "0",
                     "class":"hex",
@@ -127,17 +212,53 @@ climate.prototype.buildMap = function(){
         });
     });
 };
-climate.prototype.getRhinoData =  function (startTime){
+
+climate.prototype.runSimulation =  function (){
+    pc.pageScript.animate  = false;
+    l("running simulation");
+    //console.log("selected date - " + pc.pageScript.currentDate.getTime()/1000);
+
+    pc.pageScript.getUtciData(pc.pageScript.currentDate);
+};
+
+
+climate.prototype.getUtciData =  function (d){
     var self = this;
-    d3.json("/raddata", function(json) {
+    var endTime = new Date();
+    endTime.setTime(d.getTime());
+    endTime.setMinutes(d.getMinutes() + pc.pageScript.timeChunkToLoad);
+    var startTime = pc.pageScript.currentDate.getTime()/1000;
+    var endTime = endTime.getTime()/1000;
+    l("selected start date - " + startTime );
+    l("selected end date - " + endTime);
+    var reqString = "/utcidata?start=" + startTime + "&end=" + endTime;
+    l(reqString);
+
+    d3.json(reqString , function(json) {
         l(json);
-        self.rhinoData = json;
+        json.forEach(function(item,i){
+            //the item contains everything from the db including point in time values for temp, radiation etc.
+            //for later maybe
+            var utciObj = {};
+            utciObj.time_stamp = item.time_stamp;
+            utciObj.points = [];
+            item.pointsUtci.forEach(function(utciPointVal,j){
+                //the point is relevant only if we're actually using it in the visualization
+                if (pc.pageScript.totalItems[j] > pc.pageScript.drawHexagonsFrom){
+                    utciObj.points.push(utciPointVal);
+                }
+            });
+            pc.pageScript.utciData.push(utciObj);
+        });
+        //self.rhinoData = json;
         self.beginAnimation();
     });
 };
 
 climate.prototype.beginAnimation = function () {
     l("beginning animation");
+    //TODO - this will have to move
+    this.currentAnimationStep = 0;
     this.animate = true;
     this.animateLoop();
 }
@@ -148,36 +269,54 @@ climate.prototype.animateLoop = function (animateAnyway) {
     // so for now just calling the current script from the page controller (maybe this isn't the best option,
     // or if it is should be more consistent
     //l("animating map");
-    animateAnyway = typeof animateAnyway !== 'undefined' ? animateAnyway : false;
-    if (pc.pageScript.animate || animateAnyway) {
-        //TODO - make it work with a slider to change the speed
-        var time = pc.pageScript.animationSpeed;
-        pc.pageScript.timeOut = setTimeout(pc.pageScript.animateLoop, time);
-        pc.pageScript.colorMap(time);
-        if (!animateAnyway){
-            pc.pageScript.currentHour++;
+
+    //only run if we have more values to run by
+    if (pc.pageScript.currentAnimationStep < pc.pageScript.utciData.length){
+        animateAnyway = typeof animateAnyway !== 'undefined' ? animateAnyway : false;
+        if (pc.pageScript.animate || animateAnyway) {
+            //TODO - make it work with a slider to change the speed
+            pc.pageScript.timeOut = setTimeout(pc.pageScript.animateLoop, pc.pageScript.animationSpeed);
+            pc.pageScript.colorMap(pc.pageScript.animationSpeed);
+            if (!animateAnyway){
+                pc.pageScript.currentAnimationStep++;
+            }
         }
+    } else{
+        pc.pageScript.formatCurrentDateString(pc.pageScript.currentAnimationStep-1,"<br />No more data is currently availible");
     }
 }
 
 climate.prototype.colorMap = function (time) {
     var self = this;
     //console.log(self.rhinoData);
-    d3.select('.current-hour').text(
+    /*d3.select('.current-hour').text(
         "Current simulation day - " + Math.floor(self.currentHour / 24)
         + " and hour - " + self.currentHour % 24);
-    self.hexagons.transition()
+    */
+
+    self.formatCurrentDateString(pc.pageScript.currentAnimationStep);
+    pc.pageScript.hexagons.transition()
         .ease(d3_ease.easeLinear)
         .style("fill", function(d, i) {
-            //d.utciValue = allHourVals[self.currentHour][i];
-            //return colorColors[self.activeColorScheme][colorRange(self.rhinoData[self.currentHour]['points_rad'][i])];
-            //console.log(colorColors[self.activeColorScheme][colorRange(self.rhinoData[self.currentHour][i])]);
-            //l(self.currentHour);
-            return colorColors[self.activeColorScheme][colorRange(self.rhinoData[self.currentHour].pointVals[i])];
+            d.utciValue = pc.pageScript.utciData[pc.pageScript.currentAnimationStep].points[i];
+
+            //l(colorColors[self.activeColorScheme][colorRange(d.utciValue)]);
+            return colorColors[pc.pageScript.activeColorScheme][pc.pageScript.colorRange(d.utciValue)];
+            //return colorColors[self.activeColorScheme][colorRange(self.rhinoData[self.currentAnimationStep].pointVals[i])];
+            //return colorColors[self.activeColorScheme][colorRange(self.rhinoData[self.currentHour].pointVals[i])];
         }).duration(time);
 };
-/*----------------------------------map interaction functions--------------------------*/
 
+
+
+/*----------------------------------map interaction functions--------------------------*/
+climate.prototype.formatCurrentDateString = function(timeStep,extraString){
+    extraString = typeof extraString !== 'undefined' ? extraString : "";
+    var dText = new Date();
+    dText.setTime(pc.pageScript.utciData[timeStep].time_stamp * 1000);
+    dText.setSeconds(0);
+    $('.current-hour').html(dText.toString() + extraString);
+}
 climate.prototype.over = function (d, i) {
     //tip.html(createTipHtmlUTCI(d.luxValue, i)).attr('class', 'd3-tip animate').show(d);
     ind = i + 1;

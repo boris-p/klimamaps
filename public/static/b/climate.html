@@ -12,10 +12,9 @@
     <div class="main-map-container">
         <div class="ui-buttons">
             <div class="ui buttons-inner">
-                <i class="fa fa-undo fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="start again"></i>
-                <i class="fa fa-arrow-circle-left fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="back up"></i>
-                <i class="fa fa-pause fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="hold on"></i>
-                <i class="fa fa-arrow-circle-right fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="one forward"></i>
+                <i id="oneBackwards" class="fa fa-arrow-circle-left fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="back up"></i>
+                <i id="pauseAnimation" class="fa fa-pause fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="hold on"></i>
+                <i id="oneForward" class="fa fa-arrow-circle-right fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="one forward"></i>
             </div>
             <div class="ui map-slider">
                 <div class="left">
@@ -29,6 +28,13 @@
                         <span>5</span>
                     </i>
                 </div>
+            </div>
+            <div class="datePickerText topUIText left">
+                <i id ="dateTimeClick" class="fa fa-calendar fa-2x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="Pick time"></i>
+                <input id="datetimepicker" type="text">
+            </div>
+            <div class="left">
+                <i id ="runSimulation" class="fa fa-play fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="Run simulation"></i>
             </div>
         </div>
         <div class="main-map">

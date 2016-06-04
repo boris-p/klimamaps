@@ -89,7 +89,17 @@ exports.retrieveRhinoDataClamp = function(start,end, callback){
         });
     });
 };
-
+exports.retrieveUtci = function(start,end, callback){
+    MongoClient.connect(dbConfig.url, function(err, db) {
+        db.collection('utciMap', function(err, collection) {
+            collection.find({"time_stamp":{$gt: start, $lte :end }}).sort({"time_stamp":1}).toArray(function(err, results) {
+                // console.log(users);
+                callback(results);
+                db.close();
+            });
+        });
+    });
+};
 exports.retrieveModcamData = function(timeStamp,callback){
     console.log("retrieving modcam data");
     //FYI - Paging can be achieved with option parameters limit and skip

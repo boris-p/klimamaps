@@ -33,6 +33,16 @@ router.get('/raddata', function(req, res) {
     });
 })
 
+/* GET radiation data - (temp) */
+router.get('/utcidata', function(req, res) {
+    var startTime = parseInt(req.query['start'] || 0);
+    var endTime =  parseInt(req.query['end'] || 0);
+    console.log("start time -" + startTime + " and end time - " + endTime);
+    myMongo.retrieveUtci(startTime,endTime,function(utciData){
+        res.json(utciData);
+    })
+})
+
 /* GET modcam data */
 router.get('/modcamdata', function(req, res) {
     var startTime = parseInt(req.query['start'] || 0);
