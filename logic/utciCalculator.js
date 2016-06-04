@@ -269,8 +269,8 @@ exports.calculateUtci = function(Tamb,dew_pt,RH,GRad,wind) {
     var DMRT_SW_V = 0.0464 / 2 * GRad * 0.2;
     var MRT_V = T_V + DMRT_LW_V + DMRT_SW_V;
 
-    console.log("Tamb" + Tamb);
-    console.log("RH" + RH);
+    //console.log("Tamb" + Tamb);
+    //console.log("RH" + RH);
 
     var ehPa = es(Tamb) * RH / 100;
     //console.log(ehPa);

@@ -29,7 +29,7 @@ exports.saveWeatherData = function(data) {
 var insertData  = function(db,table,data,callback){
     db.collection(table).insertOne(data,function(err,result){
         assert.equal(err,null);
-        console.log("inserted utci data from weather underground and utci calculation");
+        console.log("inserted new object to " + table + " collection");
         callback();
     });
 };
@@ -48,6 +48,8 @@ exports.saveData = function(data,table) {
 exports.retrieveRad = function(timeStamp,callback){
     MongoClient.connect(dbUrl, function(err, db) {
         db.collection('rad0528', function(err, collection) {
+            //assuming that when I choose one greater than it takes the next one because they were all inserted in the right order!
+            //seemed like it works but might be worth taking a second look at some point
             collection.findOne({"time_stamp":{$gt:timeStamp }},function(err, document) {
                 //console.log(document.name);
                 callback(document);

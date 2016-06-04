@@ -31,7 +31,7 @@ climate.prototype.init = function() {
 };
 //overriding page destruct
 climate.prototype.destruct = function() {
-    //TODO - might nee dto clean some more variables, or maybe I should just set the object to null in the page controller?
+    //TODO - might need to clean some more variables, or maybe I should just set the object to null in the page controller?
     l("in climate destructor");
     pc.pageScript.animate = false;
     clearTimeout(pc.pageScript.timeOut);
@@ -147,7 +147,7 @@ climate.prototype.animateLoop = function (animateAnyway) {
     //setTimeout changes the scope so this is the window in the second run
     // so for now just calling the current script from the page controller (maybe this isn't the best option,
     // or if it is should be more consistent
-    l("animating map");
+    //l("animating map");
     animateAnyway = typeof animateAnyway !== 'undefined' ? animateAnyway : false;
     if (pc.pageScript.animate || animateAnyway) {
         //TODO - make it work with a slider to change the speed
@@ -162,6 +162,7 @@ climate.prototype.animateLoop = function (animateAnyway) {
 
 climate.prototype.colorMap = function (time) {
     var self = this;
+    //console.log(self.rhinoData);
     d3.select('.current-hour').text(
         "Current simulation day - " + Math.floor(self.currentHour / 24)
         + " and hour - " + self.currentHour % 24);
@@ -170,7 +171,9 @@ climate.prototype.colorMap = function (time) {
         .style("fill", function(d, i) {
             //d.utciValue = allHourVals[self.currentHour][i];
             //return colorColors[self.activeColorScheme][colorRange(self.rhinoData[self.currentHour]['points_rad'][i])];
-            return colorColors[self.activeColorScheme][colorRange(self.rhinoData[self.currentHour][i])];
+            //console.log(colorColors[self.activeColorScheme][colorRange(self.rhinoData[self.currentHour][i])]);
+            //l(self.currentHour);
+            return colorColors[self.activeColorScheme][colorRange(self.rhinoData[self.currentHour].pointVals[i])];
         }).duration(time);
 };
 /*----------------------------------map interaction functions--------------------------*/

@@ -44,47 +44,61 @@ function getWUnderground(url, done) {
 }
 function processWData(wData){
     var weatherObj = {};
-    //console.log(wData);
-    //weatherObj.location = wData['current_observation']['display_location']['city'];
-    weatherObj.dew_pt = parseFloat(wData['current_observation']['dewpoint_c']);
-    weatherObj.solarRadiation = parseInt(wData['current_observation']['solarradiation']);
-    weatherObj.temp = parseFloat(wData['current_observation']['temp_c']);
-    weatherObj.relativeHumidity = parseInt(wData['current_observation']['relative_humidity']);
-    weatherObj.wind_kph = parseFloat(wData['current_observation']['wind_kph']);
-    //make sure the time zone offset is correct (i assume +1 for london)
-    weatherObj.time_stamp = parseInt(wData['current_observation']['local_epoch']) + timeZoneAddition;
-    console.log(weatherObj);
-    //utciScore = UtciCalc.calculateUtci(weatherObj);
-    //console.log("utci - " + utciScore);
+    console.log(wData);
 
-    //TODO -we actually don't need this at all as we're saving everything in the utci collection anyway
-    myMongo.saveWeatherData(weatherObj);
+    // a bit hacky but should still be a good indicator, if we don't ahve dew point we probably don't have anything
+    // so exit gracefully and save the log of the errors
+    if (typeof wData['current_observation']['dewpoint_c'] == 'undefined'){
+        console.log("data is not defined");
+        console.log()
+        var errorObj = {};
+        errorObj.time_stamp = Date.now()/1000;
+        errorObj.error_body = wData;
+        myMongo.saveData(errorObj, "wuErrorLog");
+    }
+    else {
+        //weatherObj.location = wData['current_observation']['display_location']['city'];
+        weatherObj.dew_pt = parseFloat(wData['current_observation']['dewpoint_c']);
+        weatherObj.solarRadiation = parseInt(wData['current_observation']['solarradiation']);
+        weatherObj.temp = parseFloat(wData['current_observation']['temp_c']);
+        weatherObj.relativeHumidity = parseInt(wData['current_observation']['relative_humidity']);
+        weatherObj.wind_kph = parseFloat(wData['current_observation']['wind_kph']);
+        //make sure the time zone offset is correct (i assume +1 for london)
+        weatherObj.time_stamp = parseInt(wData['current_observation']['local_epoch']) + timeZoneAddition;
+        console.log(weatherObj);
+        //utciScore = UtciCalc.calculateUtci(weatherObj);
+        //console.log("utci - " + utciScore);
 
-    //var utciData = {};
-    //utciData.time_stamp = weatherObj.time_stamp;
-    //utciData.utciScore = parseInt(utciScore * 100) / 100;
+        //TODO -we actually don't need this at all as we're saving everything in the utci collection anyway
+        //myMongo.saveWeatherData(weatherObj);
 
-    getRadFromDb(weatherObj);
-    //myMongo.saveData(utciData, "utciData");
-    //res.json(weatherObj);
-}
-function getRadFromDb(wObj){
-    var utciData = wObj;
-    console.log(utciData);
-    utciData.utciScore  = UtciCalc.calculateUtci(wObj.temp,wObj.dew_pt,wObj.relativeHumidity,wObj.solarRadiation,wObj.wind_kph);
-    utciData.pointsUtci = [];
-    console.log("global utci score - " + utciData.utciScore);
-    myMongo.retrieveRad(wObj.time_stamp, function(data){
-        console.log(data);
-        data.points_rad_percent.forEach(function(pointRad,index){
-            var adjustedRad = pointRad * wObj.solarRadiation /100;
-            var utciPointScore = UtciCalc.calculateUtci(wObj.temp,wObj.dew_pt,wObj.relativeHumidity,adjustedRad,wObj.wind_kph);
-            utciData.pointsUtci.push(utciPointScore);
-            console.log("utci" + utciPointScore);
+        //var utciData = {};
+        //utciData.time_stamp = weatherObj.time_stamp;
+        //utciData.utciScore = parseInt(utciScore * 100) / 100;
+
+        //getRadFromDb(weatherObj);
+        //myMongo.saveData(utciData, "utciData");
+        //res.json(weatherObj);
+
+
+        //var utciData = wObj;
+        console.log(weatherObj);
+        weatherObj.time
+        weatherObj.utciScore  = UtciCalc.calculateUtci(weatherObj.temp,weatherObj.dew_pt,weatherObj.relativeHumidity,weatherObj.solarRadiation,weatherObj.wind_kph);
+        weatherObj.pointsUtci = [];
+        console.log("global utci score - " + weatherObj.utciScore);
+        myMongo.retrieveRad(weatherObj.time_stamp, function(data){
+            console.log(data);
+            data.points_rad_percent.forEach(function(pointRad,index){
+                var adjustedRad = pointRad * weatherObj.solarRadiation /100;
+                var utciPointScore = UtciCalc.calculateUtci(weatherObj.temp,weatherObj.dew_pt,weatherObj.relativeHumidity,adjustedRad,weatherObj.wind_kph);
+                weatherObj.pointsUtci.push(utciPointScore);
+            });
+            console.log(weatherObj);
+            myMongo.saveData(weatherObj, "utciMap");
         });
-        console.log(utciData);
-        myMongo.saveData(utciData, "utciMap");
-    });
+
+    }
 }
 //for testing - (run directly)
 //getWUnderground(wuUrl,processWData);
@@ -92,12 +106,15 @@ function getRadFromDb(wObj){
 var CronJob = require('cron').CronJob;
 //new CronJob('30 * * * * *', function() {  //every 30 seconds
 
+
 new CronJob('*/5 * * * *', function() {  //every 5 minutes
+
     getWUnderground(wuUrl,function(wData){
         processWData(wData);
     });
     console.log('You will see this message every cron run');
 }, null, true, 'Asia/Jerusalem');
+
 
 
 //running this with forever -

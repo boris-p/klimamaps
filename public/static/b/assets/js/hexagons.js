@@ -11,8 +11,7 @@ var animate = false;
 var AccumulativeHourVals = [];
 var currentHour = 0;
 var activeColorScheme = 2;
-var colorRange = d3.scale.linear().clamp(true).domain([ 0, 100 ]).rangeRound(
-    [ 0, 19 ]);
+var colorRange = d3.scale.linear().clamp(true).domain([ 0, 100 ]).rangeRound([ 0, 19 ]);
 
 
 
