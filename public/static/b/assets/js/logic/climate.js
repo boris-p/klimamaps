@@ -32,7 +32,7 @@ climate.prototype.init = function() {
     this.dt = "";
 
     //change the domain to something meaningful - not necessarily 100
-    this.colorRange = d3.scale.linear().clamp(true).domain([ 10,20]).rangeRound(
+    this.colorRange = d3.scale.linear().clamp(true).domain([ 10,30]).rangeRound(
         [ 0, 19 ]);
     d3.select('#slider1').call(
         d3.slider().step(1).value(speed).on("slide", function(evt, value) {
@@ -181,7 +181,7 @@ climate.prototype.buildMap = function(){
     l("building map");
     var self = this;
     //Make an SVG Container
-    var mapBase = d3.select(".main-map").append("svg").attr("width", 800)
+    var mapBase = d3.select(".main-map .utci-map-container").append("svg").attr("width", 800)
         .attr("height", 700);
     self.gridLayer = mapBase.append('g');
 
@@ -223,15 +223,22 @@ climate.prototype.runSimulation =  function (){
 
 
 climate.prototype.getUtciData =  function (d){
+    l(d);
+    l("in getUtciData. Passed time is  " + d.getTime());
+
+    //try to load up till the present
+    if (d.getTime() > Date.now()){
+        return;
+    }
+    l("getting utci data");
     var self = this;
     var endTime = new Date();
     endTime.setTime(d.getTime());
     endTime.setMinutes(d.getMinutes() + pc.pageScript.timeChunkToLoad);
-    var startTime = pc.pageScript.currentDate.getTime()/1000;
-    var endTime = endTime.getTime()/1000;
-    l("selected start date - " + startTime );
-    l("selected end date - " + endTime);
-    var reqString = "/utcidata?start=" + startTime + "&end=" + endTime;
+
+    l("selected start date - " + d.getTime()/1000);
+    l("selected end date - " + endTime.getTime()/1000);
+    var reqString = "/utcidata?start=" + d.getTime()/1000 + "&end=" + endTime.getTime()/1000;
     l(reqString);
 
     d3.json(reqString , function(json) {
@@ -251,14 +258,21 @@ climate.prototype.getUtciData =  function (d){
             pc.pageScript.utciData.push(utciObj);
         });
         //self.rhinoData = json;
-        self.beginAnimation();
-    });
+        if (!pc.pageScript.animate) {
+            self.beginAnimation();
+        }
+   });
+
+    //start progressive downloading
+    //1000 is random, maybe should change it
+    pc.pageScript.progressiveTimeOut = setTimeout(pc.pageScript.getUtciData, 1000,endTime);
 };
 
 climate.prototype.beginAnimation = function () {
     l("beginning animation");
     //TODO - this will have to move
     this.currentAnimationStep = 0;
+
     this.animate = true;
     this.animateLoop();
 }

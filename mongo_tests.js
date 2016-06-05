@@ -78,6 +78,7 @@ exports.retrieveRhinoData = function(timeStamp,callback){
     });
 };
 
+//TODO - not using it. delete
 exports.retrieveRhinoDataClamp = function(start,end, callback){
     MongoClient.connect(dbConfig.url, function(err, db) {
         db.collection('rhinoRadiation', function(err, collection) {

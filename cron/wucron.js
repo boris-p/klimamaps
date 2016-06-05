@@ -50,7 +50,6 @@ function processWData(wData){
     // so exit gracefully and save the log of the errors
     if (typeof wData['current_observation']['dewpoint_c'] == 'undefined'){
         console.log("data is not defined");
-        console.log()
         var errorObj = {};
         errorObj.time_stamp = Date.now()/1000;
         errorObj.error_body = wData;

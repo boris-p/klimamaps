@@ -1,5 +1,6 @@
 /**
  * Created by boris on 5/18/2016.
+ * TODO - delete this
  */
 
 var myMongo= require('./mongo_tests');

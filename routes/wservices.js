@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var myMongo= require('../mongo_tests');
-var getRad= require('../quick_calc_utci');
 
 /* GET Hello World page. */
 router.get('/helloworld1', function(req, res) {
@@ -22,13 +21,6 @@ router.get('/rhinodata', function(req, res) {
     var startTime = parseInt(req.query['start'] || 0);
     console.log(startTime);
     myMongo.retrieveRhinoData(startTime,function(rhinoData){
-        res.json(rhinoData);
-    });
-})
-
-/* GET radiation data - (temp) */
-router.get('/raddata', function(req, res) {
-    getRad.getData(function(rhinoData){
         res.json(rhinoData);
     });
 })

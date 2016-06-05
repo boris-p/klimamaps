@@ -141,13 +141,11 @@ about.prototype.loadImage = function (path, width, height, target) {
     if (pc.pageScript.firstRun == true){
         pc.pageScript.firstRun = false;
         $('<img id="modcam-img" src="'+ path +'">').off().load(function() {
-            $(this).width(width).height(height).appendTo(target);
+            $(this).width(width).height(height).prependTo(target);
             pc.pageScript.timeOut = setTimeout(self.animateLoop, pc.pageScript.animationSpeed);
             $('.current-hour').html(pc.pageScript.currentDate.toString());
-            //self.dtPick.val("sdf")
         });
     } else{
-        //$("#modcam-img").removeAttr("src").attr("src", path).load(function(){
         $("#modcam-img").attr("src", path).off().load(function(){
             pc.pageScript.timeOut = setTimeout(self.animateLoop, pc.pageScript.animationSpeed);
             $('.current-hour').html(pc.pageScript.currentDate.toString());
