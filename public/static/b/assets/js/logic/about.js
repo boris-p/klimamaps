@@ -61,13 +61,13 @@ about.prototype.setDateTime = function (d, delay ){
     delay = typeof delay !== 'undefined' ? delay : 0;
     var startTime;
     d.setMinutes(d.getMinutes() + delay);
-    var month = d.getUTCMonth() +1 ;
-    var hour = d.getUTCHours() +1 ;
-    startTime = d.getUTCFullYear() + "-" + month + "-" + d.getUTCDate();
+    var month = d.getMonth() +1 ;
+    var hour = d.getHours() +1 ;
+    startTime = d.getFullYear() + "-" + month + "-" + d.getDate();
     startTime += " ";
     startTime  += hour;
     startTime += ":";1
-    startTime += d.getUTCMinutes();
+    startTime += d.getMinutes();
     return startTime;
 }
 about.prototype.initDateTimePicker = function(){
@@ -119,6 +119,7 @@ about.prototype.animateLoop = function (runAnyway) {
 
     console.log("now" + Date.now());
     console.log("selected date" + pc.pageScript.currentDate.getTime());
+    
     if ( Date.now() < pc.pageScript.currentDate.getTime()){
         console.log("can't read into the future");
         $('.current-hour').append("<br /> can't see the future...Please try an earlier date");
@@ -140,13 +141,11 @@ about.prototype.loadImage = function (path, width, height, target) {
     if (pc.pageScript.firstRun == true){
         pc.pageScript.firstRun = false;
         $('<img id="modcam-img" src="'+ path +'">').off().load(function() {
-            $(this).width(width).height(height).appendTo(target);
+            $(this).width(width).height(height).prependTo(target);
             pc.pageScript.timeOut = setTimeout(self.animateLoop, pc.pageScript.animationSpeed);
             $('.current-hour').html(pc.pageScript.currentDate.toString());
-            //self.dtPick.val("sdf")
         });
     } else{
-        //$("#modcam-img").removeAttr("src").attr("src", path).load(function(){
         $("#modcam-img").attr("src", path).off().load(function(){
             pc.pageScript.timeOut = setTimeout(self.animateLoop, pc.pageScript.animationSpeed);
             $('.current-hour').html(pc.pageScript.currentDate.toString());

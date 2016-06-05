@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var myMongo= require('../mongo_tests');
-var getRad= require('../quick_calc_utci');
 
 /* GET Hello World page. */
 router.get('/helloworld1', function(req, res) {
@@ -27,10 +26,13 @@ router.get('/rhinodata', function(req, res) {
 })
 
 /* GET radiation data - (temp) */
-router.get('/raddata', function(req, res) {
-    getRad.getData(function(rhinoData){
-        res.json(rhinoData);
-    });
+router.get('/utcidata', function(req, res) {
+    var startTime = parseInt(req.query['start'] || 0);
+    var endTime =  parseInt(req.query['end'] || 0);
+    console.log("start time -" + startTime + " and end time - " + endTime);
+    myMongo.retrieveUtci(startTime,endTime,function(utciData){
+        res.json(utciData);
+    })
 })
 
 /* GET modcam data */

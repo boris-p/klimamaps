@@ -151,7 +151,7 @@ code {
     margin-top: 23px;
 }
 .main-map-container .ui-buttons .buttons-inner {
-    width:180px;
+    width:135px;
 }
 .main-map-container .ui-buttons .ui{
     float:left;
@@ -263,12 +263,34 @@ code {
 /*---------movement visualizations ----------*/
 .movement-img-container, .main-map{
     height:820px;
+    width: 710px;
     padding-left:15px;
     padding-top:18px;
+}
+.main-map .canopy-base-map{
+    width: 710px;
+    height: 628px;
+    position: relative;
+    bottom: 0px;
+    right: 0px;
+    pointer-events: none; /*http://stackoverflow.com/questions/3680429/click-through-a-div-to-underlying-elements*/
+}
+#modcam-img{
+    width: 708px;
+    height: 628px;
+    position: absolute;
+    display: inline;
+}
+.main-map .utci-map-container{
+    width: 708px;
+    height: 628px;
+    position: absolute;
+    display: inline;
 }
 .current-hour{
     font-family: Museo-500;
     clear:both;
     font-size: 20px;
     padding-top: 15px;
+    height:36px;
 }

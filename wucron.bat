@@ -1,0 +1,1 @@
+forever -a -o out.log -e err.log cron/wucron.js
