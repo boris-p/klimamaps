@@ -17,7 +17,7 @@ climate.prototype.init = function() {
     //instead of loading just one result at a time we're getting a chunk from time X to time X + timeChunkToLoad (in minutes)
     //now it's 240 so we're loading 4 hour time chunks, might need to adjust something so that the request doesn't take long
     this.timeChunkToLoad = 240;
-    this.mapItemSize = 28;
+    this.mapItemSize = 32;
     this.animationBaseSpeed = 1500;
     this.animationSpeed = this.animationBaseSpeed;  //this is the base value. so when the speed set by the user is in the middle this will be the speed
     //we have three types of hexagons - 0, 1 and 2. this is defined in the points file and can be changed to visualize more or less
@@ -32,7 +32,7 @@ climate.prototype.init = function() {
     this.dt = "";
 
     //change the domain to something meaningful - not necessarily 100
-    this.colorRange = d3.scale.linear().clamp(true).domain([ 10,30]).rangeRound(
+    this.colorRange = d3.scale.linear().clamp(true).domain([ 10,20]).rangeRound(
         [ 0, 19 ]);
     d3.select('#slider1').call(
         d3.slider().step(1).value(speed).on("slide", function(evt, value) {
@@ -124,8 +124,8 @@ climate.prototype.dateTimeAction = function( currentDateTime,$input ) {
 climate.prototype.buildGridData = function(gridData) {
     var radius = this.mapItemSize;
     //a manual fix to get the initial  placement where we want it
-    xp = 20;
-    yp = 35;
+    xp = -25;
+    yp = -70;
     var hexes = [];
     var h = (radius * Math.sqrt(3) / 2);
     gridData.forEach(function(element,row){
