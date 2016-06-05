@@ -94,7 +94,8 @@ exports.retrieveUtci = function(start,end, callback){
     MongoClient.connect(dbConfig.url, function(err, db) {
         db.collection('utciMap', function(err, collection) {
             collection.find({"time_stamp":{$gt: start, $lte :end }}).sort({"time_stamp":1}).toArray(function(err, results) {
-                // console.log(users);
+                console.log(err);
+                console.log(results);
                 callback(results);
                 db.close();
             });
@@ -103,7 +104,6 @@ exports.retrieveUtci = function(start,end, callback){
 };
 exports.retrieveModcamData = function(timeStamp,callback){
     console.log("retrieving modcam data");
-    //FYI - Paging can be achieved with option parameters limit and skip
     MongoClient.connect(dbConfig.url, function(err, db) {
         db.collection('modcam', function(err, collection) {
             collection.findOne({"time_stamp":{$gt:timeStamp }},function(err, document) {
