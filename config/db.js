@@ -5,5 +5,4 @@ module.exports = {
     wundergroundUrl : 'http://api.wunderground.com/api/ec8d43ee5e79c981/conditions/q/pws:ILONDON1364.json',
     //londongTimeZoneAddition : 3600
     londongTimeZoneAddition : 0
-
 };

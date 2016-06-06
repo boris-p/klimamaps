@@ -4,12 +4,14 @@ var router = express.Router();
 
 var myMongo= require('../mongo_tests');
 /* GET home page. */
-router.get('/', function(req, res, next) {
+
+router.get('/', function(req, res /*, next*/) {
+
   res.render('index', { title: 'Express' });
 });
 
 /* GET Hello World page. */
-  router.get('/helloworld', function(req, res) {
+router.get('/helloworld', function(req, res) {
   //res.json({ a: 1 }); if one wanted to send json
   res.render('helloworld', { title: 'Hello, World!' });
 });
@@ -25,7 +27,7 @@ router.get('/userlist', function(req, res) {
             "userlist" : users
         });
     });
-})
+});
 
 
 /* GET Userlist page. */
@@ -48,5 +50,5 @@ router.get('/weather', function(req, res) {
         //res.json(body);
         res.json(weatherObj);
     });
-})
+});
 module.exports = router;

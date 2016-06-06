@@ -16,7 +16,7 @@ climate.prototype.init = function() {
     //TODO - move these setting elsewhere to some config
     //instead of loading just one result at a time we're getting a chunk from time X to time X + timeChunkToLoad (in minutes)
     //now it's 240 so we're loading 4 hour time chunks, might need to adjust something so that the request doesn't take long
-    this.timeChunkToLoad = 240;
+    this.timeChunkToLoad = 300;
     this.mapItemSize = 32;
     this.animationBaseSpeed = 1500;
     this.animationSpeed = this.animationBaseSpeed;  //this is the base value. so when the speed set by the user is in the middle this will be the speed
@@ -37,7 +37,7 @@ climate.prototype.init = function() {
     d3.select('#slider1').call(
         d3.slider().step(1).value(speed).on("slide", function(evt, value) {
             l(value);
-            pc.pageScript.animationSpeed = pc.pageScript.animationBaseSpeed  - (value *12 );
+            pc.pageScript.animationSpeed = pc.pageScript.animationBaseSpeed  - (value *10 );
             console.log(pc.pageScript.animationSpeed);
         }));
 
@@ -265,7 +265,7 @@ climate.prototype.getUtciData =  function (d){
 
     //start progressive downloading
     //1000 is random, maybe should change it
-    pc.pageScript.progressiveTimeOut = setTimeout(pc.pageScript.getUtciData, 1000,endTime);
+    pc.pageScript.progressiveTimeOut = setTimeout(pc.pageScript.getUtciData, 4000,endTime);
 };
 
 climate.prototype.beginAnimation = function () {
