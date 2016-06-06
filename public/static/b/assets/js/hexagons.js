@@ -71,7 +71,7 @@ var mapBase = d3.select(".main-map").append("svg").attr("width", 800)
 var gridLayer = mapBase.append('g');
 
 //load points file
-d3.csv("assets/js/points.pt", function(data) {
+d3.csv(BASE_PATH+"assets/js/points.pt", function(data) {
     dt = buildGridData(data);
     hexagons = gridLayer.selectAll("path").data(dt).enter().append("path");
     console.log(hexagons);

@@ -2,6 +2,7 @@
 l = function(obj){
     console.log(obj);
 }
+var BASE_PATH = "static/b/";
 //var = function (type) {
 var pController = pController || function (pages,menuItems,contentDest) {
         var self = this;
@@ -54,7 +55,7 @@ pController.prototype.loadPage = function(pageUrl,pageIndex) {
 pController.prototype.loadPages = function(){
     var self = this;
     self.pages.forEach(function(element,index,array){
-        self.loadPage(element + '.html',index);
+        self.loadPage(BASE_PATH + element + '.html',index);
     });
 }
 

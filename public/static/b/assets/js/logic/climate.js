@@ -186,7 +186,7 @@ climate.prototype.buildMap = function(){
     self.gridLayer = mapBase.append('g');
 
     //load points file
-    d3.csv("assets/js/points.pt", function(data) {
+    d3.csv(BASE_PATH+"assets/js/points.pt", function(data) {
         self.dt = self.buildGridData(data);
         self.hexagons = self.gridLayer.selectAll("path").data(self.dt).enter().append("path");
         var hexAttributes = self.hexagons.attr("d",function(d){

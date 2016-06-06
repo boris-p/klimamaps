@@ -2,6 +2,14 @@ var express = require('express');
 var router = express.Router();
 var myMongo= require('../mongo_tests');
 
+//serve home page
+//a bit hacky but could be worse
+router.get('/', function(req, res) {
+    var path = require("path");
+    res.sendFile(path.resolve(__dirname, '..','public/static/b/main.html'));
+
+});
+
 /* GET Hello World page. */
 router.get('/helloworld1', function(req, res) {
     //res.json({ a: 1 }); if one wanted to send json
