@@ -65,7 +65,7 @@ pController.prototype.loadPages = function(){
 
 var pc;
 $(function () {
-    var pages = ["home","climate","structure","about"];
+    var pages = ["home","climate","structure","movement"];
     var menuItems = $('.main-menu a');
     pc = new pController(pages,menuItems,'.main-content-row');
 })

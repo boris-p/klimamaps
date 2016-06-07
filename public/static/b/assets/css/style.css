@@ -132,19 +132,24 @@ code {
     padding:0 6px;
     font-size: 2.5em;
     color: #333;
-    -webkit-transition: background-color .4s,color .4s;
-    transition: background-color .4s, color .4s;
+    border-radius: 7px;
+    padding:0 4px;
+    -webkit-transition: background-color .2s,color .2s;
+    transition: background-color .2s, color .2s;
 }
 .main-map-container .ui-buttons .buttons-inner .fa:hover,
 .main-map-container #runSimulation:hover{
     cursor: pointer;
 }
-/*not using for now*/
-.main-map-container .ui-buttons .buttons-inner .fa11:hover{
+.main-map-container .ui-buttons .buttons-inner .fa:hover,
+.main-map-container #runSimulation:hover{
     cursor: pointer;
     background-color: #333;
     color:#f9f9f9;
-    border-radius: 4px;
+}
+.main-map-container .ui-buttons .buttons-inner .fa:active,
+.main-map-container #runSimulation:active{
+    color: #afd9ee;
 }
 .main-map-container .ui-buttons{
     height: 18px;
@@ -159,14 +164,15 @@ code {
 .main-map-container .ui-buttons .ui.map-slider{
     margin-left: 20px;
     margin-top: 5px;
+    cursor: default;
 }
 .main-map-container .ui-buttons .ui.map-slider span {
     font-family: Museo-500;
-    font-size: 1em;
+    font-size: 1.2em;
 }
 
 .main-map-container .ui-buttons .ui.map-slider .fa {
-    font-size: 1.5em;
+    font-size: 1em;
 }
 .main-map-container .ui-buttons #datetimepicker {
     border: none;
@@ -182,10 +188,13 @@ code {
     margin-left: 25px;
     margin-top:2px;
 }
+.main-map-container .ui-buttons  #dateTimeClick:hover {
+    cursor: pointer;
+}
 /*--------------------------d3 slider-----------------------------*/
 #slider1 {
     width: 120px;
-    margin: 6px 7px;
+    margin: 6px 12px;
 }
 
 .d3-slider {
@@ -219,6 +228,7 @@ code {
 
 .d3-slider-handle:hover {
     border: 1px solid #333;
+    cursor: pointer;
 }
 
 .d3-slider-horizontal .d3-slider-handle {

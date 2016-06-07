@@ -1,14 +1,14 @@
 //this is actually structure and moving information
-var about = about || function (pageName) {
+var movement = movement|| function (pageName) {
         gPage.call(this,pageName);
         l("in about constructor");
     };
 // inherit gPage & correct the constructor pointer because it points to gPage
-about.prototype = Object.create(gPage.prototype);
-about.prototype.constructor = about;
+movement.prototype = Object.create(gPage.prototype);
+movement.prototype.constructor = movement;
 
 //overriding page init
-about.prototype.init = function() {
+movement.prototype.init = function() {
     self = this;
     l("in about init function");
     this.firstRun = true;
@@ -18,12 +18,7 @@ about.prototype.init = function() {
 
     //using date and time from the time picker
     //this.currentDate = new Date(2016, 4, 17, 6, 0, 0, 0);
-
-    d3.select('#slider1').call(
-        d3.slider().step(1).value(speed).on("slide", function(evt, value) {
-            speed = value;
-        }));
-
+    
     this.initDateTimePicker();
 
     //var path = "http://percolator.modcam.io/stitch/vamuseum/2016-05-16%2016:00/2016-05-16%2023:00?wp=5000";
@@ -51,12 +46,12 @@ about.prototype.init = function() {
     //$('#datetimepicker').hide();
 };
 //overriding page destruct
-about.prototype.destruct = function() {
+movement.prototype.destruct = function() {
     l("in about destructor");
     clearTimeout(pc.pageScript.timeOut);
 };
 //delay in minutes - if we want +15 minutes we'll pass in 15
-about.prototype.setDateTime = function (d, delay ){
+movement.prototype.setDateTime = function (d, delay ){
     d = typeof d !== 'undefined' ? d : new Date();
     delay = typeof delay !== 'undefined' ? delay : 0;
     var startTime;
@@ -70,7 +65,7 @@ about.prototype.setDateTime = function (d, delay ){
     startTime += d.getMinutes();
     return startTime;
 }
-about.prototype.initDateTimePicker = function(){
+movement.prototype.initDateTimePicker = function(){
     var self = this;
     self.dtPick = $('#datetimepicker');
     self.dtPick.datetimepicker({
@@ -93,7 +88,7 @@ about.prototype.initDateTimePicker = function(){
     self.currentDate = self.dtPick.datetimepicker('getValue');
 };
 //init the date picker
-about.prototype.dateTimeAction = function( currentDateTime,$input ) {
+movement.prototype.dateTimeAction = function( currentDateTime,$input ) {
 
     console.log(currentDateTime);
     //var d = $('#input').datetimepicker('getValue');
@@ -108,13 +103,13 @@ about.prototype.dateTimeAction = function( currentDateTime,$input ) {
     //     minTime:'8:00'
     //  });
 };
-about.prototype.runSimulation = function () {
+movement.prototype.runSimulation = function () {
     pc.pageScript.pauseAnimation = false;
     console.log("running simulation");
     //$('#datetimepicker').hide();
     pc.pageScript.animateLoop();
 }
-about.prototype.animateLoop = function (runAnyway) {
+movement.prototype.animateLoop = function (runAnyway) {
     runAnyway = typeof runAnyway !== 'undefined' ? runAnyway : false;
 
     console.log("now" + Date.now());
@@ -136,7 +131,7 @@ about.prototype.animateLoop = function (runAnyway) {
     }
 }
 
-about.prototype.loadImage = function (path, width, height, target) {
+movement.prototype.loadImage = function (path, width, height, target) {
     var self = this;
     if (pc.pageScript.firstRun == true){
         pc.pageScript.firstRun = false;
