@@ -41,7 +41,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
                 <a class="navbar-brand page-scroll" href="#page-top">
-                    <i class="fa fa-play-circle"></i>  <span class="light">back to</span> Top
+                    <i class="fa fa-home"></i>  <span class="light">back to</span> Top
                 </a>
             </div>
 
@@ -92,7 +92,7 @@
     <!-- home Section -->
     <section id="home" class="container content-section text-center">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
+            <div class="col-lg-10 col-lg-offset-1">
                 <h2>Inspired by beetles \\ fabricated by robots</h2>
                 <p>As a centrepiece of the V&A’s Engineering Season it demonstrates how architectural design can unfold from a synergy of structural engineering, environmental engineering and production engineering, resulting in unique spatial and aesthetic qualities.</p>
                 <p>Instead of being merely a static display, the pavilion constitutes a dynamic space and an evolving structure. The cellular canopy grows from an onsite fabrication nucleus, and it does so in response to patterns of inhabitation of the garden over time, driven by real time sensing data.</p>
@@ -102,82 +102,154 @@
             </div>
         </div>
     </section>
-
+    <!-- Map Section -->
+    <div id="map1"></div>
     <!-- Download Section -->
-    <section id="movement" class="content-section text-center">
-        <div class="download-section">
-            <div class="container">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <h2>Movement patterns</h2>
-                    <p>You can download Grayscale for free on the preview page at Start Bootstrap.</p>
-                    <a href="http://startbootstrap.com/template-overviews/grayscale/" class="btn btn-default btn-lg">Visit Download Page</a>
+    <section id="movement" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-4">
+                <h2 class="heading-big-1">Movement patterns</h2>
+                <p class="short-desc">Typically, people move in response to their surrounding to find areas of higher comfort or attractions. Imagine a structure sensing people movement trends based on anonymous data, and responding by expansion and reconfiguration to replicate the experience of areas where people tend to inhabit more frequently. The idea of a ‘learning machine’ is made possible using sensors integrated in the design of the canopy and advanced computer simulations.</p>
+                <p class="short-desc">Sensors located seamlessly in the canopy collect anonymous data on how visitors interact with the pavilion, giving us insights into which places are more inviting and which spots are potential bottle necks. The people movement patterns illuminate the strengths and weaknesses of the outdoor space, providing opportunities for the satructure to respond to them.</p>
+                <p class="short-desc">Modcam sensors are used to translate pixels into anonymous data before being distributed to remote servers using wifi. The data is then used as the basis for visualizations and animations, showing movement patterns over selected time frame.</p>
+            </div>
+            <div class="col-lg-8">
+                <div class="main-map-container">
+                    <div class="ui-buttons">
+                        <div class="ui buttons-inner">
+                            <i id="oneBackwards1" class="fa fa-arrow-circle-left fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="back up"></i>
+                            <i id="pauseAnimation1" class="fa fa-pause fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="hold on"></i>
+                            <i id="oneForward1" class="fa fa-arrow-circle-right fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="one forward"></i>
+                        </div>
+                        <div class="datePickerText topUIText left">
+                            <i id ="dateTimeClick1" class="fa fa-calendar fa-2x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="Pick time"></i>
+                            <input id="datetimepicker1" type="text">
+                        </div>
+                        <div class="left">
+                            <i id ="runSimulation1" class="fa fa-play fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="Run simulation"></i>
+                        </div>
+                    </div>
+                    <div class="main-map">
+                        <div class="current-hour"></div>
+                        <div class="movement-img-container">
+                            <img class="canopy-base-map" src="/static/b/assets/images/canopy_map.svg">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-
+    <!-- Map Section -->
+    <div id="map2"></div>
     <!-- Contact Section -->
-    <section id="climate" class="container content-section text-center">
+    <section id="climate" class="container content-section text-center climate-section">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h2>Comfort map</h2>
-                <p>Feel free to email us to provide some feedback on our templates, give us suggestions for new templates and themes, or to just say hello!</p>
-                <p><a href="mailto:feedback@startbootstrap.com">feedback@startbootstrap.com</a>
+            <div class="col-lg-4">
+                <h2 class="heading-big-1">Comfort map</h2>
+                <p class="short-desc">“The difference between a mediocre city and a great city are great parks and a fabulous outdoor space". But what makes a great outdoor space?
+                    Thermal comfort is one of the key factors in creating great outdoor spaces. By introducing passive and active strategies that are tailored to local climatic conditions and creating a design which reacts with people and changes over time, we can maximise comfort and create truly livable cities.
                 </p>
-                <ul class="list-inline banner-social-buttons">
-                    <li>
-                        <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
-                    </li>
-                    <li>
-                        <a href="https://plus.google.com/+Startbootstrap/posts" class="btn btn-default btn-lg"><i class="fa fa-google-plus fa-fw"></i> <span class="network-name">Google+</span></a>
-                    </li>
-                </ul>
+                <p class="short-desc">We measure and assess outdoor thermal comfort using a UTCI (Universal Thermal Climate Index) score, estimating how the average person would feel, taking into account: ambient air temperature, wind speed, solar radiation, relative humidity, mean radiant temperature of the surrounding area and the sky, and typical values for a person’s clothing factor and activity. The weather elements are measured locally using a nearby station from the Weather Underground website and a UTCI score is calculated for the canopy every 5 minutes.</p>
+                <p class="short-desc">Elytra Pavilion monitors both occupancy patterns and thermal comfort map in its vicinity in order to show the correlation between exiting outdoor comfort models and visitor behavior.</p>
+            </div>
+            <div class="col-lg-8">
+                <div class="main-map-container">
+                    <div class="ui-buttons">
+                        <div class="ui buttons-inner">
+                            <i id="oneBackwards" class="fa fa-arrow-circle-left fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="back up"></i>
+                            <i id="pauseAnimation" class="fa fa-pause fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="hold on"></i>
+                            <i id="oneForward" class="fa fa-arrow-circle-right fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="one forward"></i>
+                        </div>
+                        <div class="ui map-slider">
+                            <div class="left">
+                                <i class="fa fa-times" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="slower">
+                                    <span>Slower</span>
+                                </i>
+                            </div>
+                            <div id="slider1" class="left" data-toggle="tooltip" data-placement="top" title="simulation speed"></div>
+                            <div class="left">
+                                <i class="fa fa-times" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="faster">
+                                    <span>Faster</span>
+                                </i>
+                            </div>
+                        </div>
+                        <div class="datePickerText topUIText left">
+                            <i id ="dateTimeClick" class="fa fa-calendar fa-2x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="Pick time"></i>
+                            <input id="datetimepicker" type="text">
+                        </div>
+                        <div class="left">
+                            <i id ="runSimulation" class="fa fa-play fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="Run simulation"></i>
+                        </div>
+                    </div>
+                    <div class="main-map">
+                        <div class="current-hour"></div>
+                        <div class="utci-map-container"></div>
+                        <img class="canopy-base-map" src="/static/b/assets/images/canopy_map.svg">
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-    <!-- Map Section -->
-    <div id="map"></div>
-    <section id="credits" class="container content-section text-center">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h2>Design, engineering and fabrication team</h2>
-                <p>Elytra Filament Pavilion is created by Achim Menges with Moritz Dörstelmann (ICD University of Stuttgart / Achim Menges Architect), Jan Knippers (ITKE University of Stuttgart / Knippers Helbig Advanced Engineering) and Thomas Auer (Transsolar Climate Engineering / TUM). Commissioned by the V&A</p>
-                <p>Achim Menges with Moritz Dörstelmann
-                    ICD – Institute for Computational Design, University of Stuttgart
-                    Achim Menges Architect, Frankfurt
-                    <br />
-                    Team also includes: Marshall Prado (fabrication development), Aikaterini Papadimitriou, Niccolo Dambrosio, Roberto Naboni, with support by Dylan Wood, Daniel Reist
-                    <br />
-                    Jan Knippers
-                    ITKE – Institute of Building Structures and Structural Design, University of Stuttgart
-                    Knippers Helbig Advanced Engineering, Stuttgart, New York
-                    <br />
-                    Team also includes: Valentin Koslowski & James Solly (structure development), Thiemo Fildhuth (structural sensors)
-                    <br />
-                    Thomas Auer
-                    Transsolar Climate Engineering, Stuttgart
-                    Building Technology and Climate Responsive Design, TU München
-                    <br />
-                    Team also includes: Elmira Reisi, Boris Plotnikov
-                    <br />
-                    With the support of:
-                    Michael Preisack, Christian Arias, Pedro Giachini, Andre Kauffman, Thu Nguyen, Nikolaos Xenos, Giulio Brugnaro, Alberto Lago, Yuliya Baranovskaya, Belen Torres
-                    <br />
-                    <br />
-                    Commission:
-                    Victoria & Albert Museum, London 2016
-                </p>
-                <p>
-                <h2>Funding</h2>
-                <p>
-                    Getty Lab | Kuka Roboter GmbH + Kuka Robotics UK Ltd | SGL Carbon SE<br>
-                    Hexion | Covestro AG | FBGS International NV | Arnold AG<br>
-                    PFEIFER Seil- und Hebetechnik GmbH | Stahlbau Wendeler GmbH + Co. KG<br>
-                    Lange+Ritter GmbH | STILL GmbH
-                </p>
+    <section id="credits" class="content-section text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <h2>Design, engineering and fabrication team</h2>
+                    <p class="sml">Elytra Filament Pavilion is created by Achim Menges with Moritz Dörstelmann (ICD University of Stuttgart / Achim Menges Architect), Jan Knippers (ITKE University of Stuttgart / Knippers Helbig Advanced Engineering) and Thomas Auer (Transsolar Climate Engineering / TUM). Commissioned by the V&A</p>
+                    <div class="moreLess">Read more ...</div>
+                    <div class="detailed-credits">
+                        <p class="sml">Achim Menges with Moritz Dörstelmann
+                            ICD – Institute for Computational Design, <br />
+                            University of Stuttgart Achim Menges Architect, Frankfurt
+                            <br />
+                            Team also includes: Marshall Prado (fabrication development), Aikaterini Papadimitriou, Niccolo Dambrosio, Roberto Naboni, with support by Dylan Wood, Daniel Reist
+                            <br />
+                            <br />
+                            Jan Knippers ITKE – Institute of Building Structures and Structural Design, University of Stuttgart <br />
+                            Knippers Helbig Advanced Engineering, Stuttgart, New York
+                            <br />
+                            Team also includes: Valentin Koslowski & James Solly (structure development), Thiemo Fildhuth (structural sensors)
+                            <br />
+                            <br />
+                            Thomas Auer Transsolar Climate Engineering, Stuttgart Building Technology and Climate Responsive Design, TU München
+                            <br />
+                            Team also includes: Elmira Reisi, Boris Plotnikov
+                            <br />
+                            <br />
+                            With the support of: Michael Preisack, Christian Arias, Pedro Giachini, Andre Kauffman, Thu Nguyen, Nikolaos Xenos, Giulio Brugnaro, Alberto Lago, Yuliya Baranovskaya, Belen Torres
+                            <br />
+                            <br />
+                            Commission: Victoria & Albert Museum, London 2016
+                        </p>
+                        <h2>Funding</h2>
+                        <p class="sml">
+                            Victoria & Albert Museum, London
+                            <br />
+                            University of Stuttgart
+                            <br />
+                            <br />
+                            Getty Lab | Kuka Roboter GmbH + Kuka Robotics UK Ltd | SGL Carbon SE | Hexion | Covestro AG | FBGS International NV | Arnold AG | PFEIFER Seil- und Hebetechnik GmbH | Stahlbau Wendeler GmbH + Co. KG | Lange+Ritter GmbH | STILL GmbH
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 company-logos">
+                    <div class="credit-logo stu-uni"></div>
+                    <div class="credit-logo itke"></div>
+                    <div class="credit-logo ts"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="sponser-logo spon-1"></div>
+                    <div class="sponser-logo spon-2"></div>
+                    <div class="sponser-logo spon-3"></div>
+                    <div class="sponser-logo spon-4"></div>
+                    <div class="sponser-logo spon-5"></div>
+                    <div class="sponser-logo spon-6"></div>
+                    <div class="sponser-logo spon-7"></div>
+                </div>
             </div>
         </div>
     </section>
@@ -185,7 +257,7 @@
     <!-- Footer -->
     <footer>
         <div class="container text-center">
-            <p>Copyright &copy; Transsolar 2016</p>
+            <p class="copyright"> &copy; Transsolar Energietechnik GmbH</p>
         </div>
     </footer>
 

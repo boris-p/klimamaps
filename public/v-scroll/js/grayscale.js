@@ -19,16 +19,14 @@ $(document).ready(collapseNavbar);
 // jQuery for page scrolling feature - requires jQuery Easing plugin
 $(function() {
     setPage();
+    $('.moreLess').click(function(){
+        var moreLess = $(this);
+        $('.detailed-credits').slideToggle(600,'easeInOutExpo',function(){
+            $(moreLess).html($(moreLess).html() =='Read more ...' ? 'Read less' : 'Read more ...');
+        });
+    });
     $('a.page-scroll').bind('click', function(event) {
         scrollPage($(this).attr('href'));
-        /*
-        $('html, body').stop().animate({
-            scrollTop: $($anchor.attr('href')).offset().top
-        }, 1500, 'easeInOutExpo',function(){
-            window.location.hash = $anchor.attr('href').substr(1);
-        });
-        event.preventDefault();
-        */
     });
 });
 
