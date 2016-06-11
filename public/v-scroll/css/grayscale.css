@@ -24,7 +24,6 @@ h4,
 h5,
 h6 {
     margin: 0 0 35px;
-    text-transform: uppercase;
     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: 700;
     letter-spacing: 1px;
@@ -64,7 +63,6 @@ a:focus {
 .navbar-custom {
     margin-bottom: 0;
     border-bottom: 1px solid rgba(255,255,255,.3);
-    text-transform: uppercase;
     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
     background-color: #000;
 }
@@ -96,6 +94,8 @@ a:focus {
     -webkit-transition: background .3s ease-in-out;
     -moz-transition: background .3s ease-in-out;
     transition: background .3s ease-in-out;
+    font-family: "Museo-500";
+    font-size: 16px;
 }
 
 .navbar-custom .nav li a:hover {
@@ -131,6 +131,7 @@ a:focus {
         -webkit-transition: background .5s ease-in-out,padding .5s ease-in-out;
         -moz-transition: background .5s ease-in-out,padding .5s ease-in-out;
         transition: background .5s ease-in-out,padding .5s ease-in-out;
+        background-color: rgba(10, 10, 10, 0.48);
     }
 
     .navbar-custom.top-nav-collapse {
@@ -167,7 +168,10 @@ a:focus {
 .intro .intro-body .intro-text {
     font-size: 18px;
 }
-
+.intro-text-wrapper{
+    background: rgba(0, 0, 0, 0.36);
+    border-radius: 5px;
+}
 @media(min-width:768px) {
     .intro {
         height: 100%;
@@ -175,7 +179,8 @@ a:focus {
     }
 
     .intro .intro-body .brand-heading {
-        font-size: 100px;
+        font-size: 60px;
+        text-shadow:2px 2px rgba(5, 5, 5, 0.48)
     }
 
     .intro .intro-body .intro-text {
@@ -188,7 +193,7 @@ a:focus {
     height: 70px;
     margin-top: 15px;
     padding: 7px 16px;
-    border: 2px solid #fff;
+    border: 2.5px solid #fff;
     border-radius: 100%!important;
     font-size: 40px;
     color: #fff;

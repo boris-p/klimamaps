@@ -10,7 +10,7 @@ movement.prototype.constructor = movement;
 //overriding page init
 movement.prototype.init = function() {
     self = this;
-    l("in about init function");
+    l("initiating movement page");
     this.firstRun = true;
     this.pauseAnimation = false;
     this.animationSpeed = 1000;
@@ -22,24 +22,23 @@ movement.prototype.init = function() {
     this.initDateTimePicker();
 
     //var path = "http://percolator.modcam.io/stitch/vamuseum/2016-05-16%2016:00/2016-05-16%2023:00?wp=5000";
-    this.container = $('.movement-img-container');
+    this.container = $('#movement .movement-img-container');
     //pc.pageScript.timeOut = setTimeout(pc.pageScript.animateLoop, this.animationSpeed);
 
     //event handles for buttons
-    //this.animateLoop();
-    $('#runSimulation').click(self.runSimulation);
+    $('#mvRunSimulation').click(self.runSimulation);
 
-    $('.main-map-container #oneBackwards').click(function(){
+    $('#mvOneBackwards').click(function(){
         console.log("one backwards");
         pc.pageScript.setDateTime(pc.pageScript.currentDate,-30);
         pc.pageScript.animateLoop(true);
     });
-    $('.main-map-container #oneForward').click(function(){
+    $('#mvOneForward').click(function(){
         console.log("one forward");
         pc.pageScript.setDateTime(pc.pageScript.currentDate,0);
         pc.pageScript.animateLoop(true);
     });
-    $('.main-map-container #pauseAnimation').click(function(){
+    $('#mvPauseAnimation').click(function(){
         console.log("pausing");
         self.pauseAnimation = !self.pauseAnimation;
     });
@@ -67,7 +66,7 @@ movement.prototype.setDateTime = function (d, delay ){
 }
 movement.prototype.initDateTimePicker = function(){
     var self = this;
-    self.dtPick = $('#datetimepicker');
+    self.dtPick = $('#mvDatetimepicker');
     self.dtPick.datetimepicker({
         onChangeDateTime:self.dateTimeAction,
         /*onShow:self.dateTimeAction,*/
@@ -80,8 +79,8 @@ movement.prototype.initDateTimePicker = function(){
         //onChangeDateTime:function(dp,$input){
         //  alert($input.val());}
     });
-    $('#dateTimeClick').click(function(){
-        $('#datetimepicker').show();
+    $('#mvDateTimeClick').click(function(){
+        $('#mvDatetimepicker').show();
         self.dtPick.datetimepicker('show');
 
     })
@@ -97,11 +96,6 @@ movement.prototype.dateTimeAction = function( currentDateTime,$input ) {
         console.log(d.getTime() / 1000);
         pc.pageScript.currentDate = pc.pageScript.dtPick.datetimepicker('getValue');
     }
-  //  alert($input.val());
-    // 'this' is jquery object datetimepicker
-    //this.setOptions({
-    //     minTime:'8:00'
-    //  });
 };
 movement.prototype.runSimulation = function () {
     pc.pageScript.pauseAnimation = false;
@@ -117,7 +111,7 @@ movement.prototype.animateLoop = function (runAnyway) {
     
     if ( Date.now() < pc.pageScript.currentDate.getTime()){
         console.log("can't read into the future");
-        $('.current-hour').append("<br /> can't see the future...Please try an earlier date");
+        $('#movement .current-hour').append("<br /> can't see the future...Please try an earlier date");
         pc.pageScript.pauseAnimation = true;
     }
     else if (!pc.pageScript.pauseAnimation || runAnyway){
@@ -126,7 +120,7 @@ movement.prototype.animateLoop = function (runAnyway) {
         // or if it is should be more consistent
         l("animating map");
         var path = pc.pageScript.basePath + pc.pageScript.setDateTime(pc.pageScript.currentDate) + "/" + pc.pageScript.setDateTime(pc.pageScript.currentDate,15) + "?wp=4000";
-        console.log(path);
+        l(path);
         pc.pageScript.loadImage(path,710,628,pc.pageScript.container);
     }
 }
@@ -138,7 +132,7 @@ movement.prototype.loadImage = function (path, width, height, target) {
         $('<img id="modcam-img" src="'+ path +'">').off().load(function() {
             $(this).width(width).height(height).prependTo(target);
             pc.pageScript.timeOut = setTimeout(self.animateLoop, pc.pageScript.animationSpeed);
-            $('.current-hour').html(pc.pageScript.currentDate.toString());
+            $('#movement .current-hour').html(pc.pageScript.currentDate.toString());
         });
     } else{
         $("#modcam-img").attr("src", path).off().load(function(){

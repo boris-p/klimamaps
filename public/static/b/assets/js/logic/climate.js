@@ -1,7 +1,7 @@
 //this is actually climate and moving information
 var climate = climate || function (pageName) {
         gPage.call(this,pageName);
-        l("in climate and moving constructor");
+        l("in climate constructor");
     };
 // inherit gPage & correct the constructor pointer because it points to gPage
 climate.prototype = Object.create(gPage.prototype);
@@ -9,7 +9,7 @@ climate.prototype.constructor = climate;
 
 //overriding page init
 climate.prototype.init = function() {
-    self = this;
+    var self = this;
     l("in climate init function");
     l(this.pageName);
 
@@ -30,15 +30,16 @@ climate.prototype.init = function() {
     this.totalItems = [];
     this.utciData = [];
     this.dt = "";
-
+    this.speed = 50;
+    l(this.speed );
+    l(pc.pageScript);
+    l(pc.pageScript.speed);
     //change the domain to something meaningful - not necessarily 100
-    this.colorRange = d3.scale.linear().clamp(true).domain([ 10,20]).rangeRound(
-        [ 0, 19 ]);
-    d3.select('#slider1').call(
-        d3.slider().step(1).value(speed).on("slide", function(evt, value) {
-            l(value);
-            pc.pageScript.animationSpeed = pc.pageScript.animationBaseSpeed  - (value *10 );
-            console.log(pc.pageScript.animationSpeed);
+    this.colorRange = d3.scale.linear().clamp(true).domain([ 10,20]).rangeRound([ 0, 19 ]);
+
+    d3.select('#clSlider').call(
+        d3.slider().step(1).value(pc.pageScript.speed).on("slide", function(evt, value) {
+            //pc.pageScript.animationSpeed = pc.pageScript.animationBaseSpeed  - (value *10 );
         }));
 
     this.initDateTimePicker();
@@ -47,23 +48,23 @@ climate.prototype.init = function() {
     //this.getRhinoData(5);
 
     //event handlers
-    $('#runSimulation').click(self.runSimulation);
+    $('#clRunSimulation').click(self.runSimulation);
 
-    $('.main-map-container #oneBackwards').click(function(){
+    $('#CloneBackwards').click(function(){
         if (!self.animate) {
             console.log("one backwards");
             pc.pageScript.currentAnimationStep--;
             pc.pageScript.animateLoop(true);
         }
     });
-    $('.main-map-container #oneForward').click(function(){
+    $('#clOneForward').click(function(){
         console.log("one forward");
         if (!self.animate) {
             pc.pageScript.currentAnimationStep++;
             pc.pageScript.animateLoop(true);
         }
     });
-    $('.main-map-container #pauseAnimation').click(function(){
+    $('#clPauseAnimation').click(function(){
         console.log("toggling pause");
         if (pc.pageScript.animate){
             pc.pageScript.animate = false;
@@ -88,7 +89,7 @@ climate.prototype.destruct = function() {
 
 climate.prototype.initDateTimePicker = function(){
     var self = this;
-    self.dtPick = $('#datetimepicker');
+    self.dtPick = $('#clDatetimepicker');
     self.dtPick.datetimepicker({
         onChangeDateTime:self.dateTimeAction,
         /*onShow:self.dateTimeAction,*/
@@ -101,8 +102,8 @@ climate.prototype.initDateTimePicker = function(){
         //onChangeDateTime:function(dp,$input){
         //  alert($input.val());}
     });
-    $('#dateTimeClick').click(function(){
-        $('#datetimepicker').show();
+    $('#clDateTimeClick').click(function(){
+        $('#clDatetimepicker').show();
         self.dtPick.datetimepicker('show');
 
     })
@@ -111,12 +112,10 @@ climate.prototype.initDateTimePicker = function(){
 
 //init the date picker
 climate.prototype.dateTimeAction = function( currentDateTime,$input ) {
-
-    console.log(currentDateTime);
-    //var d = $('#input').datetimepicker('getValue');
+    l(currentDateTime);
     var d = $input.datetimepicker('getValue');
     if (d != null) {
-        console.log(d.getTime() / 1000);
+        l(d.getTime() / 1000);
         pc.pageScript.currentDate = pc.pageScript.dtPick.datetimepicker('getValue');
     }
 };
@@ -129,15 +128,11 @@ climate.prototype.buildGridData = function(gridData) {
     var hexes = [];
     var h = (radius * Math.sqrt(3) / 2);
     gridData.forEach(function(element,row){
-        //console.log(element.start);
-
         var yAddition = yp + ((h*2)*row);
-
-        console.log(element);
+        l(element);
         var numOfHexes = element.items.length;
         var startItem = parseInt(element.start);
         for (var column = 0; column < numOfHexes; column++) {
-
 
             pc.pageScript.totalItems.push(parseInt(element.items[column]));
             //only if the element is 2 we want to draw it . so we actually simulated more than we're showing
@@ -216,16 +211,12 @@ climate.prototype.buildMap = function(){
 climate.prototype.runSimulation =  function (){
     pc.pageScript.animate  = false;
     l("running simulation");
-    //console.log("selected date - " + pc.pageScript.currentDate.getTime()/1000);
-
     pc.pageScript.getUtciData(pc.pageScript.currentDate);
 };
 
 
 climate.prototype.getUtciData =  function (d){
-    l(d);
     l("in getUtciData. Passed time is  " + d.getTime());
-
     //try to load up till the present
     if (d.getTime() > Date.now()){
         return;
@@ -259,7 +250,7 @@ climate.prototype.getUtciData =  function (d){
         });
         //self.rhinoData = json;
         if (!pc.pageScript.animate) {
-            self.beginAnimation();
+            pc.pageScript.beginAnimation();
         }
    });
 
@@ -310,18 +301,13 @@ climate.prototype.colorMap = function (time) {
 
     self.formatCurrentDateString(pc.pageScript.currentAnimationStep);
     pc.pageScript.hexagons.transition()
-        .ease(d3_ease.easeLinear)
+        //.ease(d3_ease.easeLinear)
+        .ease('easeInOutExpo')
         .style("fill", function(d, i) {
             d.utciValue = pc.pageScript.utciData[pc.pageScript.currentAnimationStep].points[i];
-
-            //l(colorColors[self.activeColorScheme][colorRange(d.utciValue)]);
             return colorColors[pc.pageScript.activeColorScheme][pc.pageScript.colorRange(d.utciValue)];
-            //return colorColors[self.activeColorScheme][colorRange(self.rhinoData[self.currentAnimationStep].pointVals[i])];
-            //return colorColors[self.activeColorScheme][colorRange(self.rhinoData[self.currentHour].pointVals[i])];
         }).duration(time);
 };
-
-
 
 /*----------------------------------map interaction functions--------------------------*/
 climate.prototype.formatCurrentDateString = function(timeStep,extraString){
@@ -329,10 +315,11 @@ climate.prototype.formatCurrentDateString = function(timeStep,extraString){
     var dText = new Date();
     dText.setTime(pc.pageScript.utciData[timeStep].time_stamp * 1000);
     dText.setSeconds(0);
-    $('.current-hour').html(dText.toString() + extraString);
+    $('#climate .current-hour').html(dText.toString() + extraString);
 }
 climate.prototype.over = function (d, i) {
     //tip.html(createTipHtmlUTCI(d.luxValue, i)).attr('class', 'd3-tip animate').show(d);
+    //tip.html(createTipHtml(d.luxValue, i)).attr('class', 'd3-tip animate').show(d);
     ind = i + 1;
     var elmnt =this.gridLayer.select("path:nth-child(" + ind + ")");
     if (elmnt.attr("clicked") != 1) {
@@ -353,6 +340,7 @@ climate.prototype.out = function (d, i) {
 };
 climate.prototype.clickCell = function (d, i) {
     // d.transition().style("fill","blue");
+    return;
     ind = i + 1;
     var elmnt =this.gridLayer.select("path:nth-child(" + ind + ")");
     var fillColor = (elmnt.attr("clicked") == 1 ? "white" : "rgb(0, 0, 255)");

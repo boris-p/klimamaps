@@ -57,31 +57,31 @@ function animateSVG(){
 //TODO - maybe later on move this to a maps.js class or something similiar
 
 $('.main-map-container .ui-buttons .buttons-inner .fa-pause').click(function(){
-    $(this).toggleClass('fa-pause fa-play')
-    pause();
+    //$(this).toggleClass('fa-pause fa-play')
+    //pause();
 });
 $('.main-map-container .ui-buttons .buttons-inner .fa-undo').click(function(){
-    resetAnimation();
+    //resetAnimation();
 });
 $('.main-map-container .ui-buttons .buttons-inner .fa-arrow-circle-left').click(function(){
-    oneStep(-1)
+   // oneStep(-1)
 });
 $('.main-map-container .ui-buttons .buttons-inner .fa-arrow-circle-right').click(function(){
-    oneStep(1)
+    //oneStep(1)
 });
 
 function resetAnimation() {
-    pause();
-    currentHour = 0;
-    hexagons.transition().style("fill", "rgb(32, 217, 170)");
+    //pause();
+    //currentHour = 0;
+    //hexagons.transition().style("fill", "rgb(32, 217, 170)");
 }
 function oneStep(direction){
-    pause();
-    currentHour += direction;
-    animateLoop(true);
+    //pause();
+    //currentHour += direction;
+    //animateLoop(true);
 }
 function pause() {
-    animate = false;
+ //   animate = false;
 }
 
 //stuff for later

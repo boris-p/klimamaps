@@ -129,17 +129,17 @@ code {
     transition: background-color .2s, color .2s;
 }
 .main-map-container .ui-buttons .buttons-inner .fa:hover,
-.main-map-container #runSimulation:hover{
+.main-map-container .runSimulation:hover{
     cursor: pointer;
 }
 .main-map-container .ui-buttons .buttons-inner .fa:hover,
-.main-map-container #runSimulation:hover{
+.main-map-container .runSimulation:hover{
     cursor: pointer;
     background-color: #333;
     color:#f9f9f9;
 }
 .main-map-container .ui-buttons .buttons-inner .fa:active,
-.main-map-container #runSimulation:active{
+.main-map-container .runSimulation:active{
     color: #afd9ee;
 }
 .main-map-container .ui-buttons{
@@ -165,7 +165,7 @@ code {
 .main-map-container .ui-buttons .ui.map-slider .fa {
     font-size: 1em;
 }
-.main-map-container .ui-buttons #datetimepicker {
+.main-map-container .ui-buttons .datetimepicker {
     border: none;
     font-size: 19px;
     font-family: Museo-500;
@@ -175,15 +175,15 @@ code {
     outline: 0;
     width: 172px;
 }
-.main-map-container .ui-buttons  #dateTimeClick{
+.main-map-container .ui-buttons  .dateTimeClick{
     margin-left: 25px;
     margin-top:2px;
 }
-.main-map-container .ui-buttons  #dateTimeClick:hover {
+.main-map-container .ui-buttons  .dateTimeClick:hover {
     cursor: pointer;
 }
 /*--------------------------d3 slider-----------------------------*/
-#slider1 {
+#clSlider{
     width: 120px;
     margin: 6px 12px;
 }
@@ -215,6 +215,9 @@ code {
     background: #eee;
     background: linear-gradient(to bottom, #333 80%, #ddd 100%);
     z-index: 3;
+    -webkit-transition: all 0.05s ;
+    -moz-transition: all 0.05s ;
+    transition: all 0.05s ;
 }
 
 .d3-slider-handle:hover {
@@ -263,7 +266,7 @@ code {
 
 /*---------movement visualizations ----------*/
 .movement-img-container, .main-map{
-    height:820px;
+    height:700px;
     width: 710px;
     padding-left:15px;
     padding-top:18px;
