@@ -22,7 +22,7 @@ climate.prototype.init = function() {
     this.animationSpeed = this.animationBaseSpeed;  //this is the base value. so when the speed set by the user is in the middle this will be the speed
     //we have three types of hexagons - 0, 1 and 2. this is defined in the points file and can be changed to visualize more or less
     //without changing any f the underlying logic
-    //if we set -1 we wil ldraw all of them, if we will set 1 we will draw only the 2's ...
+    //if we set -1 we will draw all of them, if we will set 1 we will draw only the 2's ...
     this.drawHexagonsFrom = 1;
     this.animate = false;
     this.currentAnimationStep = 0;
@@ -37,9 +37,9 @@ climate.prototype.init = function() {
     //change the domain to something meaningful - not necessarily 100
     this.colorRange = d3.scale.linear().clamp(true).domain([ 10,20]).rangeRound([ 0, 19 ]);
 
+
     d3.select('#clSlider').call(
         d3.slider().step(1).value(pc.pageScript.speed).on("slide", function(evt, value) {
-            //pc.pageScript.animationSpeed = pc.pageScript.animationBaseSpeed  - (value *10 );
         }));
 
     this.initDateTimePicker();
@@ -73,7 +73,6 @@ climate.prototype.init = function() {
             pc.pageScript.animateLoop();
         }
     });
-
 };
 //overriding page destruct
 climate.prototype.destruct = function() {
@@ -82,10 +81,6 @@ climate.prototype.destruct = function() {
     pc.pageScript.animate = false;
     clearTimeout(pc.pageScript.timeOut);
 };
-
-//TODO not working yet - add the slider class or do something else to make it functional
-//var speed = d3.select("#slidertext").html();
-
 
 climate.prototype.initDateTimePicker = function(){
     var self = this;
@@ -129,7 +124,7 @@ climate.prototype.buildGridData = function(gridData) {
     var h = (radius * Math.sqrt(3) / 2);
     gridData.forEach(function(element,row){
         var yAddition = yp + ((h*2)*row);
-        l(element);
+        //l(element);
         var numOfHexes = element.items.length;
         var startItem = parseInt(element.start);
         for (var column = 0; column < numOfHexes; column++) {

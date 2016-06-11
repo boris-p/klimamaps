@@ -41,6 +41,8 @@ movement.prototype.init = function() {
     $('#mvPauseAnimation').click(function(){
         console.log("pausing");
         self.pauseAnimation = !self.pauseAnimation;
+        //$('#mvPauseAnimation').removeClass('fa-pause').addClass('fa-play')
+        $('#mvPauseAnimation').toggleClass('fa-pause fa-play');
     });
     //$('#datetimepicker').hide();
 };

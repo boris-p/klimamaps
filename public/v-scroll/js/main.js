@@ -49,6 +49,7 @@ function createTipHtml(luxVal, id) {
 var pController = pController || function () {
     var self = this;
     self.pageScript = false;
+    self.pageScripts = {};
     /*----------------------------functions---------------------------*/
     // jQuery to collapse the navbar on scroll
     pController.prototype.collapseNavbar = function () {
@@ -94,11 +95,15 @@ var pController = pController || function () {
         //if there's an available script associated to new active page run its init function
         if(typeof pageScript != 'undefined' && window.hasOwnProperty(pageScript)) {
             l("calling custom page script - " + pageScript);
-            self.pageScript = new window[pageScript];
-            l(self.pageScript);
-            l(pc.pageScript);
-            l("sdf");
-            self.pageScript.init();
+            //we didn't already instantiate this function, do it now
+            if (typeof self.pageScripts[pageScript] == 'undefined'){
+                l("making new page script");
+                self.pageScripts[pageScript] = new window[pageScript];
+                self.pageScript = self.pageScripts[pageScript];
+                self.pageScript.init();
+            } else{
+                l("page script already exists");
+            }
         } else{
             self.pageScript = false;
             l("page has no logic");
@@ -134,6 +139,19 @@ var pController = pController || function () {
             if ($(this).attr('class') != 'dropdown-toggle active' && $(this).attr('class') != 'dropdown-toggle') {
                 $('.navbar-toggle:visible').click();
             }
+        });
+        $( window ).resize(function() {
+            l("window width - " + $( window ).width());
+            if ($( window ).width() < 768){
+                l("page is very small");
+            }
+        });
+        $('#page-top').on('activate.bs.scrollspy', function() {
+            var hashItem = $('.navbar-custom .nav li.active a');
+            var hash = $(hashItem).attr('href');
+            l(hash);
+            //changing the hash of the page without an automatic scroll
+            history.pushState({}, '', hash == 'page-top' ? '' : hash);
         });
     }
 }
