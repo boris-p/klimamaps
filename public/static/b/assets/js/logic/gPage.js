@@ -3,7 +3,7 @@ var gPage= function (name) {
         l("in page constructor");
         this.pageName = name;
     };
-gPage.prototype.init = function() {
+gPage.prototype.init = function(name) {
     l("in page init");
 }
 gPage.prototype.getPAgeName = function() {

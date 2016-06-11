@@ -1,15 +1,17 @@
 //this is actually structure and moving information
 var movement = movement|| function (pageName) {
         gPage.call(this,pageName);
-        l("in about constructor");
+        l("in movement constructor");
+        l("page name - " + pageName);
     };
 // inherit gPage & correct the constructor pointer because it points to gPage
 movement.prototype = Object.create(gPage.prototype);
 movement.prototype.constructor = movement;
 
 //overriding page init
-movement.prototype.init = function() {
-    self = this;
+movement.prototype.init = function(name) {
+    this.scriptName = name;
+    var self = this;
     l("initiating movement page");
     this.firstRun = true;
     this.pauseAnimation = false;
@@ -26,20 +28,22 @@ movement.prototype.init = function() {
     //pc.pageScript.timeOut = setTimeout(pc.pageScript.animateLoop, this.animationSpeed);
 
     //event handles for buttons
-    $('#mvRunSimulation').click(self.runSimulation);
 
     $('#mvOneBackwards').click(function(){
         console.log("one backwards");
-        pc.pageScript.setDateTime(pc.pageScript.currentDate,-30);
-        pc.pageScript.animateLoop(true);
+        self.setDateTime(self.currentDate,-30);
+        self.animateLoop(true);
     });
     $('#mvOneForward').click(function(){
         console.log("one forward");
-        pc.pageScript.setDateTime(pc.pageScript.currentDate,0);
-        pc.pageScript.animateLoop(true);
+        self.setDateTime(self.currentDate,0);
+        self.animateLoop(true);
     });
     $('#mvPauseAnimation').click(function(){
         console.log("toggling pause");
+        if ($(this).hasClass('fa-play')){
+            self.runSimulation();
+        }
         self.pauseAnimation = !self.pauseAnimation;
         //$('#mvPauseAnimation').removeClass('fa-pause').addClass('fa-play')
         $('#mvPauseAnimation').toggleClass('fa-pause fa-play');
@@ -48,8 +52,10 @@ movement.prototype.init = function() {
 };
 //overriding page destruct
 movement.prototype.destruct = function() {
-    l("in about destructor");
-    clearTimeout(pc.pageScript.timeOut);
+    l("in movement destructor");
+    clearTimeout(pc.pageScripts.movement.timeOut);
+    pc.pageScripts.movement.pauseAnimation = true;
+    $('#mvPauseAnimation').removeClass('fa-pause').addClass('fa-play');
 };
 //delay in minutes - if we want +15 minutes we'll pass in 15
 movement.prototype.setDateTime = function (d, delay ){
@@ -61,8 +67,7 @@ movement.prototype.setDateTime = function (d, delay ){
     var hour = d.getHours() +1 ;
     startTime = d.getFullYear() + "-" + month + "-" + d.getDate();
     startTime += " ";
-    startTime  += hour;
-    startTime += ":";1
+    startTime  += hour + ":";
     startTime += d.getMinutes();
     return startTime;
 }
@@ -96,50 +101,50 @@ movement.prototype.dateTimeAction = function( currentDateTime,$input ) {
     var d = $input.datetimepicker('getValue');
     if (d != null) {
         console.log(d.getTime() / 1000);
-        pc.pageScript.currentDate = pc.pageScript.dtPick.datetimepicker('getValue');
+        pc.pageScripts.movement.currentDate = pc.pageScripts.movement.dtPick.datetimepicker('getValue');
     }
 };
 movement.prototype.runSimulation = function () {
-    pc.pageScript.pauseAnimation = false;
+    pc.pageScripts.movement.pauseAnimation = false;
     console.log("running simulation");
     //$('#datetimepicker').hide();
-    pc.pageScript.animateLoop();
-}
+    pc.pageScripts.movement.animateLoop();
+};
 movement.prototype.animateLoop = function (runAnyway) {
     runAnyway = typeof runAnyway !== 'undefined' ? runAnyway : false;
 
     console.log("now" + Date.now());
-    console.log("selected date" + pc.pageScript.currentDate.getTime());
+    console.log("selected date" + pc.pageScripts.movement.currentDate.getTime());
     
-    if ( Date.now() < pc.pageScript.currentDate.getTime()){
+    if ( Date.now() < pc.pageScripts.movement.currentDate.getTime()){
         console.log("can't read into the future");
         $('#movement .current-hour').append("<br /> can't see the future...Please try an earlier date");
-        pc.pageScript.pauseAnimation = true;
+        pc.pageScripts.movement.pauseAnimation = true;
     }
-    else if (!pc.pageScript.pauseAnimation || runAnyway){
+    else if (!pc.pageScripts.movement.pauseAnimation || runAnyway){
         //setTimeout changes the scope so this is the window in the second run
         // so for now just calling the current script from the page controller (maybe this isn't the best option,
         // or if it is should be more consistent
         l("animating map");
-        var path = pc.pageScript.basePath + pc.pageScript.setDateTime(pc.pageScript.currentDate) + "/" + pc.pageScript.setDateTime(pc.pageScript.currentDate,15) + "?wp=4000";
+        var path = pc.pageScripts.movement.basePath + pc.pageScripts.movement.setDateTime(pc.pageScripts.movement.currentDate) + "/" + pc.pageScripts.movement.setDateTime(pc.pageScripts.movement.currentDate,15) + "?wp=4000";
         l(path);
-        pc.pageScript.loadImage(path,710,628,pc.pageScript.container);
+        pc.pageScripts.movement.loadImage(path,710,628,pc.pageScripts.movement.container);
     }
-}
+};
 
 movement.prototype.loadImage = function (path, width, height, target) {
     var self = this;
-    if (pc.pageScript.firstRun == true){
-        pc.pageScript.firstRun = false;
+    if (pc.pageScripts.movement.firstRun == true){
+        pc.pageScripts.movement.firstRun = false;
         $('<img id="modcam-img" src="'+ path +'">').off().load(function() {
             $(this).width(width).height(height).prependTo(target);
-            pc.pageScript.timeOut = setTimeout(self.animateLoop, pc.pageScript.animationSpeed);
-            $('#movement .current-hour').html(pc.pageScript.currentDate.toString());
+            pc.pageScripts.movement.timeOut = setTimeout(self.animateLoop, pc.pageScripts.movement.animationSpeed);
+            $('#movement .current-hour').html(pc.pageScripts.movement.currentDate.toString());
         });
     } else{
         $("#modcam-img").attr("src", path).off().load(function(){
-            pc.pageScript.timeOut = setTimeout(self.animateLoop, pc.pageScript.animationSpeed);
-            $('.current-hour').html(pc.pageScript.currentDate.toString());
+            pc.pageScripts.movement.timeOut = setTimeout(self.animateLoop,pc.pageScripts.movement.animationSpeed);
+            $('.current-hour').html(pc.pageScripts.movement.currentDate.toString());
         });
     }
-}
+};
