@@ -147,8 +147,9 @@ var pController = pController || function () {
             }
         });
         $('#page-top').on('activate.bs.scrollspy', function() {
-            var hashItem = $('.navbar-custom .nav li.active a');
-            var hash = $(hashItem).attr('href');
+            var menuItem = $('.navbar-custom .nav li.active a');
+            self.initPageScript($(menuItem).attr('data-script'));
+            var hash = $(menuItem).attr('href');
             l(hash);
             //changing the hash of the page without an automatic scroll
             history.pushState({}, '', hash == 'page-top' ? '' : hash);

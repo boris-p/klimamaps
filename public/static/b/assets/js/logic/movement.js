@@ -39,7 +39,7 @@ movement.prototype.init = function() {
         pc.pageScript.animateLoop(true);
     });
     $('#mvPauseAnimation').click(function(){
-        console.log("pausing");
+        console.log("toggling pause");
         self.pauseAnimation = !self.pauseAnimation;
         //$('#mvPauseAnimation').removeClass('fa-pause').addClass('fa-play')
         $('#mvPauseAnimation').toggleClass('fa-pause fa-play');
