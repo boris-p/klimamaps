@@ -32,6 +32,10 @@ var tip = d3.tip().attr('class', 'd3-tip').offset([ -10, 0 ]).html(
         return "<strong>Frequency:</strong> <span style='color:red'>"
             + d.frequency + "</span>";
     });
+
+function formatDate(d){
+    return d.toDateString() + " " + d.toLocaleTimeString();
+}
 function createTipHtmlUTCI(luxVal, id) {
     //append existing element to another element
     //d3.select(".currentHour").select(function() {
@@ -116,6 +120,8 @@ var pController = pController || function () {
 
         //setup bootstrap tooltips
         $('[data-toggle="tooltip"]').tooltip();
+
+        $('[data-toggle="popover"]').popover();
 
         $(window).scroll(self.collapseNavbar);
         //$(document).ready(collapseNavbar);

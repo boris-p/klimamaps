@@ -43,10 +43,14 @@ movement.prototype.init = function(name) {
         console.log("toggling pause");
         if ($(this).hasClass('fa-play')){
             self.runSimulation();
+            $(this).removeClass('fa-play').addClass('fa-pause');
+        } else{
+            self.pauseAnimation = true;
+            $(this).removeClass('fa-pause').addClass('fa-play');
         }
-        self.pauseAnimation = !self.pauseAnimation;
+        //self.pauseAnimation = !self.pauseAnimation;
         //$('#mvPauseAnimation').removeClass('fa-pause').addClass('fa-play')
-        $('#mvPauseAnimation').toggleClass('fa-pause fa-play');
+        //$('#mvPauseAnimation').toggleClass('fa-pause fa-play');
     });
     //$('#datetimepicker').hide();
 };
@@ -118,7 +122,8 @@ movement.prototype.animateLoop = function (runAnyway) {
     
     if ( Date.now() < pc.pageScripts.movement.currentDate.getTime()){
         console.log("can't read into the future");
-        $('#movement .current-hour').append("<br /> can't see the future...Please try an earlier date");
+        $('#movement .current-hour').html(formatDate(pc.pageScripts.movement.currentDate) + "<br /> can't see the future...Please try an earlier date");
+        l("pausing animation");
         pc.pageScripts.movement.pauseAnimation = true;
     }
     else if (!pc.pageScripts.movement.pauseAnimation || runAnyway){
@@ -133,18 +138,19 @@ movement.prototype.animateLoop = function (runAnyway) {
 };
 
 movement.prototype.loadImage = function (path, width, height, target) {
-    var self = this;
+    var self =   this;
     if (pc.pageScripts.movement.firstRun == true){
         pc.pageScripts.movement.firstRun = false;
         $('<img id="modcam-img" src="'+ path +'">').off().load(function() {
+            l("loaded image");
             $(this).width(width).height(height).prependTo(target);
-            pc.pageScripts.movement.timeOut = setTimeout(self.animateLoop, pc.pageScripts.movement.animationSpeed);
-            $('#movement .current-hour').html(pc.pageScripts.movement.currentDate.toString());
+            pc.pageScripts.movement.timeOut = setTimeout(pc.pageScripts.movement.animateLoop, pc.pageScripts.movement.animationSpeed);
+            $('#movement .current-hour').html(formatDate(pc.pageScripts.movement.currentDate));
         });
     } else{
         $("#modcam-img").attr("src", path).off().load(function(){
             pc.pageScripts.movement.timeOut = setTimeout(self.animateLoop,pc.pageScripts.movement.animationSpeed);
-            $('.current-hour').html(pc.pageScripts.movement.currentDate.toString());
+            $('.current-hour').html(formatDate(pc.pageScripts.movement.currentDate));
         });
     }
 };

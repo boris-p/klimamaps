@@ -310,7 +310,7 @@ climate.prototype.formatCurrentDateString = function(timeStep,extraString){
     var dText = new Date();
     dText.setTime(pc.pageScript.utciData[timeStep].time_stamp * 1000);
     dText.setSeconds(0);
-    $('#climate .current-hour').html(dText.toString() + extraString);
+    $('#climate .current-hour').html(formatDate(dText) + extraString);
 }
 climate.prototype.over = function (d, i) {
     //tip.html(createTipHtmlUTCI(d.luxValue, i)).attr('class', 'd3-tip animate').show(d);

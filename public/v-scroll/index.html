@@ -118,15 +118,15 @@
             <div class="col-md-8">
                 <div class="main-map-container">
                     <div class="ui-buttons">
-                        <div class="ui buttons-inner">
+                        <div class="buttons-inner map-ui-elements">
                             <i id="mvOneBackwards" class="fa fa-arrow-circle-left fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="one frame back"></i>
                             <i id="mvOneForward" class="fa fa-arrow-circle-right fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="one frame forward"></i>
                         </div>
-                        <div class="datePickerText topUIText left">
+                        <div class="map-ui-elements datePickerText topUIText">
                             <i id ="mvDateTimeClick" class="fa fa-calendar fa-2x dateTimeClick" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="Pick time"></i>
                             <input id="mvDatetimepicker" class="datetimepicker" type="text" readonly>
                         </div>
-                        <div class="left">
+                        <div class="map-ui-elements">
                             <i id="mvPauseAnimation" class="fa fa-play fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="Run/pause simulation"></i>
                         </div>
                     </div>
@@ -146,7 +146,10 @@
     <section id="climate" class="container content-section text-center climate-section">
         <div class="row">
             <div class="col-lg-4">
-                <h2 class="heading-big-1">Comfort map</h2>
+                <h2  tabindex="0" class="heading-big-1" data-toggle="popover" data-trigger="focus" title="Dismissible popover"
+                    data-content="And here's some amazing content. It's very engaging. Right?">
+                    Comfort map
+                </h2>
                 <p class="short-desc">“The difference between a mediocre city and a great city are great parks and a fabulous outdoor space". But what makes a great outdoor space?
                     <br />
                     <br />
@@ -159,29 +162,30 @@
             <div class="col-lg-8">
                 <div class="main-map-container">
                     <div class="ui-buttons">
-                        <div class="ui buttons-inner">
+                        <div class="ui buttons-inner map-ui-elements">
                             <i id="clOneBackwards" class="fa fa-arrow-circle-left fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="one frame back"></i>
                             <i id="clPauseAnimation" class="fa fa-pause fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="hold on"></i>
                             <i id="clOneForward" class="fa fa-arrow-circle-right fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="one frame forward"></i>
                         </div>
-                        <div class="ui map-slider">
+                        <div class="ui map-slider map-ui-elements">
                             <div class="left">
                                 <i class="fa fa-times" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="slower animation speed">
                                     <span>Slower</span>
                                 </i>
                             </div>
-                            <div id="clSlider" class="left" data-toggle="tooltip" data-placement="top"></div>
+                            <div id="clSlider" class="left" data-toggle="tooltip" data-placement="top">
+                            </div>
                             <div class="left">
                                 <i class="fa fa-times" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="faster animation speed">
                                     <span>Faster</span>
                                 </i>
                             </div>
                         </div>
-                        <div class="datePickerText topUIText left">
+                        <div class="datePickerText topUIText map-ui-elements">
                             <i id ="clDateTimeClick" class="fa fa-calendar fa-2x dateTimeClick" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="Pick time"></i>
-                            <input id="clDatetimepicker" class="datetimePicker" type="text" readonly>
+                            <input id="clDatetimepicker" class="datetimepicker" type="text" readonly>
                         </div>
-                        <div class="left">
+                        <div class="map-ui-elements">
                             <i id ="clRunSimulation" class="fa fa-play fa-3x runSimulation" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="Run simulation"></i>
                         </div>
                     </div>

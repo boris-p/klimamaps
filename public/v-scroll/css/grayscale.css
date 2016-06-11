@@ -449,6 +449,11 @@ ul.banner-social-buttons {
         margin-bottom: 0;
     }
 }
+@media(max-width:411px){
+    #climate .map-ui-elements {
+        margin-bottom: 20px;
+    }
+}
 footer {
     padding: 50px 0;
     background-color: black;
