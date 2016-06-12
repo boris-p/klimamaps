@@ -35,7 +35,7 @@ climate.prototype.init = function() {
     this.dt = "";
     this.pauseAnimation = false;
     //change the domain to something meaningful - not necessarily 100
-    this.colorRange = d3.scale.linear().clamp(true).domain([ 10,20]).rangeRound([ 0, 19 ]);
+    this.colorRange = d3.scale.linear().clamp(true).domain([ 5,30]).rangeRound([ 0, 19 ]);
 
 
     d3.select('#clSlider').call(
