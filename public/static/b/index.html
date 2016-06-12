@@ -17,7 +17,6 @@
     <!-- Custom CSS -->
     <link href="static/b/assets/css/grayscale.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="static/b/assets/css/style.css">
     <link rel="stylesheet" href="static/b/font-awesome/css/font-awesome.css" type="text/css">
     <link rel="stylesheet" href="static/b/assets/css/jquery.datetimepicker.css" type="text/css">
 
@@ -111,9 +110,13 @@
         <div class="row">
             <div class="col-md-4">
                 <h2 class="heading-big-1">Movement patterns</h2>
-                <p class="short-desc">Typically, people move in response to their surrounding to find areas of higher comfort or attractions. Imagine a structure sensing people movement trends based on anonymous data, and responding by expansion and reconfiguration to replicate the experience of areas where people tend to inhabit more frequently. The idea of a ‘learning machine’ is made possible using sensors integrated in the design of the canopy and advanced computer simulations.</p>
-                <p class="short-desc">Sensors located seamlessly in the canopy collect anonymous data on how visitors interact with the pavilion, giving us insights into which places are more inviting and which spots are potential bottle necks. The people movement patterns illuminate the strengths and weaknesses of the outdoor space, providing opportunities for the satructure to respond to them.</p>
-                <p class="short-desc">Modcam sensors are used to translate pixels into anonymous data before being distributed to remote servers using wifi. The data is then used as the basis for visualizations and animations, showing movement patterns over selected time frame.</p>
+                <p class="short-desc">Typically, people move in response to their surrounding to find areas of higher comfort or attractions.
+                    <br />
+                    <br />
+                    Imagine a structure sensing people movement trends based on anonymous data, and responding by expansion and reconfiguration to replicate the experience of areas where people tend to inhabit more frequently.
+                </p>
+                <p class="short-desc">Sensors located seamlessly in the canopy collect anonymous data on how visitors interact with the pavilion, giving us insights into which places are more inviting and which spots are potential bottle necks.
+                    The people movement patterns illuminate the strengths and weaknesses of the outdoor space, providing opportunities for the structure to respond to them.</p>
             </div>
             <div class="col-md-8">
                 <div class="main-map-container">
@@ -135,13 +138,31 @@
                         <div class="movement-img-container">
                             <img class="canopy-base-map" src="/static/b/assets/images/canopy_map.svg">
                         </div>
+                        <div class="movement-legend-container legend-container">
+                            <span class="legend-title legend-title-left">More movement</span>
+                            <span class="legend-title legend-title-right">Less movement</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1">
+                <div class="more-text-sep moreLess">Read more ...</div>
+                <div class="long-description more-details">
+                    <p>Modcam sensors are used to translate pixels into anonymous data before being distributed to remote servers using wifi.
+                        The data is then used as the basis for visualizations and animations, showing movement patterns over selected time frame.
+                    <br />
+                        The idea of a ‘learning machine’ is made possible using sensors integrated in the design of the canopy and advanced computer simulations.
+                    </p>
+                </div>
+                <div class="center-line">or continue to the <a class="page-scroll" href="#climate">outdoor comfort</a> maps</div>
+                <a href="#climate" class="btn btn-circle btn-circle-dark page-scroll"><i class="fa fa-angle-double-down animated"></i></a>
+            </div>
+        </div>
     </section>
     <!-- Map Section -->
-    <div id="map2"></div>
+    <div id="map3"></div>
     <!-- Contact Section -->
     <section id="climate" class="container content-section text-center climate-section">
         <div class="row">
@@ -154,6 +175,7 @@
                     <br />
                     <br />
                     Thermal comfort is one of the key factors in creating great outdoor spaces.
+                    <br />
                     <br />
                     By introducing passive and active strategies that are tailored to local climatic conditions and creating a design which reacts with people and changes over time, we can maximise comfort and create truly livable cities.
                 </p>
@@ -192,15 +214,19 @@
                         <div class="current-hour"></div>
                         <div class="utci-map-container"></div>
                         <img class="canopy-base-map" src="/static/b/assets/images/canopy_map.svg">
+                        <div class="climate-legend-container legend-container">
+                            <span class="legend-title legend-title-left">Colder</span>
+                            <span class="legend-title legend-title-right">Hotter</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1">
-                <div class="moreLess">Read more ...</div>
-                <div class="long-description">
-                    <p class="short-desc">We measure and assess outdoor thermal comfort using a UTCI (Universal Thermal Climate Index) score, estimating how the average person would feel, taking into account: ambient air temperature, wind speed, solar radiation, relative humidity, mean radiant temperature of the surrounding area and the sky, and typical values for a person’s clothing factor and activity. The weather elements are measured locally using a nearby station from the Weather Underground website and a UTCI score is calculated for the canopy every 5 minutes.</p>
+                <div class="more-text-sep moreLess">Read more ...</div>
+                <div class="long-description more-details">
+                    <p>We measure and assess outdoor thermal comfort using a UTCI (Universal Thermal Climate Index) score, estimating how the average person would feel, taking into account: ambient air temperature, wind speed, solar radiation, relative humidity, mean radiant temperature of the surrounding area and the sky, and typical values for a person’s clothing factor and activity. The weather elements are measured locally using a nearby station from the Weather Underground website and a UTCI score is calculated for the canopy every 5 minutes.</p>
                 </div>
             </div>
         </div>
@@ -212,7 +238,7 @@
                     <h2>Design, engineering and fabrication team</h2>
                     <p class="sml">Elytra Filament Pavilion is created by Achim Menges with Moritz Dörstelmann (ICD University of Stuttgart / Achim Menges Architect), Jan Knippers (ITKE University of Stuttgart / Knippers Helbig Advanced Engineering) and Thomas Auer (Transsolar Climate Engineering / TUM). Commissioned by the V&A</p>
                     <div class="moreLess">Read more ...</div>
-                    <div class="detailed-credits">
+                    <div class="more-details">
                         <p class="sml">Achim Menges with Moritz Dörstelmann
                             ICD – Institute for Computational Design, <br />
                             University of Stuttgart Achim Menges Architect, Frankfurt

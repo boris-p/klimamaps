@@ -3,7 +3,10 @@
  * Code licensed under the Apache License v2.0.
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
-
+@font-face {font-family: "Museo-500";
+    src:url("../fonts/MuseoSlab-500/312252_0_0.eot");
+    src: url("../fonts/MuseoSlab-500/312252_0_0.eot?#iefix") format("embedded-opentype"),url("../fonts/MuseoSlab-500/312252_0_0.woff2") format("woff2"),url("../fonts/MuseoSlab-500/312252_0_0.woff") format("woff"),url("webfonts/312252_0_0.ttf") format("truetype");
+}
 body {
     width: 100%;
     height: 100%;
@@ -308,8 +311,18 @@ a:focus {
     text-decoration: none;
     color: #1d9b6c;
 }
-.detailed-credits{
+.center-line{
+    font-size: 25px;
+    font-family: "Museo-500";
+}
+.more-text-sep{
+    margin-top:35px;
+}
+.more-details{
     display: none;
+}
+.more-details p{
+    text-align: center;
 }
 .company-logos{
     margin: 20px 0 32px 0;
@@ -374,10 +387,22 @@ a:focus {
 
 #map,#map1,#map2{
     width: 100%;
-    height: 400px;
-    margin-top: 100px;
+    height: 500px;
+    margin-top: 50px;
     color: #fff;
     background: url(../images/pv_2.jpg) no-repeat center center scroll;
+    background-color: #000;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+#map3{
+    width: 100%;
+    height: 500px;
+    margin-top: 50px;
+    color: #fff;
+    background: url(../images/pavilion_img_6.jpg) no-repeat center center scroll;
     background-color: #000;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -725,7 +750,7 @@ code {
 
 /*---------movement visualizations ----------*/
 .movement-img-container, .main-map{
-    height:700px;
+    height:628px;
     width: 710px;
 }
 .main-map .canopy-base-map{
@@ -747,6 +772,32 @@ code {
     height: 628px;
     position: absolute;
     display: inline;
+}
+.legend-container{
+    display: inline-block;
+    width: 342px;
+    height: 11px;
+    float: right;
+    border: 1px solid black;
+    margin-right: 28px;
+    margin-top: 20px;
+}
+.movement-legend-container{
+    background: url(../images/movement_legend.jpg) no-repeat bottom center scroll;
+}
+.climate-legend-container{
+    background: url(../images/climate-legend.jpg) no-repeat bottom center scroll;
+}
+.legend-title{
+    margin-top: 14px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+}
+.legend-title-left{
+    float: left;
+}
+.legend-title-right{
+    float: right;
 }
 .current-hour{
     font-family: Museo-500;
