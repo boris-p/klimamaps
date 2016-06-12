@@ -2,7 +2,6 @@
 var movement = movement|| function (pageName) {
         gPage.call(this,pageName);
         l("in movement constructor");
-        l("page name - " + pageName);
     };
 // inherit gPage & correct the constructor pointer because it points to gPage
 movement.prototype = Object.create(gPage.prototype);
@@ -48,11 +47,7 @@ movement.prototype.init = function(name) {
             self.pauseAnimation = true;
             $(this).removeClass('fa-pause').addClass('fa-play');
         }
-        //self.pauseAnimation = !self.pauseAnimation;
-        //$('#mvPauseAnimation').removeClass('fa-pause').addClass('fa-play')
-        //$('#mvPauseAnimation').toggleClass('fa-pause fa-play');
     });
-    //$('#datetimepicker').hide();
 };
 //overriding page destruct
 movement.prototype.destruct = function() {

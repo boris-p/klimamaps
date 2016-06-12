@@ -164,20 +164,19 @@
                     <div class="ui-buttons">
                         <div class="ui buttons-inner map-ui-elements">
                             <i id="clOneBackwards" class="fa fa-arrow-circle-left fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="one frame back"></i>
-                            <i id="clPauseAnimation" class="fa fa-pause fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="hold on"></i>
                             <i id="clOneForward" class="fa fa-arrow-circle-right fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="one frame forward"></i>
                         </div>
                         <div class="ui map-slider map-ui-elements">
                             <div class="left">
                                 <i class="fa fa-times" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="slower animation speed">
-                                    <span>Slower</span>
+                                    <span>Slow</span>
                                 </i>
                             </div>
                             <div id="clSlider" class="left" data-toggle="tooltip" data-placement="top">
                             </div>
                             <div class="left">
                                 <i class="fa fa-times" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="faster animation speed">
-                                    <span>Faster</span>
+                                    <span>Fast</span>
                                 </i>
                             </div>
                         </div>
@@ -186,7 +185,7 @@
                             <input id="clDatetimepicker" class="datetimepicker" type="text" readonly>
                         </div>
                         <div class="map-ui-elements">
-                            <i id ="clRunSimulation" class="fa fa-play fa-3x runSimulation" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="Run simulation"></i>
+                            <i id="clPauseAnimation" class="fa fa-play fa-3x" aria-hidden="false" data-toggle="tooltip" data-placement="top" title="Run/pause simulation"></i>
                         </div>
                     </div>
                     <div class="main-map">
@@ -277,6 +276,24 @@
         </div>
     </footer>
 
+    <!-- Modal -->
+    <div class="modal fade" id="g-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery -->
     <script   src="https://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>
 

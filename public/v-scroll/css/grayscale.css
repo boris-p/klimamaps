@@ -9,14 +9,13 @@ body {
     height: 100%;
     font-family: Lora,"Helvetica Neue",Helvetica,Arial,sans-serif;
     color: #333;
-    background-color: #000;
+    background-color:white;
 }
 
 html {
     width: 100%;
     height: 100%;
 }
-
 h1,
 h2,
 h3,
@@ -24,9 +23,11 @@ h4,
 h5,
 h6 {
     margin: 0 0 35px;
-    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-weight: 700;
     letter-spacing: 1px;
+    font-family: "Museo-500";
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
 }
 
 p {
@@ -437,23 +438,6 @@ ul.banner-social-buttons {
         margin-right: auto;
     }
 }
-
-@media(max-width:767px) {
-    ul.banner-social-buttons li {
-        display: block;
-        margin-bottom: 20px;
-        padding: 0;
-    }
-
-    ul.banner-social-buttons li:last-child {
-        margin-bottom: 0;
-    }
-}
-@media(max-width:411px){
-    #climate .map-ui-elements {
-        margin-bottom: 20px;
-    }
-}
 footer {
     padding: 50px 0;
     background-color: black;
@@ -495,4 +479,305 @@ body {
 }
 p.sml{
     font-size: 16px;
+}
+
+
+.elytra-title{
+    font-size:30px
+}
+.clima-maps {
+    font-size: 67px;
+    line-height: 67px;
+    padding-bottom: 26px;
+}
+.short-desc {
+    text-align: justify;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    letter-spacing: 2px;
+    font-size: 16px;
+    line-height: 24px;
+}
+/*---------------------header----------------------*/
+.top-navbar{
+    background-color: black;
+    height: 10px;
+    min-height: 10px;
+}
+/*-------------------main menu ------------------- */
+.main-menu {
+    height: 26px;
+    margin-top: 26px;
+    border-bottom: 1px solid #666666;
+}
+.main-menu  .menu-ul {
+    list-style-type: none;
+}
+.main-menu  .menu-ul .divline{
+    padding: 0;
+    border-right: thin solid gray;
+    height: 15px;
+    margin: 10px 0 0;
+    margin-left: 8px;
+}
+.main-menu  .menu-ul li{
+    float: left;
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+.main-menu  .menu-ul li.current{
+    background-color:black;
+}
+.main-menu  .menu-ul li a{
+    text-decoration: none;
+    font-family: Museo-500;
+    font-size:18px;
+    color: #42413C;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+.main-menu  .menu-ul li.current a{
+    color:white;
+}
+/*-----------------main content--------------------*/
+.main-content-row{
+    min-height: 650px;
+}
+/* Sticky footer styles
+-------------------------------------------------- */
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 160px;
+    background-color: black;
+    padding: 20px 0;
+}
+.footer a{
+    color: #f5f5f5;
+}
+.footer .rights {
+    padding :30px 0 0 10px;
+    color:#666666;
+}
+
+.footer > .container {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.footer .company-logos{
+
+}
+/*------------------general rules---------------------*/
+code {
+    font-size: 80%;
+}
+.squiggle-container{
+    display: none;
+}
+.clear{
+    clear:both;
+}
+.left{
+    float:left;
+}
+.right{
+    float:right;
+}
+
+/*--------------------------maps logic-----------------------------*/
+.clima-maps{
+    margin-top:0;
+}
+.main-map-container .fa{
+    padding:0 6px;
+    font-size: 2.5em;
+    color: #333;
+    border-radius: 7px;
+    padding:0 4px;
+    -webkit-transition: background-color .2s,color .2s;
+    transition: background-color .2s, color .2s;
+}
+.main-map-container .ui-buttons .buttons-inner .fa:hover,
+.main-map-container .fa-pause:hover{
+    cursor: pointer;
+}
+.main-map-container .ui-buttons .buttons-inner .fa:hover,
+.main-map-container .fa-pause:hover{
+    cursor: pointer;
+    background-color: #333;
+    color:#f9f9f9;
+}
+.main-map-container .ui-buttons .buttons-inner .fa:active,
+.main-map-container .fa-pause:active{
+    color: #afd9ee;
+}
+.main-map-container .ui-buttons .ui.map-slider{
+    cursor: default;
+}
+.main-map-container .ui-buttons .ui.map-slider span {
+    font-family: Museo-500;
+    font-size: 1.2em;
+}
+
+.main-map-container .ui-buttons .ui.map-slider .fa {
+    font-size: 1em;
+}
+.datetimepicker {
+    border: none;
+    font-size: 19px;
+    font-family: Museo-500;
+    vertical-align: top;
+    margin-top: 6px;
+    outline: 0;
+    width: 155px;
+}
+.main-map-container .ui-buttons  .dateTimeClick{
+    margin-left: 5px;
+}
+.main-map-container .ui-buttons  .dateTimeClick:hover {
+    cursor: pointer;
+}
+.map-ui-elements{
+    display: inline-block;
+}
+/*--------------------------d3 slider-----------------------------*/
+#clSlider{
+    width: 120px;
+    margin: 6px 12px 0 4px
+}
+
+.d3-slider {
+    position: relative;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 1.1em;
+    border: 1px solid #aaaaaa;
+    z-index: 2;
+    margin: 12px 0 4px 0;
+}
+
+.d3-slider-horizontal {
+    height: .2em;
+}
+
+.d3-slider-vertical {
+    width: 1em;
+    height: 100px;
+}
+
+.d3-slider-handle {
+    position: absolute;
+    width: 1.7em;
+    height: 1.7em;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background: #eee;
+    background: linear-gradient(to bottom, #333 80%, #ddd 100%);
+    z-index: 3;
+    -webkit-transition: all 0.05s ;
+    -moz-transition: all 0.05s ;
+    transition: all 0.05s ;
+}
+
+.d3-slider-handle:hover {
+    border: 1px solid #333;
+    cursor: pointer;
+}
+
+.d3-slider-horizontal .d3-slider-handle {
+    top: -.5em;
+    margin-left: -.6em;
+}
+
+.d3-slider-axis {
+    position: relative;
+    z-index: 1;
+}
+
+.d3-slider-axis-bottom {
+    top: .8em;
+}
+
+.d3-slider-axis-right {
+    left: .8em;
+}
+
+.d3-slider-axis path {
+    stroke-width: 0;
+    fill: none;
+}
+
+.d3-slider-axis line {
+    fill: none;
+    stroke: #aaa;
+    shape-rendering: crispEdges;
+}
+
+.d3-slider-axis text {
+    font-size: 11px;
+}
+
+.d3-slider-vertical .d3-slider-handle {
+    left: -.25em;
+    margin-left: 0;
+    margin-bottom: -.6em;
+}
+
+/*---------movement visualizations ----------*/
+.movement-img-container, .main-map{
+    height:700px;
+    width: 710px;
+}
+.main-map .canopy-base-map{
+    width: 710px;
+    height: 628px;
+    position: relative;
+    bottom: 0px;
+    right: 0px;
+    pointer-events: none; /*http://stackoverflow.com/questions/3680429/click-through-a-div-to-underlying-elements*/
+}
+#modcam-img{
+    width: 708px;
+    height: 628px;
+    position: absolute;
+    display: inline;
+}
+.main-map .utci-map-container{
+    width: 708px;
+    height: 628px;
+    position: absolute;
+    display: inline;
+}
+.current-hour{
+    font-family: Museo-500;
+    clear:both;
+    font-size: 20px;
+    padding: 15px;
+}
+.heading-big-1{
+    font-size: 57px;
+    line-height: 57px;
+    text-align: left;
+    text-transform: none;
+}
+
+@media(max-width:767px) {
+    ul.banner-social-buttons li {
+        display: block;
+        margin-bottom: 20px;
+        padding: 0;
+    }
+
+    ul.banner-social-buttons li:last-child {
+        margin-bottom: 0;
+    }
+    #clSlider{
+        width: 80px;
+    }
+
+}
+@media(max-width:411px){
+    #climate .map-ui-elements {
+        margin-bottom: 20px;
+    }
 }
