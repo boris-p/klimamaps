@@ -23,7 +23,7 @@ climate.prototype.init = function() {
     //we have three types of hexagons - 0, 1 and 2. this is defined in the points file and can be changed to visualize more or less
     //without changing any f the underlying logic
     //if we set -1 we will draw all of them, if we will set 1 we will draw only the 2's ...
-    this.drawHexagonsFrom = -1;
+    this.drawHexagonsFrom = 1;
     //indicates if we're in the middle of the simulation (doesn't matter if we're paused or running)
     this.inSimulation = false;
     this.currentAnimationStep = 0;
@@ -354,7 +354,10 @@ climate.prototype.formatCurrentDateString = function(timeStep,extraString){
 }
 climate.prototype.over = function (d, i) {
     //tip.html(createTipHtmlUTCI(d.luxValue, i)).attr('class', 'd3-tip animate').show(d);
+    l(1);
+    l("lux value - " + d.luxValue);
     //tip.html(createTipHtml(d.luxValue, i)).attr('class', 'd3-tip animate').show(d);
+    l(2);
     ind = i + 1;
     var elmnt =this.gridLayer.select("path:nth-child(" + ind + ")");
     if (elmnt.attr("clicked") != 1) {
