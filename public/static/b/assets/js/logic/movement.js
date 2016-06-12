@@ -48,6 +48,7 @@ movement.prototype.init = function(name) {
             $(this).removeClass('fa-pause').addClass('fa-play');
         }
     });
+    $('#movement .current-hour').html("Choose a date and time or simply press play");
 };
 //overriding page destruct
 movement.prototype.destruct = function() {

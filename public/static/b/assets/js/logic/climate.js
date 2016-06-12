@@ -10,13 +10,13 @@ climate.prototype.constructor = climate;
 //overriding page init
 climate.prototype.init = function() {
     var self = this;
-    l("in climate init function");
+    l("in climate init");
     l(this.pageName);
 
     //TODO - move these setting elsewhere to some config
     //instead of loading just one result at a time we're getting a chunk from time X to time X + timeChunkToLoad (in minutes)
     //now it's 240 so we're loading 4 hour time chunks, might need to adjust something so that the request doesn't take long
-    this.timeChunkToLoad = 300;
+    this.timeChunkToLoad = 420;
     this.mapItemSize = 32;
     this.animationBaseSpeed = 1500;
     this.animationSpeed = this.animationBaseSpeed;  //this is the base value. so when the speed set by the user is in the middle this will be the speed
@@ -24,22 +24,23 @@ climate.prototype.init = function() {
     //without changing any f the underlying logic
     //if we set -1 we will draw all of them, if we will set 1 we will draw only the 2's ...
     this.drawHexagonsFrom = 1;
-    this.animate = false;
+    //indicates if we're in the middle of the simulation (doesn't matter if we're paused or running)
+    this.inSimulation = false;
     this.currentAnimationStep = 0;
-    this.activeColorScheme = 1;
+    this.activeColorScheme = 4;
     this.totalItems = [];
     this.utciData = [];
+    //when selecting date or time check if it changed before retriggering anything
+    this.lastSelectedDateTime = false;
     this.dt = "";
-    this.speed = 50;
-    l(this.speed );
-    l(pc.pageScript);
-    l(pc.pageScript.speed);
+    this.pauseAnimation = false;
     //change the domain to something meaningful - not necessarily 100
     this.colorRange = d3.scale.linear().clamp(true).domain([ 10,20]).rangeRound([ 0, 19 ]);
 
 
     d3.select('#clSlider').call(
-        d3.slider().step(1).value(pc.pageScript.speed).on("slide", function(evt, value) {
+        d3.slider().step(1).value(50).on("slide", function(evt, value) {
+            self.animationSpeed = self.animationBaseSpeed  - (value *10 );
         }));
 
     this.initDateTimePicker();
@@ -48,38 +49,60 @@ climate.prototype.init = function() {
     //this.getRhinoData(5);
 
     //event handlers
-    $('#clRunSimulation').click(self.runSimulation);
+    $('#clPauseAnimation').click(function(){
+        console.log("toggling pause");
+        if ($(this).hasClass('fa-play')) {
+            self.pauseAnimation = false;
+            //this means we were paused and are resuming the simulation
+            if (self.inSimulation) {
+                self.animateLoop();
+            }
+            //this means we are starting a new simulation
+            else {
+                self.runSimulation();
+            }
+            $(this).removeClass('fa-play').addClass('fa-pause');
+        } else{
+            self.pauseAnimation = true;
+            $(this).removeClass('fa-pause').addClass('fa-play');
+        }
+    });
 
-    $('#CloneBackwards').click(function(){
-        if (!self.animate) {
+
+    $('#clOneBackwards').click(function(){
+        //only run if we're paused
+        if (self.pauseAnimation) {
             console.log("one backwards");
-            pc.pageScript.currentAnimationStep--;
-            pc.pageScript.animateLoop(true);
+            self.currentAnimationStep--;
+            self.animateLoop(true);
         }
     });
     $('#clOneForward').click(function(){
-        console.log("one forward");
-        if (!self.animate) {
-            pc.pageScript.currentAnimationStep++;
-            pc.pageScript.animateLoop(true);
+        //only run if we're paused
+        if (self.pauseAnimation) {
+            console.log("one forward");
+            self.currentAnimationStep++;
+            self.animateLoop(true);
         }
     });
-    $('#clPauseAnimation').click(function(){
-        console.log("toggling pause");
-        if (pc.pageScript.animate){
-            pc.pageScript.animate = false;
-        } else{
-            pc.pageScript.animate = true;
-            pc.pageScript.animateLoop();
-        }
-    });
+    $('#climate .current-hour').html("Choose a date and time or simply press play");
 };
 //overriding page destruct
 climate.prototype.destruct = function() {
+    var self = pc.pageScripts.climate;
     //TODO - might need to clean some more variables, or maybe I should just set the object to null in the page controller?
     l("in climate destructor");
-    pc.pageScript.animate = false;
-    clearTimeout(pc.pageScript.timeOut);
+    self.inSimulation = false;
+    self.pauseAnimation = false;
+    clearTimeout(self.timeOut);
+    clearTimeout(self.progressiveTimeOut);
+
+    $('#clPauseAnimation').removeClass('fa-pause').addClass('fa-play');
+    self.formatCurrentDateString(self.currentAnimationStep);
+    self.hexagons.transition()
+        .ease('easeInOutExpo')
+        .style("fill", "white");
+    $('#climate .current-hour').html("Choose a date and time or simply press play");
 };
 
 climate.prototype.initDateTimePicker = function(){
@@ -107,15 +130,25 @@ climate.prototype.initDateTimePicker = function(){
 
 //init the date picker
 climate.prototype.dateTimeAction = function( currentDateTime,$input ) {
+    l("date time changed");
+    var self = pc.pageScripts.climate;
     l(currentDateTime);
-    var d = $input.datetimepicker('getValue');
-    if (d != null) {
-        l(d.getTime() / 1000);
-        pc.pageScript.currentDate = pc.pageScript.dtPick.datetimepicker('getValue');
+
+    //fyi - two ways of doing the same thing
+    //self.currentDate  = currentDateTime.getTime();
+    self.currentDate = $input.datetimepicker('getValue');
+
+    if (self.currentDate != self.lastSelectedDateTime){
+        self.inSimulation = false;
+        $('#clPauseAnimation').trigger('click');
+    } else{
+        l("selected date an existing ones are the same, do nothing");
     }
+    l(self.currentDate / 1000);
 };
 
 climate.prototype.buildGridData = function(gridData) {
+    var self = this;
     var radius = this.mapItemSize;
     //a manual fix to get the initial  placement where we want it
     xp = -25;
@@ -129,10 +162,10 @@ climate.prototype.buildGridData = function(gridData) {
         var startItem = parseInt(element.start);
         for (var column = 0; column < numOfHexes; column++) {
 
-            pc.pageScript.totalItems.push(parseInt(element.items[column]));
+            self.totalItems.push(parseInt(element.items[column]));
             //only if the element is 2 we want to draw it . so we actually simulated more than we're showing
             //and later on perhaps have some levels of what we're showing - canopy and not canopy
-            if (element.items[column]   > pc.pageScript.drawHexagonsFrom){
+            if (element.items[column]   > self.drawHexagonsFrom){
                 var xAddition = xp + (radius*2*(column + startItem));
                 if (row % 2 == 1) xAddition += radius;
 
@@ -165,7 +198,6 @@ climate.prototype.drawHexagon =  d3.svg.line()
         .interpolate("cardinal-closed")
         //.interpolate("linear-closed")
         .tension("0.2");
-
 
 climate.prototype.buildMap = function(){
     l("building map");
@@ -203,32 +235,39 @@ climate.prototype.buildMap = function(){
     });
 };
 
-climate.prototype.runSimulation =  function (){
-    pc.pageScript.animate  = false;
+climate.prototype.runSimulation = function (){
     l("running simulation");
-    pc.pageScript.getUtciData(pc.pageScript.currentDate);
+    var self = this;
+    //stop loading more results and clear whatever we have in the cache of utci data and start loading new data
+    clearTimeout(self.timeOut);
+    clearTimeout(self.progressiveTimeOut);
+    self.utciData = [];
+
+    //get data
+    self.getUtciData(self.currentDate);
 };
 
 
 climate.prototype.getUtciData =  function (d){
+    var self = pc.pageScripts.climate;
     l("in getUtciData. Passed time is  " + d.getTime());
-    //try to load up till the present
+    //if we're trying to load something in the future let the user know
     if (d.getTime() > Date.now()){
+        l("can't see into the future. Please pick an earlier date");
+        $('#climate .current-hour').html(formatDate(d)  + "<br /> can't see the future...Please try an earlier date");
         return;
     }
-    l("getting utci data");
-    var self = this;
+    //set time frame to load
     var endTime = new Date();
     endTime.setTime(d.getTime());
-    endTime.setMinutes(d.getMinutes() + pc.pageScript.timeChunkToLoad);
+    endTime.setMinutes(d.getMinutes() + self.timeChunkToLoad);
 
     l("selected start date - " + d.getTime()/1000);
     l("selected end date - " + endTime.getTime()/1000);
     var reqString = "/utcidata?start=" + d.getTime()/1000 + "&end=" + endTime.getTime()/1000;
     l(reqString);
-
     d3.json(reqString , function(json) {
-        l(json);
+        //TODO - handle errors or empty results
         json.forEach(function(item,i){
             //the item contains everything from the db including point in time values for temp, radiation etc.
             //for later maybe
@@ -237,52 +276,50 @@ climate.prototype.getUtciData =  function (d){
             utciObj.points = [];
             item.pointsUtci.forEach(function(utciPointVal,j){
                 //the point is relevant only if we're actually using it in the visualization
-                if (pc.pageScript.totalItems[j] > pc.pageScript.drawHexagonsFrom){
+                if (self.totalItems[j] > self.drawHexagonsFrom){
                     utciObj.points.push(utciPointVal);
                 }
             });
-            pc.pageScript.utciData.push(utciObj);
+            self.utciData.push(utciObj);
         });
-        //self.rhinoData = json;
-        if (!pc.pageScript.animate) {
-            pc.pageScript.beginAnimation();
+        //if we're not already in a running simulation initiate it
+        if (!self.inSimulation) {
+            self.beginAnimation();
         }
+        //start progressive downloading - make a new request for the next chunk of data every 5 seconds
+        //5000 is random, maybe should change it?
+        self.progressiveTimeOut = setTimeout(self.getUtciData, 5000,endTime);
    });
-
-    //start progressive downloading
-    //1000 is random, maybe should change it
-    pc.pageScript.progressiveTimeOut = setTimeout(pc.pageScript.getUtciData, 4000,endTime);
 };
 
 climate.prototype.beginAnimation = function () {
     l("beginning animation");
-    //TODO - this will have to move
+    this.inSimulation = true;
     this.currentAnimationStep = 0;
-
-    this.animate = true;
     this.animateLoop();
 }
 
 //do your magic
 climate.prototype.animateLoop = function (animateAnyway) {
     //setTimeout changes the scope so this is the window in the second run
-    // so for now just calling the current script from the page controller (maybe this isn't the best option,
-    // or if it is should be more consistent
-    //l("animating map");
-
+    //so we access the class from the main page controller
+    var self = pc.pageScripts.climate;
     //only run if we have more values to run by
-    if (pc.pageScript.currentAnimationStep < pc.pageScript.utciData.length){
+    if (self.currentAnimationStep < self.utciData.length){
         animateAnyway = typeof animateAnyway !== 'undefined' ? animateAnyway : false;
-        if (pc.pageScript.animate || animateAnyway) {
-            //TODO - make it work with a slider to change the speed
-            pc.pageScript.timeOut = setTimeout(pc.pageScript.animateLoop, pc.pageScript.animationSpeed);
-            pc.pageScript.colorMap(pc.pageScript.animationSpeed);
+        //animate if we're not in paused mode or if we're forcing it (like when moving one time steps even when paused)
+        l("trying to animate");
+        if (!self.pauseAnimation || animateAnyway) {
+            self.timeOut = setTimeout(self.animateLoop, self.animationSpeed);
+            self.colorMap(self.animationSpeed);
+            //when we're paused and go one step back or forward we don't want to automatically change the time steps
+            //but are doing it from above
             if (!animateAnyway){
-                pc.pageScript.currentAnimationStep++;
+                self.currentAnimationStep++;
             }
         }
     } else{
-        pc.pageScript.formatCurrentDateString(pc.pageScript.currentAnimationStep-1,"<br />No more data is currently availible");
+        self.formatCurrentDateString(self.currentAnimationStep-1,"<br />No more data is currently available");
     }
 }
 
@@ -294,23 +331,26 @@ climate.prototype.colorMap = function (time) {
         + " and hour - " + self.currentHour % 24);
     */
 
-    self.formatCurrentDateString(pc.pageScript.currentAnimationStep);
-    pc.pageScript.hexagons.transition()
+    self.formatCurrentDateString(self.currentAnimationStep);
+    self.hexagons.transition()
         //.ease(d3_ease.easeLinear)
         .ease('easeInOutExpo')
         .style("fill", function(d, i) {
-            d.utciValue = pc.pageScript.utciData[pc.pageScript.currentAnimationStep].points[i];
-            return colorColors[pc.pageScript.activeColorScheme][pc.pageScript.colorRange(d.utciValue)];
+            d.utciValue = self.utciData[self.currentAnimationStep].points[i];
+            return colorColors[self.activeColorScheme][self.colorRange(d.utciValue)];
         }).duration(time);
 };
 
 /*----------------------------------map interaction functions--------------------------*/
 climate.prototype.formatCurrentDateString = function(timeStep,extraString){
+    var self = this;
     extraString = typeof extraString !== 'undefined' ? extraString : "";
     var dText = new Date();
-    dText.setTime(pc.pageScript.utciData[timeStep].time_stamp * 1000);
-    dText.setSeconds(0);
-    $('#climate .current-hour').html(formatDate(dText) + extraString);
+    if (pc.pageScripts.climate.utciData.length > 0){
+        dText.setTime(self.utciData[timeStep].time_stamp * 1000);
+        dText.setSeconds(0);
+        $('#climate .current-hour').html(formatDate(dText) + extraString);
+    }
 }
 climate.prototype.over = function (d, i) {
     //tip.html(createTipHtmlUTCI(d.luxValue, i)).attr('class', 'd3-tip animate').show(d);
@@ -334,8 +374,9 @@ climate.prototype.out = function (d, i) {
     //"fill", "white").duration(300);
 };
 climate.prototype.clickCell = function (d, i) {
-    // d.transition().style("fill","blue");
+    //not having a function assosiated with this (for now?)
     return;
+    // d.transition().style("fill","blue");
     ind = i + 1;
     var elmnt =this.gridLayer.select("path:nth-child(" + ind + ")");
     var fillColor = (elmnt.attr("clicked") == 1 ? "white" : "rgb(0, 0, 255)");

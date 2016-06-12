@@ -149,7 +149,7 @@ a:focus {
     padding: 100px 0;
     text-align: center;
     color: #fff;
-    background: url(../../static/b/assets/images/pv_1.jpg) no-repeat bottom center scroll;
+    background: url(../images/pv_1.jpg) no-repeat bottom center scroll;
     background-color: #000;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -318,7 +318,7 @@ a:focus {
     background-color:red;
     margin:1px;
     display: inline-block;
-    background: url(../../static/b/assets/images/sponser_logos.jpg) ;
+    background: url(../images/sponser_logos.jpg) ;
     margin:10px 12px;
 }
 .credit-logo.stu-uni{
@@ -377,7 +377,7 @@ a:focus {
     height: 400px;
     margin-top: 100px;
     color: #fff;
-    background: url(../../static/b/assets/images/pv_2.jpg) no-repeat center center scroll;
+    background: url(../images/pv_2.jpg) no-repeat center center scroll;
     background-color: #000;
     -webkit-background-size: cover;
     -moz-background-size: cover;

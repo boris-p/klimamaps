@@ -6,7 +6,7 @@ var myMongo= require('../mongo_tests');
 //a bit hacky but could be worse
 router.get('/', function(req, res) {
     var path = require("path");
-    res.sendFile(path.resolve(__dirname, '..','public/static/b/main.html'));
+    res.sendFile(path.resolve(__dirname, '..','public/static/b/index.html'));
 
 });
 
