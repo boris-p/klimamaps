@@ -23,7 +23,7 @@ climate.prototype.init = function() {
     //we have three types of hexagons - 0, 1 and 2. this is defined in the points file and can be changed to visualize more or less
     //without changing any f the underlying logic
     //if we set -1 we will draw all of them, if we will set 1 we will draw only the 2's ...
-    this.drawHexagonsFrom = 1;
+    this.drawHexagonsFrom = -1;
     //indicates if we're in the middle of the simulation (doesn't matter if we're paused or running)
     this.inSimulation = false;
     this.currentAnimationStep = 0;
@@ -35,7 +35,7 @@ climate.prototype.init = function() {
     this.dt = "";
     this.pauseAnimation = false;
     //change the domain to something meaningful - not necessarily 100
-    this.colorRange = d3.scale.linear().clamp(true).domain([ 5,30]).rangeRound([ 0, 19 ]);
+    this.colorRange = d3.scale.linear().clamp(true).domain([ 5,25]).rangeRound([ 0, 19 ]);
 
 
     d3.select('#clSlider').call(
@@ -253,8 +253,8 @@ climate.prototype.getUtciData =  function (d){
     l("in getUtciData. Passed time is  " + d.getTime());
     //if we're trying to load something in the future let the user know
     if (d.getTime() > Date.now()){
-        l("can't see into the future. Please pick an earlier date");
-        $('#climate .current-hour').html(formatDate(d)  + "<br /> can't see the future...Please try an earlier date");
+        l("can't load any more results");
+        //$('#climate .current-hour').html(formatDate(d)  + "<br /> can't see the future...Please try an earlier date");
         return;
     }
     //set time frame to load
