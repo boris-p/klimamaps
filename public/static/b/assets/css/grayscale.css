@@ -7,6 +7,39 @@
     src:url("../fonts/MuseoSlab-500/312252_0_0.eot");
     src: url("../fonts/MuseoSlab-500/312252_0_0.eot?#iefix") format("embedded-opentype"),url("../fonts/MuseoSlab-500/312252_0_0.woff2") format("woff2"),url("../fonts/MuseoSlab-500/312252_0_0.woff") format("woff"),url("webfonts/312252_0_0.ttf") format("truetype");
 }
+
+@-webkit-keyframes bounceIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.3);
+    }
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1.05);
+    }
+    70% {
+        -webkit-transform: scale(.9);
+    }
+    100% {
+        -webkit-transform: scale(1);
+    }
+}
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
 body {
     width: 100%;
     height: 100%;
@@ -811,7 +844,72 @@ code {
     text-align: left;
     text-transform: none;
 }
+.d3-tip {
+    line-height: .8;
+    background-color:rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border-radius: 5px;
+    pointer-events: none;
+    z-index: 100;
 
+}
+
+.d3-tip.animate {
+    animation: bounceIn 0.6s ease-out;
+    -webkit-animation: bounceIn 0.6s ease-out;
+}
+.d3-tip .luxValue,.d3-tip .nodeId {
+    padding: 6px;
+    color:black;
+}
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 8px;
+    width: 100%;
+    line-height: .8;
+    color:#333;
+    position: absolute;
+    pointer-events: none;
+}
+
+/* Northward tooltips */
+.d3-tip.n:after {
+    content: "\25BC";
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
+    text-align: center;
+}
+
+/* Eastward tooltips */
+.d3-tip.e:after {
+    content: "\25C0";
+    margin: -4px 0 0 0;
+    top: 50%;
+    left: -8px;
+}
+
+/* Southward tooltips */
+.d3-tip.s:after {
+    content: "\25B2";
+    margin: 0 0 1px 0;
+    top: -8px;
+    left: 0;
+    text-align: center;
+}
+
+/* Westward tooltips */
+.d3-tip.w:after {
+    content: "\25B6";
+    margin: -4px 0 0 -1px;
+    top: 50%;
+    left: 100%;
+}
+.d3-tip .val{
+    padding:5px;
+}
 @media(max-width:767px) {
     ul.banner-social-buttons li {
         display: block;

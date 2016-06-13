@@ -165,7 +165,7 @@ climate.prototype.buildGridData = function(gridData) {
             self.totalItems.push(parseInt(element.items[column]));
             //only if the element is 2 we want to draw it . so we actually simulated more than we're showing
             //and later on perhaps have some levels of what we're showing - canopy and not canopy
-            if (element.items[column]   > self.drawHexagonsFrom){
+            if (element.items[column] > self.drawHexagonsFrom){
                 var xAddition = xp + (radius*2*(column + startItem));
                 if (row % 2 == 1) xAddition += radius;
 
@@ -207,6 +207,7 @@ climate.prototype.buildMap = function(){
         .attr("height", 700);
     self.gridLayer = mapBase.append('g');
 
+    mapBase.call(tip);
     //load points file
     d3.csv(BASE_PATH+"assets/js/points.pt", function(data) {
         self.dt = self.buildGridData(data);
@@ -334,6 +335,8 @@ climate.prototype.colorMap = function (time) {
     self.formatCurrentDateString(self.currentAnimationStep);
     self.hexagons.transition()
         //.ease(d3_ease.easeLinear)
+        //.attr("utciScore", function(d) {
+          //  return d.x_axis;})
         .ease('easeInOutExpo')
         .style("fill", function(d, i) {
             d.utciValue = self.utciData[self.currentAnimationStep].points[i];
@@ -354,21 +357,22 @@ climate.prototype.formatCurrentDateString = function(timeStep,extraString){
 }
 climate.prototype.over = function (d, i) {
     //tip.html(createTipHtmlUTCI(d.luxValue, i)).attr('class', 'd3-tip animate').show(d);
-    l(1);
-    l("lux value - " + d.luxValue);
-    //tip.html(createTipHtml(d.luxValue, i)).attr('class', 'd3-tip animate').show(d);
-    l(2);
+    if (typeof d.utciValue !== 'undefined') {
+        tip.html(createTipHtml("UTCI Score - " + d.utciValue)).attr('class', 'd3-tip animate').show(d);
+    }
     ind = i + 1;
     var elmnt =this.gridLayer.select("path:nth-child(" + ind + ")");
+    return;
     if (elmnt.attr("clicked") != 1) {
         elmnt.transition().style(
             "fill", "rgb(167, 79, 79)").duration(300);
     }
 };
 climate.prototype.out = function (d, i) {
-    //tip.attr('class', 'd3-tip').show(d).hide();
+    tip.attr('class', 'd3-tip').hide();
     ind = i + 1;
     var elmnt =this.gridLayer.select("path:nth-child(" + ind + ")");
+    return;
     if (elmnt.attr("clicked") != 1){
         elmnt.transition().style(
             "fill", "white").duration(300);
@@ -378,11 +382,11 @@ climate.prototype.out = function (d, i) {
 };
 climate.prototype.clickCell = function (d, i) {
     //not having a function assosiated with this (for now?)
-    return;
     // d.transition().style("fill","blue");
     ind = i + 1;
     var elmnt =this.gridLayer.select("path:nth-child(" + ind + ")");
     var fillColor = (elmnt.attr("clicked") == 1 ? "white" : "rgb(0, 0, 255)");
+    return;
     elmnt.attr("clicked","1")
         .transition().style(
         "fill", fillColor).duration(300);

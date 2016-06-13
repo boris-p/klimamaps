@@ -196,19 +196,18 @@ html, body {
 }
 .d3-tip {
 	line-height: .8;
-	padding: 4px;
-	background: rgba(255, 255, 255, 0.9);
-	color: #fff;
-	border-radius: 1px;
-	pointer-events: none;
+	background-color: rgba(0, 0, 0, 0.53);
+	color: white;
 	z-index: 100;
+	padding: 10px;
+	border-radius: 5px;
 }
 
 .d3-tip.animate {
 	animation: bounceIn 0.6s ease-out;
 	-webkit-animation: bounceIn 0.6s ease-out;
 }
-.d3-tip .luxValue,.d3-tip .nodeId {
+.d3-tip .val,.d3-tip .nodeId {
 	padding: 6px;
 	color:black;
 }
@@ -219,7 +218,7 @@ html, body {
 	font-size: 8px;
 	width: 100%;
 	line-height: .8;
-	color: rgba(255, 255, 255, 0.5);
+	background-color: rgba(0, 0, 0, 0.53);
 	position: absolute;
 	pointer-events: none;
 }

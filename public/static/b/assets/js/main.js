@@ -48,9 +48,8 @@ function createTipHtmlUTCI(luxVal, id) {
     //});
     return d3.select("#utciSuper").node().outerHTML;
 }
-function createTipHtml(luxVal, id) {
-    var html = '<div class="luxValue">LuxValue - ' + luxVal + '</div>';
-    html += '<div class="nodeId">Node id - ' + id +'</div>';
+function createTipHtml(val) {
+    var html = '<div class="val">'+val+'</div>';
     return html;
 }
 /*------------------------page controller--------------------------*/
