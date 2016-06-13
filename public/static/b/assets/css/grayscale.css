@@ -699,6 +699,9 @@ code {
 .map-ui-elements{
     display: inline-block;
 }
+.utci-params div{
+    display: inline-block;
+}
 /*--------------------------d3 slider-----------------------------*/
 #clSlider{
     width: 120px;
