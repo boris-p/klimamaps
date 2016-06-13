@@ -90,14 +90,17 @@ climate.prototype.init = function() {
 //overriding page destruct
 climate.prototype.destruct = function() {
     var self = pc.pageScripts.climate;
-    //TODO - might need to clean some more variables, or maybe I should just set the object to null in the page controller?
+
+    //for now don't dismiss anything, just pause. people might be going away and then coming back
+    //have to check the usability
+    self.pauseAnimation = true;
+    $('#clPauseAnimation').removeClass('fa-pause').addClass('fa-play');
+    return;
     l("in climate destructor");
     self.inSimulation = false;
-    self.pauseAnimation = false;
     clearTimeout(self.timeOut);
     clearTimeout(self.progressiveTimeOut);
 
-    $('#clPauseAnimation').removeClass('fa-pause').addClass('fa-play');
     self.formatCurrentDateString(self.currentAnimationStep);
     self.hexagons.transition()
         .ease('easeInOutExpo')
@@ -274,6 +277,11 @@ climate.prototype.getUtciData =  function (d){
             //for later maybe
             var utciObj = {};
             utciObj.time_stamp = item.time_stamp;
+            utciObj.solarRadiation = item.solarRadiation;
+            utciObj.temp = item.temp;
+            utciObj.wind_kph = item.wind_kph;
+            utciObj.relativeHumidity = item.relativeHumidity;
+            utciObj.utciScore = item.utciScore;
             utciObj.points = [];
             item.pointsUtci.forEach(function(utciPointVal,j){
                 //the point is relevant only if we're actually using it in the visualization
@@ -326,12 +334,17 @@ climate.prototype.animateLoop = function (animateAnyway) {
 
 climate.prototype.colorMap = function (time) {
     var self = this;
-    //console.log(self.rhinoData);
+    //l(self.rhinoData);
     /*d3.select('.current-hour').text(
         "Current simulation day - " + Math.floor(self.currentHour / 24)
         + " and hour - " + self.currentHour % 24);
     */
 
+    $('.utci-temperature span').html(self.utciData[self.currentAnimationStep].temp + '&#8451');
+    $('.utci-radiation span').html(self.utciData[self.currentAnimationStep].solarRadiation + 'W/m&#178');
+    $('.utci-wind span').html(self.utciData[self.currentAnimationStep].wind_kph + 'k/h');
+    $('.utci-humidity span').html(self.utciData[self.currentAnimationStep].relativeHumidity + '%');
+    $('.utci-Score span').html(self.utciData[self.currentAnimationStep].utciScore);
     self.formatCurrentDateString(self.currentAnimationStep);
     self.hexagons.transition()
         //.ease(d3_ease.easeLinear)

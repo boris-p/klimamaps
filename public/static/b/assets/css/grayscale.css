@@ -656,6 +656,9 @@ code {
     -webkit-transition: background-color .2s,color .2s;
     transition: background-color .2s, color .2s;
 }
+.main-map-container .ui-buttons{
+    text-align: left;
+}
 .main-map-container .ui-buttons .buttons-inner .fa:hover,
 .main-map-container .fa-pause:hover{
     cursor: pointer;
@@ -699,8 +702,30 @@ code {
 .map-ui-elements{
     display: inline-block;
 }
-.utci-params div{
+.utci-params{
+    margin-bottom: 20px;
+    text-align: left;
+}
+.utci-param{
     display: inline-block;
+}
+.utci-param span{
+    font-size: 16px;
+    font-family: Museo-500;
+}
+.utci-temperature,.utci-wind,.utci-humidity{
+    width:100px;
+}
+.utci-radiation{
+    width:145px;
+}
+.utci-Score{
+    font-size: 20px;
+    font-family: Museo-500;
+}
+.utci-Score span{
+    font-size: 24px;
+    color:#42dca3;
 }
 /*--------------------------d3 slider-----------------------------*/
 #clSlider{
@@ -836,6 +861,7 @@ code {
     float: right;
 }
 .current-hour{
+    text-align: left;
     font-family: Museo-500;
     clear:both;
     font-size: 20px;
