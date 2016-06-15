@@ -11,7 +11,9 @@
             border: 1px solid #555;
         }
     </style>
+    <script   src="https://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>
     <script src="logic.js"></script>
+
     <script>
         var loadCount = 0;
         function imageLoaded() {
@@ -36,7 +38,7 @@
                         el.textContent = 'FINISHED. ' + el.textContent;
                         window.clearInterval(updater);
                         crossfader.stop();
-                    }, 7000);
+                    }, 40000);
                 }, 100);
             }
         }
@@ -45,7 +47,10 @@
 <body>
 <h1>Pixel Crossfading with HTML5 Canvas</h1>
 <p id="info">Loading... Please wait.</p>
-<canvas width="400" height="400" id="surface">
+<div id="speed-text" style="padding:10px;">
+    Speed (default 0.08) <input type="text" id="speed-input" value ="0.08">
+</div>
+<canvas width="1026" height="904" id="surface">
 </canvas>
 <img id="image1" src="img/image1.jpg" style="display: none" onload="imageLoaded()"/>
 <img id="image2" src="img/image2.jpg" style="display: none" onload="imageLoaded()"/>

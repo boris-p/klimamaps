@@ -25,6 +25,7 @@
 
 /*global window:true Int16Array:true */
 
+var speed = 0.08;
 function Crossfader(canvas, image1, image2) {
 
     var context = canvas.getContext('2d'),
@@ -78,7 +79,7 @@ function Crossfader(canvas, image1, image2) {
         value = 0;
         timestamp = Date.now();
         ticker = window.setInterval(function () {
-            value += 0.1;
+            value += speed;
             tween(0.5 + 0.5 * Math.sin(value));
         }, 1000 / 60);
     }
@@ -105,3 +106,12 @@ function Crossfader(canvas, image1, image2) {
         frameRate: frameRate
     };
 }
+$( document ).ready(function(){
+    $("#speed-input").on("change keyup paste", function(){
+        var val = parseFloat($(this).val());
+        if (!isNaN(val)){
+            speed = val;
+            console.log("changed speed to - " + val);
+        }
+    })
+});
