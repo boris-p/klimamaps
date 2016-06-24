@@ -1,14 +1,14 @@
 //this is actually structure and moving information
-var movement = movement|| function (pageName) {
+var movements = movements|| function (pageName) {
         gPage.call(this,pageName);
         l("in movement constructor");
     };
 // inherit gPage & correct the constructor pointer because it points to gPage
-movement.prototype = Object.create(gPage.prototype);
-movement.prototype.constructor = movement;
+movements.prototype = Object.create(gPage.prototype);
+movements.prototype.constructor = movements;
 
 //overriding page init
-movement.prototype.init = function(name) {
+movements.prototype.init = function(name) {
     this.scriptName = name;
     var self = this;
     l("initiating movement page");
@@ -51,14 +51,14 @@ movement.prototype.init = function(name) {
     $('#movement .current-hour').html("Choose a date and time or simply press play");
 };
 //overriding page destruct
-movement.prototype.destruct = function() {
+movements.prototype.destruct = function() {
     l("in movement destructor");
-    clearTimeout(pc.pageScripts.movement.timeOut);
-    pc.pageScripts.movement.pauseAnimation = true;
+    clearTimeout(pc.pageScripts.movements.timeOut);
+    pc.pageScripts.movements.pauseAnimation = true;
     $('#mvPauseAnimation').removeClass('fa-pause').addClass('fa-play');
 };
 //delay in minutes - if we want +15 minutes we'll pass in 15
-movement.prototype.setDateTime = function (d, delay ){
+movements.prototype.setDateTime = function (d, delay ){
     d = typeof d !== 'undefined' ? d : new Date();
     delay = typeof delay !== 'undefined' ? delay : 0;
     var startTime;
@@ -71,7 +71,7 @@ movement.prototype.setDateTime = function (d, delay ){
     startTime += d.getMinutes();
     return startTime;
 }
-movement.prototype.initDateTimePicker = function(){
+movements.prototype.initDateTimePicker = function(){
     var self = this;
     self.dtPick = $('#mvDatetimepicker');
     self.dtPick.datetimepicker({
@@ -94,59 +94,59 @@ movement.prototype.initDateTimePicker = function(){
     self.currentDate = self.dtPick.datetimepicker('getValue');
 };
 //init the date picker
-movement.prototype.dateTimeAction = function( currentDateTime,$input ) {
+movements.prototype.dateTimeAction = function( currentDateTime,$input ) {
 
     console.log(currentDateTime);
     //var d = $('#input').datetimepicker('getValue');
     var d = $input.datetimepicker('getValue');
     if (d != null) {
         console.log(d.getTime() / 1000);
-        pc.pageScripts.movement.currentDate = pc.pageScripts.movement.dtPick.datetimepicker('getValue');
+        pc.pageScripts.movements.currentDate = pc.pageScripts.movements.dtPick.datetimepicker('getValue');
     }
 };
-movement.prototype.runSimulation = function () {
-    pc.pageScripts.movement.pauseAnimation = false;
+movements.prototype.runSimulation = function () {
+    pc.pageScripts.movements.pauseAnimation = false;
     console.log("running simulation");
     //$('#datetimepicker').hide();
-    pc.pageScripts.movement.animateLoop();
+    pc.pageScripts.movements.animateLoop();
 };
-movement.prototype.animateLoop = function (runAnyway) {
+movements.prototype.animateLoop = function (runAnyway) {
     runAnyway = typeof runAnyway !== 'undefined' ? runAnyway : false;
 
     console.log("now" + Date.now());
-    console.log("selected date" + pc.pageScripts.movement.currentDate.getTime());
+    console.log("selected date" + pc.pageScripts.movements.currentDate.getTime());
     
-    if ( Date.now() < pc.pageScripts.movement.currentDate.getTime()){
+    if ( Date.now() < pc.pageScripts.movements.currentDate.getTime()){
         console.log("can't read into the future");
-        $('#movement .current-hour').html(formatDate(pc.pageScripts.movement.currentDate) + "<br /> can't see the future...Please try an earlier date");
+        $('#movement .current-hour').html(formatDate(pc.pageScripts.movements.currentDate) + "<br /> can't see the future...Please try an earlier date");
         l("pausing animation");
-        pc.pageScripts.movement.pauseAnimation = true;
+        pc.pageScripts.movements.pauseAnimation = true;
     }
-    else if (!pc.pageScripts.movement.pauseAnimation || runAnyway){
+    else if (!pc.pageScripts.movements.pauseAnimation || runAnyway){
         //setTimeout changes the scope so this is the window in the second run
         // so for now just calling the current script from the page controller (maybe this isn't the best option,
         // or if it is should be more consistent
         l("animating map");
-        var path = pc.pageScripts.movement.basePath + pc.pageScripts.movement.setDateTime(pc.pageScripts.movement.currentDate) + "/" + pc.pageScripts.movement.setDateTime(pc.pageScripts.movement.currentDate,15) + "?wp=4000";
+        var path = pc.pageScripts.movements.basePath + pc.pageScripts.movements.setDateTime(pc.pageScripts.movements.currentDate) + "/" + pc.pageScripts.movements.setDateTime(pc.pageScripts.movements.currentDate,15) + "?wp=4000";
         l(path);
-        pc.pageScripts.movement.loadImage(path,710,628,pc.pageScripts.movement.container);
+        pc.pageScripts.movements.loadImage(path,710,628,pc.pageScripts.movements.container);
     }
 };
 
-movement.prototype.loadImage = function (path, width, height, target) {
+movements.prototype.loadImage = function (path, width, height, target) {
     var self =   this;
-    if (pc.pageScripts.movement.firstRun == true){
-        pc.pageScripts.movement.firstRun = false;
+    if (pc.pageScripts.movements.firstRun == true){
+        pc.pageScripts.movements.firstRun = false;
         $('<img id="modcam-img" src="'+ path +'">').off().load(function() {
             l("loaded image");
             $(this).width(width).height(height).prependTo(target);
-            pc.pageScripts.movement.timeOut = setTimeout(pc.pageScripts.movement.animateLoop, pc.pageScripts.movement.animationSpeed);
-            $('#movement .current-hour').html(formatDate(pc.pageScripts.movement.currentDate));
+            pc.pageScripts.movements.timeOut = setTimeout(pc.pageScripts.movements.animateLoop, pc.pageScripts.movements.animationSpeed);
+            $('#movement .current-hour').html(formatDate(pc.pageScripts.movements.currentDate));
         });
     } else{
         $("#modcam-img").attr("src", path).off().load(function(){
-            pc.pageScripts.movement.timeOut = setTimeout(self.animateLoop,pc.pageScripts.movement.animationSpeed);
-            $('.current-hour').html(formatDate(pc.pageScripts.movement.currentDate));
+            pc.pageScripts.movements.timeOut = setTimeout(self.animateLoop,pc.pageScripts.movements.animationSpeed);
+            $('.current-hour').html(formatDate(pc.pageScripts.movements.currentDate));
         });
     }
 };

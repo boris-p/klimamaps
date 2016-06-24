@@ -93,25 +93,26 @@ var pController = pController || function () {
 
     pController.prototype.initPageScript = function (pageScript) {
         l(pageScript);
+        var sName = pageScript + 's';
         //if there was logic associated with the previously active page
         //clean it up nicely
-        if (self.pageScript != false && self.pageScript.scriptName != pageScript) {
+        if (self.pageScript != false && self.pageScript.scriptName != sName) {
             l("calling custom page script destruct function");
             self.pageScript.destruct();
         }
 
         //if there's an available script associated to new active page run its init function
-        if(typeof pageScript != 'undefined' && window.hasOwnProperty(pageScript)) {
+        if(typeof pageScript != 'undefined' && window.hasOwnProperty(pageScript + "s")) {
             l("calling custom page script - " + pageScript);
             //we didn't already instantiate this function, do it now
-            if (typeof self.pageScripts[pageScript] == 'undefined'){
+            if (typeof self.pageScripts[sName] == 'undefined'){
                 l("making new page script");
-                self.pageScripts[pageScript] = new window[pageScript];
-                self.pageScripts[pageScript].init(pageScript);
+                self.pageScripts[sName] = new window[sName];
+                self.pageScripts[sName].init(pageScript);
             } else{
                 l("page script already exists");
             }
-            self.pageScript = self.pageScripts[pageScript];
+            self.pageScript = self.pageScripts[sName];
         } else{
             self.pageScript = false;
             l("page has no logic");

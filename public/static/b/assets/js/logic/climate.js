@@ -1,14 +1,14 @@
 //this is actually climate and moving information
-var climate = climate || function (pageName) {
+var climates = climates || function (pageName) {
         gPage.call(this,pageName);
         l("in climate constructor");
     };
 // inherit gPage & correct the constructor pointer because it points to gPage
-climate.prototype = Object.create(gPage.prototype);
-climate.prototype.constructor = climate;
+climates.prototype = Object.create(gPage.prototype);
+climates.prototype.constructor = climates;
 
 //overriding page init
-climate.prototype.init = function() {
+climates.prototype.init = function() {
     var self = this;
     l("in climate init");
     l(this.pageName);
@@ -88,8 +88,8 @@ climate.prototype.init = function() {
     $('#climate .current-hour').html("Choose a date and time or simply press play");
 };
 //overriding page destruct
-climate.prototype.destruct = function() {
-    var self = pc.pageScripts.climate;
+climates.prototype.destruct = function() {
+    var self = pc.pageScripts.climates;
 
     //for now don't dismiss anything, just pause. people might be going away and then coming back
     //have to check the usability
@@ -108,7 +108,7 @@ climate.prototype.destruct = function() {
     $('#climate .current-hour').html("Choose a date and time or simply press play");
 };
 
-climate.prototype.initDateTimePicker = function(){
+climates.prototype.initDateTimePicker = function(){
     var self = this;
     self.dtPick = $('#clDatetimepicker');
     self.dtPick.datetimepicker({
@@ -132,9 +132,9 @@ climate.prototype.initDateTimePicker = function(){
 };
 
 //init the date picker
-climate.prototype.dateTimeAction = function( currentDateTime,$input ) {
+climates.prototype.dateTimeAction = function( currentDateTime,$input ) {
     l("date time changed");
-    var self = pc.pageScripts.climate;
+    var self = pc.pageScripts.climates;
     l(currentDateTime);
 
     //fyi - two ways of doing the same thing
@@ -150,7 +150,7 @@ climate.prototype.dateTimeAction = function( currentDateTime,$input ) {
     l(self.currentDate / 1000);
 };
 
-climate.prototype.buildGridData = function(gridData) {
+climates.prototype.buildGridData = function(gridData) {
     var self = this;
     var radius = this.mapItemSize;
     //a manual fix to get the initial  placement where we want it
@@ -193,7 +193,7 @@ climate.prototype.buildGridData = function(gridData) {
     });
     return hexes;
 };
-climate.prototype.drawHexagon =  d3.svg.line()
+climates.prototype.drawHexagon =  d3.svg.line()
         .x(function (d) {
             //console.log(d);
             return d.x; })
@@ -202,7 +202,7 @@ climate.prototype.drawHexagon =  d3.svg.line()
         //.interpolate("linear-closed")
         .tension("0.2");
 
-climate.prototype.buildMap = function(){
+climates.prototype.buildMap = function(){
     l("building map");
     var self = this;
     //Make an SVG Container
@@ -239,7 +239,7 @@ climate.prototype.buildMap = function(){
     });
 };
 
-climate.prototype.runSimulation = function (){
+climates.prototype.runSimulation = function (){
     l("running simulation");
     var self = this;
     //stop loading more results and clear whatever we have in the cache of utci data and start loading new data
@@ -252,8 +252,8 @@ climate.prototype.runSimulation = function (){
 };
 
 
-climate.prototype.getUtciData =  function (d){
-    var self = pc.pageScripts.climate;
+climates.prototype.getUtciData =  function (d){
+    var self = pc.pageScripts.climates;
     l("in getUtciData. Passed time is  " + d.getTime());
     //if we're trying to load something in the future let the user know
     if (d.getTime() > Date.now()){
@@ -301,7 +301,7 @@ climate.prototype.getUtciData =  function (d){
    });
 };
 
-climate.prototype.beginAnimation = function () {
+climates.prototype.beginAnimation = function () {
     l("beginning animation");
     this.inSimulation = true;
     this.currentAnimationStep = 0;
@@ -309,10 +309,10 @@ climate.prototype.beginAnimation = function () {
 }
 
 //do your magic
-climate.prototype.animateLoop = function (animateAnyway) {
+climates.prototype.animateLoop = function (animateAnyway) {
     //setTimeout changes the scope so this is the window in the second run
     //so we access the class from the main page controller
-    var self = pc.pageScripts.climate;
+    var self = pc.pageScripts.climates;
     //only run if we have more values to run by
     if (self.currentAnimationStep < self.utciData.length){
         animateAnyway = typeof animateAnyway !== 'undefined' ? animateAnyway : false;
@@ -332,7 +332,7 @@ climate.prototype.animateLoop = function (animateAnyway) {
     }
 }
 
-climate.prototype.colorMap = function (time) {
+climates.prototype.colorMap = function (time) {
     var self = this;
     //l(self.rhinoData);
     /*d3.select('.current-hour').text(
@@ -358,17 +358,17 @@ climate.prototype.colorMap = function (time) {
 };
 
 /*----------------------------------map interaction functions--------------------------*/
-climate.prototype.formatCurrentDateString = function(timeStep,extraString){
+climates.prototype.formatCurrentDateString = function(timeStep,extraString){
     var self = this;
     extraString = typeof extraString !== 'undefined' ? extraString : "";
     var dText = new Date();
-    if (pc.pageScripts.climate.utciData.length > 0){
+    if (pc.pageScripts.climates.utciData.length > 0){
         dText.setTime(self.utciData[timeStep].time_stamp * 1000);
         dText.setSeconds(0);
         $('#climate .current-hour').html(formatDate(dText) + extraString);
     }
 }
-climate.prototype.over = function (d, i) {
+climates.prototype.over = function (d, i) {
     //tip.html(createTipHtmlUTCI(d.luxValue, i)).attr('class', 'd3-tip animate').show(d);
     if (typeof d.utciValue !== 'undefined') {
         tip.html(createTipHtml("UTCI Score - " + d.utciValue)).attr('class', 'd3-tip animate').show(d);
@@ -381,7 +381,7 @@ climate.prototype.over = function (d, i) {
             "fill", "rgb(167, 79, 79)").duration(300);
     }
 };
-climate.prototype.out = function (d, i) {
+climates.prototype.out = function (d, i) {
     tip.attr('class', 'd3-tip').hide();
     ind = i + 1;
     var elmnt =this.gridLayer.select("path:nth-child(" + ind + ")");
@@ -393,7 +393,7 @@ climate.prototype.out = function (d, i) {
     //this.gridLayer.select("path:nth-child(" + ind + ")").transition().style(
     //"fill", "white").duration(300);
 };
-climate.prototype.clickCell = function (d, i) {
+climates.prototype.clickCell = function (d, i) {
     //not having a function assosiated with this (for now?)
     // d.transition().style("fill","blue");
     ind = i + 1;
